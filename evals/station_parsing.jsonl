@@ -1,0 +1,50 @@
+{"id": "c01", "category": "abbreviation", "input": "RC to HKV", "expected": {"origin": "rajiv_chowk", "destination": "hauz_khas"}}
+{"id": "c02", "category": "abbreviation", "input": "KG se CP", "expected": {"origin": "kashmere_gate", "destination": "rajiv_chowk"}}
+{"id": "c03", "category": "abbreviation", "input": "ndls to t3", "expected": {"origin": "new_delhi", "destination": "airport_t3"}}
+{"id": "c04", "category": "abbreviation", "input": "HUDA city centre to RC", "expected": {"origin": "millennium_city_centre_gurugram", "destination": "rajiv_chowk"}}
+{"id": "c05", "category": "abbreviation", "input": "GK to CS", "expected": {"origin": "greater_kailash", "destination": "central_secretariat"}}
+{"id": "c06", "category": "abbreviation", "input": "IGI airport se aerocity", "expected": {"origin": "airport_t3", "destination": "delhi_aerocity"}}
+{"id": "c07", "category": "abbreviation", "input": "INA to south ex", "expected": {"origin": "dilli_haat_ina", "destination": "south_extension"}}
+{"id": "c08", "category": "abbreviation", "input": "mg road to iffco", "expected": {"origin": "m_g_road", "destination": "iffco_chowk"}}
+{"id": "c09", "category": "typo", "input": "rajiv chok to hauz khaz", "expected": {"origin": "rajiv_chowk", "destination": "hauz_khas"}}
+{"id": "c10", "category": "typo", "input": "kashmiri gate to chandni chowkk", "expected": {"origin": "kashmere_gate", "destination": "chandni_chowk"}}
+{"id": "c11", "category": "typo", "input": "botanicl garden to noida city center", "expected": {"origin": "botanical_garden", "destination": "noida_city_centre"}}
+{"id": "c12", "category": "typo", "input": "milennium city centre to botanical garden", "expected": {"origin": "millennium_city_centre_gurugram", "destination": "botanical_garden"}}
+{"id": "c13", "category": "typo", "input": "dilshad gardn to kashmere gate", "expected": {"origin": "dilshad_garden", "destination": "kashmere_gate"}}
+{"id": "c14", "category": "typo", "input": "lajpat nagr to nehru place", "expected": {"origin": "lajpat_nagar", "destination": "nehru_place"}}
+{"id": "c15", "category": "typo", "input": "jahangirpuri to vishwavidyalya", "expected": {"origin": "jahangirpuri", "destination": "vishwavidyalaya"}}
+{"id": "c16", "category": "typo", "input": "qutub minar to saket", "expected": {"origin": "qutab_minar", "destination": "saket"}}
+{"id": "c17", "category": "partial", "input": "botanical to golf course", "expected": {"origin": "botanical_garden", "destination": "golf_course"}}
+{"id": "c18", "category": "partial", "input": "electronic city to vaishali", "expected": {"origin": "noida_electronic_city", "destination": "vaishali"}}
+{"id": "c19", "category": "partial", "input": "aerocity to dwarka sector 21", "expected": {"origin": "delhi_aerocity", "destination": "dwarka_sector_21"}}
+{"id": "c20", "category": "partial", "input": "samaypur to rajiv chowk", "expected": {"origin": "samaypur_badli", "destination": "rajiv_chowk"}}
+{"id": "c21", "category": "partial", "input": "majlis to azadpur", "expected": {"origin": "majlis_park", "destination": "azadpur"}}
+{"id": "c22", "category": "partial", "input": "seelampur to welcome", "expected": {"origin": "seelampur", "destination": "welcome"}}
+{"id": "c23", "category": "partial", "input": "pari chowk to knowledge park", "expected": {"origin": "pari_chowk", "destination": "knowledge_park_ii"}}
+{"id": "c24", "category": "landmark", "input": "cyber hub to huda city centre", "expected": {"origin": "cyber_city", "destination": "millennium_city_centre_gurugram"}}
+{"id": "c25", "category": "landmark", "input": "connaught place to select citywalk", "expected": {"origin": "rajiv_chowk", "destination": "saket"}}
+{"id": "c26", "category": "landmark", "input": "mall of india to botanical", "expected": {"origin": "noida_sector_18", "destination": "botanical_garden"}}
+{"id": "c27", "category": "landmark", "input": "du north campus to kashmere gate", "expected": {"origin": "vishwavidyalaya", "destination": "kashmere_gate"}}
+{"id": "c28", "category": "landmark", "input": "red fort to chandni chowk", "expected": {"origin": "lal_quila", "destination": "chandni_chowk"}}
+{"id": "c29", "category": "landmark", "input": "nizamuddin to new delhi railway station", "expected": {"origin": "sarai_kale_khan_nizamuddin", "destination": "new_delhi"}}
+{"id": "c30", "category": "landmark", "input": "qutub minar to aiims", "expected": {"origin": "qutab_minar", "destination": "aiims"}}
+{"id": "c31", "category": "hinglish", "input": "RC se botanical garden jana hai", "expected": {"origin": "rajiv_chowk", "destination": "botanical_garden"}}
+{"id": "c32", "category": "hinglish", "input": "kashmere gate se noida sec 18", "expected": {"origin": "kashmere_gate", "destination": "noida_sector_18"}}
+{"id": "c33", "category": "hinglish", "input": "mujhe hauz khas se cyber city jaana hai, sasta wala", "expected": {"origin": "hauz_khas", "destination": "cyber_city", "preference": "cheapest"}}
+{"id": "c34", "category": "hinglish", "input": "dwarka sector 21 se noida electronic city, kam change", "expected": {"origin": "dwarka_sector_21", "destination": "noida_electronic_city", "preference": "fewest_changes"}}
+{"id": "c35", "category": "hinglish", "input": "nehru place se kalkaji mandir kaise jaun", "expected": {"origin": "nehru_place", "destination": "kalkaji_mandir"}}
+{"id": "c36", "category": "hinglish", "input": "chandni chowk se rajiv chowk tak", "expected": {"origin": "chandni_chowk", "destination": "rajiv_chowk"}}
+{"id": "c37", "category": "hinglish", "input": "anand vihar se new delhi station", "expected": {"origin": "anand_vihar_isbt", "destination": "new_delhi"}}
+{"id": "c38", "category": "hinglish", "input": "saket se rc jaldi", "expected": {"origin": "saket", "destination": "rajiv_chowk", "preference": "fastest"}}
+{"id": "c39", "category": "hinglish", "input": "sector 52 noida se pari chowk", "expected": {"origin": "noida_sector_52", "destination": "pari_chowk"}}
+{"id": "c40", "category": "hinglish", "input": "vaishali se botanical garden kitna lagega", "expected": {"origin": "vaishali", "destination": "botanical_garden"}}
+{"id": "c41", "category": "plain", "input": "From Janakpuri West to Botanical Garden", "expected": {"origin": "janakpuri_west", "destination": "botanical_garden"}}
+{"id": "c42", "category": "plain", "input": "I need to go from Dwarka Mor to Rajouri Garden", "expected": {"origin": "dwarka_mor", "destination": "rajouri_garden"}}
+{"id": "c43", "category": "plain", "input": "Kalkaji Mandir → Hauz Khas please", "expected": {"origin": "kalkaji_mandir", "destination": "hauz_khas"}}
+{"id": "c44", "category": "plain", "input": "how do i get to cyber city from sikanderpur", "expected": {"origin": "sikanderpur", "destination": "cyber_city"}}
+{"id": "c45", "category": "plain", "input": "Noida City Centre to Noida Electronic City", "expected": {"origin": "noida_city_centre", "destination": "noida_electronic_city"}}
+{"id": "a01", "category": "ambiguous", "input": "dwarka to rajiv chowk", "expected": {"ask": true, "ambiguous_side": "origin"}}
+{"id": "a02", "category": "ambiguous", "input": "janakpuri se hauz khas", "expected": {"ask": true, "ambiguous_side": "origin"}}
+{"id": "a03", "category": "ambiguous", "input": "rajiv chowk to mayur vihar", "expected": {"ask": true, "ambiguous_side": "destination"}}
+{"id": "a04", "category": "ambiguous", "input": "badli se kashmere gate", "expected": {"ask": true, "ambiguous_side": "origin"}}
+{"id": "a05", "category": "ambiguous", "input": "shivaji to rajiv chowk", "expected": {"ask": true, "ambiguous_side": "origin"}}

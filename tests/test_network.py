@@ -171,3 +171,27 @@ def test_search_station_ambiguous_returns_close_scores():
 
 def test_search_numbers_must_agree():
     assert search_station("sector 52")[0].station_id != "noida_sector_62"
+
+
+@pytest.mark.parametrize(
+    ("query", "expected"),
+    [
+        ("milennium city centre", "millennium_city_centre_gurugram"),  # typo used to look ambiguous
+        ("punjabi bagh", "punjabi_bagh"),  # exact name beats "Punjabi Bagh West"
+        ("sector 52 noida", "noida_sector_52"),  # word order
+        ("knowledge park", "knowledge_park_ii"),
+        ("electronic city", "noida_electronic_city"),
+    ],
+)
+def test_resolve_station(query, expected):
+    from agla.tools.stations import resolve_station
+
+    assert resolve_station(query).station_id == expected
+
+
+@pytest.mark.parametrize("query", ["mayur vihar", "shivaji", "dwarka", "janakpuri", "badli"])
+def test_resolve_station_asks_when_several_stations_share_the_words(query):
+    from agla.tools.stations import resolve_station
+
+    with pytest.raises(ToolError, match="ambiguous"):
+        resolve_station(query)

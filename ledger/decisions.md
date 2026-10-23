@@ -32,3 +32,15 @@
 ## [CHECKPOINT] 2026-10-23 18:47 IST — Phase 4: Telegram bot (quotes, UPI link, demo tickets, stats, language choice)
 
 - **Session cost:** n/a (status line does not run in VS Code) (session 456b20f1)
+
+## [OVERRIDE] 2026-10-23 19:05 IST — Runtime model stays Sonnet 5.5 after the station-parsing eval
+
+- **Question:** Which model should the bot run on after the Phase 5 station-parsing eval?
+- **Options:** (1) switch to Haiku 5.5 now (plan.md rule: Haiku if it matches Sonnet's accuracy); (2) switch to Haiku after a quick reply-quality check in English, Hinglish and Hindi; (3) stay on Sonnet 5.5.
+- **Claude suggested:** Option 2. Both models scored 50/50 (Haiku ~19x cheaper: $0.19 vs $3.62 per 1k messages; 3.24 s vs 3.90 s median), but the eval only measures parsing, not reply quality.
+- **Chose:** Option 3, stay on Sonnet 5.5, and keep the eval results on record.
+- **Why:** Sonnet's replies are already tested on the phone; the recorded eval is what we'd use to revisit the choice if we scale up.
+
+## [CHECKPOINT] 2026-10-23 19:07 IST — Phase 5: station-parsing eval (Sonnet vs Haiku, 50/50 both; resolver fixes)
+
+- **Session cost:** n/a (status line does not run in VS Code) (session 456b20f1)

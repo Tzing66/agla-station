@@ -82,6 +82,8 @@ def search_station(query: str, limit: int = 3) -> list[StationMatch]:
 
 
 AMBIGUITY_MARGIN = 5.0  # top two scores closer than this -> ask the user
+PARTIAL_SCORE = 90.0  # every typed word appears in the station name
+MIN_SCORE = 60.0  # below this, treat as no match
 
 
 def resolve_station(query: str) -> StationMatch:
@@ -89,9 +91,12 @@ def resolve_station(query: str) -> StationMatch:
     if query in load_network().stations:
         s = _station(query)
         return StationMatch(query, s.name, 100.0, query, [load_network().lines[ln]["name"] for ln in s.lines])
-    matches = search_station(query)
+    matches = [m for m in search_station(query) if m.score >= MIN_SCORE]
     if not matches:
         raise ToolError(f"No station matches {query!r}. Try the station's name as shown on the metro map.")
+    exact = [m for m in matches if m.score == 100.0]
+    if len(exact) == 1:
+        return exact[0]
     if len(matches) > 1 and matches[0].score - matches[1].score < AMBIGUITY_MARGIN:
         options = "; ".join(f"{m.name} [{m.station_id}]" for m in matches)
         raise ToolError(f"{query!r} is ambiguous. Ask the user which one they mean: {options}")
@@ -99,9 +104,16 @@ def resolve_station(query: str) -> StationMatch:
 
 
 def _score(query: str, choice: str, **_: object) -> float:
+    """0-100. Best of: whole-string similarity (typos), word-order-insensitive similarity ("sector 52 noida"),
+    and a flat 90 when every typed word is in the name (partial names, so "dwarka" ties across Dwarka stations)."""
     if query == choice:
         return 100.0
+    q_words, c_words = query.split(), choice.split()
+    score = max(fuzz.ratio(query, choice), fuzz.token_sort_ratio(query, choice))
+    if set(q_words) <= set(c_words):
+        score = max(score, PARTIAL_SCORE)
     # Numbers must agree: "sector 52" should never fuzzily match "sector 62".
-    if re.findall(r"\d+", query) and set(re.findall(r"\d+", query)) - set(re.findall(r"\d+", choice)):
-        return fuzz.WRatio(query, choice) * 0.6
-    return fuzz.WRatio(query, choice)
+    q_nums = {w for w in q_words if w.isdigit()}
+    if q_nums and q_nums - {w for w in c_words if w.isdigit()}:
+        score *= 0.6
+    return score

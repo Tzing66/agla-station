@@ -134,6 +134,30 @@ def guard_numbers(reply: str, user_text: str, tool_outputs: list[str]) -> bool:
     return numbers_in(reply) <= allowed
 
 
+def first_messages(user: User, history: list[dict[str, str]], text: str, now: datetime) -> list[dict[str, Any]]:
+    """History + the rider's message + the per-turn system note (time, name, reply language)."""
+    note = (f"Now: {now:%A %d %B %Y, %H:%M} IST. Rider: {user.first_name}. "
+            f"Reply language: {LANGUAGE_NOTES[user.language]}.")
+    return [*history[-MAX_HISTORY:], {"role": "user", "content": text}, {"role": "system", "content": note}]
+
+
+def request_params(model: str, messages: list[dict[str, Any]]) -> dict[str, Any]:
+    """The Messages API body the bot sends (minus fallbacks, which Batches and Haiku don't take)."""
+    return {
+        "model": model,
+        "max_tokens": MAX_TOKENS,
+        "system": [{"type": "text", "text": SYSTEM_PROMPT, "cache_control": {"type": "ephemeral"}}],
+        "tools": TOOLS,
+        "messages": messages,
+        "output_config": {"effort": "low"},
+    }
+
+
+def supports_fallbacks(model: str) -> bool:
+    """Server-side refusal fallbacks: on for Sonnet/Opus/Fable; Haiku 5.5 has none."""
+    return "haiku" not in model
+
+
 class Agent:
     def __init__(self, client: anthropic.AsyncAnthropic, conn: sqlite3.Connection, model: str) -> None:
         self.client = client
@@ -141,24 +165,13 @@ class Agent:
         self.model = model
 
     async def respond(self, user: User, history: list[dict[str, str]], text: str, now: datetime) -> Reply:
-        messages: list[dict[str, Any]] = [*history[-MAX_HISTORY:], {"role": "user", "content": text}]
-        note = f"Now: {now:%A %d %B %Y, %H:%M} IST. Rider: {user.first_name}. Reply language: " \
-               f"{LANGUAGE_NOTES[user.language]}."
-        messages.append({"role": "system", "content": note})
+        messages = first_messages(user, history, text, now)
+        extra = {"betas": [FALLBACK_BETA], "fallbacks": "default"} if supports_fallbacks(self.model) else {}
         tool_outputs: list[str] = []
         quote_ids: list[str] = []
 
         for _ in range(MAX_TOOL_ROUNDS):
-            response = await self.client.beta.messages.create(
-                model=self.model,
-                max_tokens=MAX_TOKENS,
-                system=[{"type": "text", "text": SYSTEM_PROMPT, "cache_control": {"type": "ephemeral"}}],
-                tools=TOOLS,
-                messages=messages,
-                output_config={"effort": "low"},
-                betas=[FALLBACK_BETA],
-                fallbacks="default",
-            )
+            response = await self.client.beta.messages.create(**request_params(self.model, messages), **extra)
             u = response.usage
             log.info("llm stop=%s in=%s cache_read=%s cache_write=%s out=%s", response.stop_reason,
                      u.input_tokens, u.cache_read_input_tokens, u.cache_creation_input_tokens, u.output_tokens)

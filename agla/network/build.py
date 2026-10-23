@@ -50,7 +50,9 @@ MIN_MINUTES = 0.5
 MAX_KMH = 90.0
 EST_KMH = 34.0
 
-KEEP_UPPER = {"AIIMS", "IIT", "ITO", "INA", "ISBT", "IGI", "NSIC", "ESI", "JLN", "NHPC", "MIA", "NSEZ", "GNIDA"}
+KEEP_UPPER = {
+    "AIIMS", "IIT", "ITO", "INA", "ISBT", "IGI", "NSIC", "ESI", "JLN", "NHPC", "MIA", "NSEZ", "GNIDA", "IFFCO",
+}
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:

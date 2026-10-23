@@ -1,0 +1,1360 @@
+{
+ "sonnet": {
+  "model": "claude-sonnet-5-5",
+  "results": [
+   {
+    "case_id": "a01",
+    "category": "ambiguous",
+    "input": "dwarka to rajiv chowk",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "resolver: {'origin': 'ambiguous'}",
+    "tool_input": {
+     "origin": "dwarka",
+     "destination": "rajiv chowk",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "a02",
+    "category": "ambiguous",
+    "input": "janakpuri se hauz khas",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "resolver: {'origin': 'ambiguous'}",
+    "tool_input": {
+     "origin": "janakpuri",
+     "destination": "hauz khas",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "a03",
+    "category": "ambiguous",
+    "input": "rajiv chowk to mayur vihar",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "resolver: {'destination': 'ambiguous'}",
+    "tool_input": {
+     "origin": "rajiv chowk",
+     "destination": "mayur vihar",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "a04",
+    "category": "ambiguous",
+    "input": "badli se kashmere gate",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "resolver: {'origin': 'ambiguous'}",
+    "tool_input": {
+     "origin": "badli",
+     "destination": "kashmere gate",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "a05",
+    "category": "ambiguous",
+    "input": "shivaji to rajiv chowk",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "resolver: {'origin': 'ambiguous'}",
+    "tool_input": {
+     "origin": "shivaji",
+     "destination": "rajiv chowk",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c01",
+    "category": "abbreviation",
+    "input": "RC to HKV",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "RC",
+     "destination": "HKV",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c02",
+    "category": "abbreviation",
+    "input": "KG se CP",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "KG",
+     "destination": "CP",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c03",
+    "category": "abbreviation",
+    "input": "ndls to t3",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "ndls",
+     "destination": "t3",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c04",
+    "category": "abbreviation",
+    "input": "HUDA city centre to RC",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "HUDA city centre",
+     "destination": "RC",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c05",
+    "category": "abbreviation",
+    "input": "GK to CS",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "GK",
+     "destination": "CS",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c06",
+    "category": "abbreviation",
+    "input": "IGI airport se aerocity",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "IGI airport",
+     "destination": "aerocity",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c07",
+    "category": "abbreviation",
+    "input": "INA to south ex",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "INA",
+     "destination": "south ex",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c08",
+    "category": "abbreviation",
+    "input": "mg road to iffco",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "mg road",
+     "destination": "iffco",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c09",
+    "category": "typo",
+    "input": "rajiv chok to hauz khaz",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "rajiv chok",
+     "destination": "hauz khaz",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c10",
+    "category": "typo",
+    "input": "kashmiri gate to chandni chowkk",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "kashmiri gate",
+     "destination": "chandni chowkk",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c11",
+    "category": "typo",
+    "input": "botanicl garden to noida city center",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "botanicl garden",
+     "destination": "noida city center",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c12",
+    "category": "typo",
+    "input": "milennium city centre to botanical garden",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "milennium city centre",
+     "destination": "botanical garden",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c13",
+    "category": "typo",
+    "input": "dilshad gardn to kashmere gate",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "dilshad gardn",
+     "destination": "kashmere gate",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c14",
+    "category": "typo",
+    "input": "lajpat nagr to nehru place",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "lajpat nagr",
+     "destination": "nehru place",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c15",
+    "category": "typo",
+    "input": "jahangirpuri to vishwavidyalya",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "jahangirpuri",
+     "destination": "vishwavidyalya",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c16",
+    "category": "typo",
+    "input": "qutub minar to saket",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "qutub minar",
+     "destination": "saket",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c17",
+    "category": "partial",
+    "input": "botanical to golf course",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "botanical",
+     "destination": "golf course",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c18",
+    "category": "partial",
+    "input": "electronic city to vaishali",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "electronic city",
+     "destination": "vaishali",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c19",
+    "category": "partial",
+    "input": "aerocity to dwarka sector 21",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "aerocity",
+     "destination": "dwarka sector 21",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c20",
+    "category": "partial",
+    "input": "samaypur to rajiv chowk",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "samaypur",
+     "destination": "rajiv chowk",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c21",
+    "category": "partial",
+    "input": "majlis to azadpur",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "majlis",
+     "destination": "azadpur",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c22",
+    "category": "partial",
+    "input": "seelampur to welcome",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "seelampur",
+     "destination": "welcome",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c23",
+    "category": "partial",
+    "input": "pari chowk to knowledge park",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "pari chowk",
+     "destination": "knowledge park",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c24",
+    "category": "landmark",
+    "input": "cyber hub to huda city centre",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "cyber hub",
+     "destination": "huda city centre",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c25",
+    "category": "landmark",
+    "input": "connaught place to select citywalk",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "connaught place",
+     "destination": "select citywalk",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c26",
+    "category": "landmark",
+    "input": "mall of india to botanical",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "mall of india",
+     "destination": "botanical",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c27",
+    "category": "landmark",
+    "input": "du north campus to kashmere gate",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "du north campus",
+     "destination": "kashmere gate",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c28",
+    "category": "landmark",
+    "input": "red fort to chandni chowk",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "red fort",
+     "destination": "chandni chowk",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c29",
+    "category": "landmark",
+    "input": "nizamuddin to new delhi railway station",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "nizamuddin",
+     "destination": "new delhi railway station",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c30",
+    "category": "landmark",
+    "input": "qutub minar to aiims",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "qutub minar",
+     "destination": "aiims",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c31",
+    "category": "hinglish",
+    "input": "RC se botanical garden jana hai",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "RC",
+     "destination": "botanical garden",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c32",
+    "category": "hinglish",
+    "input": "kashmere gate se noida sec 18",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "kashmere gate",
+     "destination": "noida sec 18",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c33",
+    "category": "hinglish",
+    "input": "mujhe hauz khas se cyber city jaana hai, sasta wala",
+    "passed": true,
+    "preference_ok": true,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "hauz khas",
+     "destination": "cyber city",
+     "preference": "cheapest"
+    }
+   },
+   {
+    "case_id": "c34",
+    "category": "hinglish",
+    "input": "dwarka sector 21 se noida electronic city, kam change",
+    "passed": true,
+    "preference_ok": true,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "dwarka sector 21",
+     "destination": "noida electronic city",
+     "preference": "fewest_changes"
+    }
+   },
+   {
+    "case_id": "c35",
+    "category": "hinglish",
+    "input": "nehru place se kalkaji mandir kaise jaun",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "nehru place",
+     "destination": "kalkaji mandir",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c36",
+    "category": "hinglish",
+    "input": "chandni chowk se rajiv chowk tak",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "chandni chowk",
+     "destination": "rajiv chowk",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c37",
+    "category": "hinglish",
+    "input": "anand vihar se new delhi station",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "anand vihar",
+     "destination": "new delhi station",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c38",
+    "category": "hinglish",
+    "input": "saket se rc jaldi",
+    "passed": true,
+    "preference_ok": true,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "saket",
+     "destination": "rc",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c39",
+    "category": "hinglish",
+    "input": "sector 52 noida se pari chowk",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "sector 52 noida",
+     "destination": "pari chowk",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c40",
+    "category": "hinglish",
+    "input": "vaishali se botanical garden kitna lagega",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "vaishali",
+     "destination": "botanical garden",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c41",
+    "category": "plain",
+    "input": "From Janakpuri West to Botanical Garden",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "Janakpuri West",
+     "destination": "Botanical Garden",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c42",
+    "category": "plain",
+    "input": "I need to go from Dwarka Mor to Rajouri Garden",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "Dwarka Mor",
+     "destination": "Rajouri Garden",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c43",
+    "category": "plain",
+    "input": "Kalkaji Mandir → Hauz Khas please",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "Kalkaji Mandir",
+     "destination": "Hauz Khas",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c44",
+    "category": "plain",
+    "input": "how do i get to cyber city from sikanderpur",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "sikanderpur",
+     "destination": "cyber city",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c45",
+    "category": "plain",
+    "input": "Noida City Centre to Noida Electronic City",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "Noida City Centre",
+     "destination": "Noida Electronic City",
+     "preference": "fastest"
+    }
+   }
+  ],
+  "batch_usage": {
+   "input": 6298,
+   "output": 5198,
+   "cache_read": 76538,
+   "cache_write": 1562
+  },
+  "live_usage": {
+   "input": 5039,
+   "output": 1629,
+   "cache_read": 29678,
+   "cache_write": 1562
+  },
+  "live_seconds": [
+   4.361168292001821,
+   3.9787794169969857,
+   3.67416462500114,
+   4.977985625002475,
+   3.7292125419990043,
+   5.064670749998186,
+   3.3312896249990445,
+   3.5861027499995544,
+   4.3928467919977265,
+   3.8207790840024245
+  ]
+ },
+ "haiku": {
+  "model": "claude-haiku-5-5",
+  "results": [
+   {
+    "case_id": "a01",
+    "category": "ambiguous",
+    "input": "dwarka to rajiv chowk",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "resolver: {'origin': 'ambiguous'}",
+    "tool_input": {
+     "origin": "dwarka",
+     "destination": "rajiv chowk",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "a02",
+    "category": "ambiguous",
+    "input": "janakpuri se hauz khas",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "resolver: {'origin': 'ambiguous'}",
+    "tool_input": {
+     "origin": "janakpuri",
+     "destination": "hauz khas",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "a03",
+    "category": "ambiguous",
+    "input": "rajiv chowk to mayur vihar",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "resolver: {'destination': 'ambiguous'}",
+    "tool_input": {
+     "origin": "rajiv chowk",
+     "destination": "mayur vihar",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "a04",
+    "category": "ambiguous",
+    "input": "badli se kashmere gate",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "resolver: {'origin': 'ambiguous'}",
+    "tool_input": {
+     "origin": "badli",
+     "destination": "kashmere gate",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "a05",
+    "category": "ambiguous",
+    "input": "shivaji to rajiv chowk",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "resolver: {'origin': 'ambiguous'}",
+    "tool_input": {
+     "origin": "shivaji",
+     "destination": "rajiv chowk",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c01",
+    "category": "abbreviation",
+    "input": "RC to HKV",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "RC",
+     "destination": "HKV",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c02",
+    "category": "abbreviation",
+    "input": "KG se CP",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "KG",
+     "destination": "CP",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c03",
+    "category": "abbreviation",
+    "input": "ndls to t3",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "ndls",
+     "destination": "t3",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c04",
+    "category": "abbreviation",
+    "input": "HUDA city centre to RC",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "HUDA city centre",
+     "destination": "RC",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c05",
+    "category": "abbreviation",
+    "input": "GK to CS",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "GK",
+     "destination": "CS",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c06",
+    "category": "abbreviation",
+    "input": "IGI airport se aerocity",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "IGI airport",
+     "destination": "aerocity",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c07",
+    "category": "abbreviation",
+    "input": "INA to south ex",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "INA",
+     "destination": "south ex",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c08",
+    "category": "abbreviation",
+    "input": "mg road to iffco",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "mg road",
+     "destination": "iffco",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c09",
+    "category": "typo",
+    "input": "rajiv chok to hauz khaz",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "rajiv chok",
+     "destination": "hauz khaz",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c10",
+    "category": "typo",
+    "input": "kashmiri gate to chandni chowkk",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "kashmiri gate",
+     "destination": "chandni chowk",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c11",
+    "category": "typo",
+    "input": "botanicl garden to noida city center",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "botanicl garden",
+     "destination": "noida city center",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c12",
+    "category": "typo",
+    "input": "milennium city centre to botanical garden",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "milennium city centre",
+     "destination": "botanical garden",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c13",
+    "category": "typo",
+    "input": "dilshad gardn to kashmere gate",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "dilshad gardn",
+     "destination": "kashmere gate",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c14",
+    "category": "typo",
+    "input": "lajpat nagr to nehru place",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "lajpat nagr",
+     "destination": "nehru place",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c15",
+    "category": "typo",
+    "input": "jahangirpuri to vishwavidyalya",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "jahangirpuri",
+     "destination": "vishwavidyalya",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c16",
+    "category": "typo",
+    "input": "qutub minar to saket",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "qutub minar",
+     "destination": "saket",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c17",
+    "category": "partial",
+    "input": "botanical to golf course",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "botanical",
+     "destination": "golf course",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c18",
+    "category": "partial",
+    "input": "electronic city to vaishali",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "electronic city",
+     "destination": "vaishali",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c19",
+    "category": "partial",
+    "input": "aerocity to dwarka sector 21",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "aerocity",
+     "destination": "dwarka sector 21",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c20",
+    "category": "partial",
+    "input": "samaypur to rajiv chowk",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "samaypur",
+     "destination": "rajiv chowk",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c21",
+    "category": "partial",
+    "input": "majlis to azadpur",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "majlis",
+     "destination": "azadpur",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c22",
+    "category": "partial",
+    "input": "seelampur to welcome",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "seelampur",
+     "destination": "welcome",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c23",
+    "category": "partial",
+    "input": "pari chowk to knowledge park",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "pari chowk",
+     "destination": "knowledge park",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c24",
+    "category": "landmark",
+    "input": "cyber hub to huda city centre",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "cyber hub",
+     "destination": "huda city centre",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c25",
+    "category": "landmark",
+    "input": "connaught place to select citywalk",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "connaught place",
+     "destination": "select citywalk",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c26",
+    "category": "landmark",
+    "input": "mall of india to botanical",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "mall of india",
+     "destination": "botanical",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c27",
+    "category": "landmark",
+    "input": "du north campus to kashmere gate",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "north campus",
+     "destination": "kashmere gate",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c28",
+    "category": "landmark",
+    "input": "red fort to chandni chowk",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "red fort",
+     "destination": "chandni chowk",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c29",
+    "category": "landmark",
+    "input": "nizamuddin to new delhi railway station",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "nizamuddin",
+     "destination": "new delhi railway station",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c30",
+    "category": "landmark",
+    "input": "qutub minar to aiims",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "qutub minar",
+     "destination": "aiims",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c31",
+    "category": "hinglish",
+    "input": "RC se botanical garden jana hai",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "RC",
+     "destination": "botanical garden",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c32",
+    "category": "hinglish",
+    "input": "kashmere gate se noida sec 18",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "kashmere gate",
+     "destination": "noida sec 18",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c33",
+    "category": "hinglish",
+    "input": "mujhe hauz khas se cyber city jaana hai, sasta wala",
+    "passed": true,
+    "preference_ok": true,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "hauz khas",
+     "destination": "cyber city",
+     "preference": "cheapest"
+    }
+   },
+   {
+    "case_id": "c34",
+    "category": "hinglish",
+    "input": "dwarka sector 21 se noida electronic city, kam change",
+    "passed": true,
+    "preference_ok": true,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "dwarka sector 21",
+     "destination": "noida electronic city",
+     "preference": "fewest_changes"
+    }
+   },
+   {
+    "case_id": "c35",
+    "category": "hinglish",
+    "input": "nehru place se kalkaji mandir kaise jaun",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "nehru place",
+     "destination": "kalkaji mandir",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c36",
+    "category": "hinglish",
+    "input": "chandni chowk se rajiv chowk tak",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "chandni chowk",
+     "destination": "rajiv chowk",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c37",
+    "category": "hinglish",
+    "input": "anand vihar se new delhi station",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "anand vihar",
+     "destination": "new delhi station",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c38",
+    "category": "hinglish",
+    "input": "saket se rc jaldi",
+    "passed": true,
+    "preference_ok": true,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "saket",
+     "destination": "RC",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c39",
+    "category": "hinglish",
+    "input": "sector 52 noida se pari chowk",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "sector 52 noida",
+     "destination": "pari chowk",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c40",
+    "category": "hinglish",
+    "input": "vaishali se botanical garden kitna lagega",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "vaishali",
+     "destination": "botanical garden",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c41",
+    "category": "plain",
+    "input": "From Janakpuri West to Botanical Garden",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "Janakpuri West",
+     "destination": "Botanical Garden",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c42",
+    "category": "plain",
+    "input": "I need to go from Dwarka Mor to Rajouri Garden",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "Dwarka Mor",
+     "destination": "Rajouri Garden",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c43",
+    "category": "plain",
+    "input": "Kalkaji Mandir → Hauz Khas please",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "Kalkaji Mandir",
+     "destination": "Hauz Khas",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c44",
+    "category": "plain",
+    "input": "how do i get to cyber city from sikanderpur",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "sikanderpur",
+     "destination": "cyber city",
+     "preference": "fastest"
+    }
+   },
+   {
+    "case_id": "c45",
+    "category": "plain",
+    "input": "Noida City Centre to Noida Electronic City",
+    "passed": true,
+    "preference_ok": null,
+    "outcome": "ok",
+    "tool_input": {
+     "origin": "Noida City Centre",
+     "destination": "Noida Electronic City",
+     "preference": "fastest"
+    }
+   }
+  ],
+  "batch_usage": {
+   "input": 6298,
+   "output": 5300,
+   "cache_read": 35926,
+   "cache_write": 42174
+  },
+  "live_usage": {
+   "input": 5027,
+   "output": 1767,
+   "cache_read": 29678,
+   "cache_write": 1562
+  },
+  "live_seconds": [
+   3.436646625006688,
+   2.685666957993817,
+   3.1720087919966318,
+   3.8655714169944986,
+   4.072068250003213,
+   2.6379611249940353,
+   4.233022540996899,
+   2.8934262080001645,
+   3.3150934579971363,
+   2.938040249995538
+  ]
+ }
+}
