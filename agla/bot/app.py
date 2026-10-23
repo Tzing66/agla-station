@@ -27,6 +27,7 @@ log = logging.getLogger(__name__)
 
 PAID = "paid:"
 LANG = "lang:"
+REDEEM = "redeem:"
 
 
 class Bot:
@@ -56,6 +57,35 @@ class Bot:
     async def stats(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         user = self.user(update)
         await update.message.reply_html(render.stats_text(tools.get_stats(self.conn, user.user_id)))
+
+    async def miles(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        user = self.user(update)
+        await update.message.reply_html(**self._miles_view(user))
+
+    def _miles_view(self, user: tools.User) -> dict:
+        m = tools.get_miles(self.conn, user.user_id)
+        rewards = tools.list_rewards()
+        buttons = [[InlineKeyboardButton(f"Redeem: {r.name} ({r.cost})", callback_data=REDEEM + r.reward_id)]
+                   for r in rewards if m.balance >= r.cost]
+        return {"text": render.miles_text(m, rewards, tools.list_vouchers(self.conn, user.user_id)),
+                "reply_markup": InlineKeyboardMarkup(buttons) if buttons else None}
+
+    async def badges(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        user = self.user(update)
+        await update.message.reply_html(render.badges_text(tools.get_badges(self.conn, user.user_id)))
+
+    async def redeem(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        query = update.callback_query
+        user = self.user(update)
+        try:
+            voucher = tools.redeem_reward(self.conn, user.user_id, query.data.removeprefix(REDEEM), now())
+        except tools.ToolError as exc:
+            await query.answer(str(exc)[:190], show_alert=True)
+            return
+        await query.answer("Redeemed (demo) 🎟")
+        balance = tools.get_miles(self.conn, user.user_id, recent=0).balance
+        await query.message.reply_html(render.voucher_text(voucher, balance))
+        await query.edit_message_text(parse_mode=ParseMode.HTML, **self._miles_view(user))
 
     async def coming_soon(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         command = update.message.text.split()[0].lstrip("/").split("@")[0]
@@ -135,9 +165,12 @@ def build_application(settings: Settings, conn: sqlite3.Connection, agent: Agent
     app.add_handler(CommandHandler("help", bot.help))
     app.add_handler(CommandHandler("stats", bot.stats))
     app.add_handler(CommandHandler("language", bot.language))
+    app.add_handler(CommandHandler("miles", bot.miles))
+    app.add_handler(CommandHandler("badges", bot.badges))
     app.add_handler(CommandHandler(list(render.COMING_SOON), bot.coming_soon))
     app.add_handler(CallbackQueryHandler(bot.paid, pattern=f"^{PAID}"))
     app.add_handler(CallbackQueryHandler(bot.set_language, pattern=f"^{LANG}"))
+    app.add_handler(CallbackQueryHandler(bot.redeem, pattern=f"^{REDEEM}"))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, bot.chat))
     app.add_error_handler(bot.on_error)
     return app

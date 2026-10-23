@@ -46,6 +46,8 @@ Never guess between them.
 fare, a UPI payment QR and an "I've paid" button. Don't repeat that card. Reply with one or two short, warm \
 sentences, for example a tip about where they change lines.
 - For "my stats", "kitni trips", visited stations and similar, call get_stats or get_visited_stations.
+- For Metro Miles, badges and rewards, call get_miles, get_badges or list_rewards. Redeeming happens only through \
+the buttons under /miles; tell the rider to use them. Miles and rewards are a concept demo.
 - If you only need to check a station name, call search_station.
 
 Hard rules:
@@ -93,6 +95,24 @@ TOOLS: list[dict[str, Any]] = [
     {
         "name": "get_stats",
         "description": "The rider's own trip stats: trips, unique stations, minutes, km, spend, favourite line.",
+        "strict": True,
+        "input_schema": {"type": "object", "properties": {}, "required": [], "additionalProperties": False},
+    },
+    {
+        "name": "get_miles",
+        "description": "The rider's Metro Miles balance, lifetime total and recent awards with reasons.",
+        "strict": True,
+        "input_schema": {"type": "object", "properties": {}, "required": [], "additionalProperties": False},
+    },
+    {
+        "name": "get_badges",
+        "description": "The rider's badges: earned ones with dates and locked ones with a hint on how to earn them.",
+        "strict": True,
+        "input_schema": {"type": "object", "properties": {}, "required": [], "additionalProperties": False},
+    },
+    {
+        "name": "list_rewards",
+        "description": "The demo rewards catalogue with Metro Miles cost.",
         "strict": True,
         "input_schema": {"type": "object", "properties": {}, "required": [], "additionalProperties": False},
     },
@@ -221,6 +241,19 @@ class Agent:
             elif name == "get_visited_stations":
                 result = [{"name": v.name, "state": v.state, "visits": v.count}
                           for v in tools.get_visited_stations(self.conn, user.user_id)]
+            elif name == "get_miles":
+                m = tools.get_miles(self.conn, user.user_id)
+                result = {"balance": m.balance, "earned_total": m.earned_total,
+                          "recent": [{"delta": a.delta, "reason": a.reason} for a in m.recent]}
+            elif name == "get_badges":
+                badges = tools.get_badges(self.conn, user.user_id)
+                result = {"earned": [{"name": b.name, "description": b.description} for b in badges if b.earned_at],
+                          "locked": [{"name": b.name, "hint": b.hint} for b in badges
+                                     if not b.earned_at and not b.badge_id.startswith("line_collector_")],
+                          "line_collectors_locked": sum(1 for b in badges if not b.earned_at
+                                                        and b.badge_id.startswith("line_collector_"))}
+            elif name == "list_rewards":
+                result = [r.to_dict() for r in tools.list_rewards()]
             else:
                 return f"Unknown tool {name}", True
         except tools.ToolError as exc:

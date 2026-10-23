@@ -178,3 +178,44 @@ class Stats(_Base):
     states_visited: list[str]
     first_trip_at: str | None
     last_trip_at: str | None
+
+
+@dataclass(frozen=True)
+class MilesAward(_Base):
+    delta: int
+    reason: str
+    created_at: str
+    trip_id: int | None = None
+
+
+@dataclass(frozen=True)
+class MilesSummary(_Base):
+    balance: int
+    earned_total: int  # all positive awards ever (redemptions don't reduce it)
+    recent: list[MilesAward]
+
+
+@dataclass(frozen=True)
+class Reward(_Base):
+    reward_id: str
+    name: str
+    cost: int
+
+
+@dataclass(frozen=True)
+class Voucher(_Base):
+    code: str
+    reward_id: str
+    name: str
+    miles_spent: int
+    created_at: str
+    label: str = "DEMO — concept only, not redeemable"
+
+
+@dataclass(frozen=True)
+class BadgeStatus(_Base):
+    badge_id: str
+    name: str
+    description: str
+    hint: str
+    earned_at: str | None  # None while locked

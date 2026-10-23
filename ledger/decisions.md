@@ -44,3 +44,15 @@
 ## [CHECKPOINT] 2026-10-23 19:07 IST — Phase 5: station-parsing eval (Sonnet vs Haiku, 50/50 both; resolver fixes)
 
 - **Session cost:** n/a (status line does not run in VS Code) (session 456b20f1)
+
+## [DECISION] 2026-10-23 19:19 IST — Metro Miles recalibrated: 1/km, +25 new station, +10 streak
+
+- **Question:** plan.md's rules (5 miles/km, +50 new station, +20 streak) gave the demo commuter ~10k miles a month, five free day passes. How generous should Metro Miles be?
+- **Options:** (A) keep plan.md's rules; (B) 2/km, +50, +20 (~4.8k/month); (C) 1/km, +25, +10 (~2.4k/month); (D) 1/km, +20, +5 (~2.2k/month); or keep A and raise reward costs ~4x. Simulated on the seeded month.
+- **Claude suggested:** C.
+- **Chose:** C. 2x off-peak and +10 safe arrival unchanged.
+- **Why:** All day passes was too generous; C gives a heavy commuter about one day pass or a few chais a month.
+
+## [CHECKPOINT] 2026-10-23 19:24 IST — Phase 6: badges and Metro Miles (calibrated rules, rewards, demo seed)
+
+- **Session cost:** n/a (status line does not run in VS Code) (session 456b20f1)

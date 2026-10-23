@@ -57,7 +57,51 @@ def ticket_caption(result: tools.TripResult) -> str:
     ]
     if result.new_visits:
         lines.append("🆕 First time at: " + ", ".join(escape(n) for n in result.new_visits))
+    miles = result.hook_results.get("miles")
+    if miles and miles["total"]:
+        parts = ", ".join(escape(a["reason"]) for a in miles["awards"][1:])
+        lines.append(f"✨ <b>+{miles['total']} Metro Miles</b>" + (f" ({parts})" if parts else ""))
+    for b in result.hook_results.get("badges", []):
+        lines.append(f"🏅 New badge: <b>{escape(b['name'])}</b> ({escape(b['description'])})")
     lines.append("Agla station... happy journey! 🚇")
+    return "\n".join(lines)
+
+
+def _date(iso: str) -> str:
+    return datetime.fromisoformat(iso).strftime("%-d %b")
+
+
+def miles_text(m: tools.MilesSummary, rewards: list[tools.Reward], vouchers: list[tools.Voucher]) -> str:
+    lines = [f"✨ <b>{m.balance} Metro Miles</b> (earned {m.earned_total} in total)", ""]
+    if m.recent:
+        lines.append("<b>Recent</b>")
+        lines += [f"{a.delta:+d} · {escape(a.reason)} · {_date(a.created_at)}" for a in m.recent]
+        lines.append("")
+    lines.append("<b>Rewards</b> (tap to redeem)")
+    lines += [f"{'✅' if m.balance >= r.cost else '🔒'} {escape(r.name)}: {r.cost}" for r in rewards]
+    if vouchers:
+        lines += ["", "<b>Your vouchers</b>"]
+        lines += [f"🎟 <code>{v.code}</code> {escape(v.name)} · {_date(v.created_at)}" for v in vouchers]
+    lines += ["", "<i>Metro Miles are a concept demo: vouchers are not redeemable.</i>"]
+    return "\n".join(lines)
+
+
+def voucher_text(v: tools.Voucher, balance: int) -> str:
+    return (f"🎟 <b>{escape(v.name)}</b>\nCode: <code>{v.code}</code> · {v.miles_spent} Metro Miles spent · "
+            f"{balance} left\n<b>{escape(v.label)}</b>")
+
+
+def badges_text(badges: list[tools.BadgeStatus]) -> str:
+    earned = sorted((b for b in badges if b.earned_at), key=lambda b: b.earned_at)
+    core_locked = [b for b in badges if not b.earned_at and not b.badge_id.startswith("line_collector_")]
+    collectors_locked = sum(1 for b in badges if not b.earned_at and b.badge_id.startswith("line_collector_"))
+    lines = [f"🏅 <b>Badges: {len(earned)} of {len(badges)}</b>", ""]
+    lines += [f"✅ <b>{escape(b.name)}</b> · {escape(b.description)} · {_date(b.earned_at)}" for b in earned]
+    if core_locked:
+        lines += ["", "<b>Still to unlock</b>"]
+        lines += [f"🔒 {escape(b.name)}: {escape(b.hint)}" for b in core_locked]
+    if collectors_locked:
+        lines.append(f"🔒 Line Collector ({collectors_locked} lines): visit every station on a line.")
     return "\n".join(lines)
 
 
@@ -107,8 +151,6 @@ HELP = (
 )
 
 COMING_SOON = {
-    "badges": "🏅 Badges are coming soon. Keep riding: your trips already count!",
-    "miles": "✨ Metro Miles are coming soon. Your trips already count towards them!",
     "wrapped": "🎁 Metro Wrapped, your monthly recap, is coming soon.",
     "dashboard": "🗺 Your dashboard is coming soon.",
     "trusted": "🤝 Trusted contacts are coming soon.",

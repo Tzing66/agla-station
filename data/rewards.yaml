@@ -1,0 +1,14 @@
+# Mock rewards catalogue. Generic names only (no real brands). Vouchers are a concept demo and NOT redeemable.
+rewards:
+  - id: chai_kiosk
+    name: Free chai at a station kiosk
+    cost: 300
+  - id: ticket_10
+    name: 10% off your next ticket
+    cost: 500
+  - id: bookstore_15
+    name: 15% off at a station bookstore
+    cost: 800
+  - id: day_pass
+    name: Free metro day pass
+    cost: 2000

@@ -27,3 +27,13 @@ def test_front_ends_only_import_tool_layer():
         if p.exists() and (bad := [m for m in agla_imports(p) if not m.startswith(ALLOWED)])
     }
     assert offenders == {}
+
+
+def test_domain_modules_import_in_any_order():
+    import subprocess
+    import sys
+
+    for first in ("agla.miles", "agla.badges", "agla.tools", "agla.mcp_server", "agla.bot.app"):
+        code = f"import {first}; from agla import tools; assert tools.get_miles and tools.get_badges"
+        proc = subprocess.run([sys.executable, "-c", code], cwd=ROOT.parent, capture_output=True, text=True)
+        assert proc.returncode == 0, f"importing {first} first: {proc.stderr[-300:]}"

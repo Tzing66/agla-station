@@ -7,7 +7,9 @@ A thin front end: every tool resolves inputs and calls agla.tools; no metro logi
 
 from __future__ import annotations
 
+import sqlite3
 from datetime import date
+from functools import cache
 from typing import Annotated, Any, Literal
 
 from mcp.server.mcpserver import MCPServer
@@ -146,33 +148,51 @@ def get_fare(
     return {**fare.to_dict(), "route_lines": [leg.line_name for leg in route.legs]}
 
 
-NOT_YET = "Not available yet: {what} arrives in Phase {phase} of the Agla Station build (trips are logged by the bot)."
+TelegramIdArg = Annotated[
+    int | None, Field(description="Rider's Telegram user id. Omit for the seeded demo rider (scripts/seed_demo.py).")
+]
 
 
-@mcp.tool(name="agla_get_stats", annotations=READ_ONLY)
-def get_stats(telegram_id: Annotated[int | None, Field(description="Rider; defaults to the demo user")] = None) -> str:
-    """A rider's trip statistics (trips, minutes, distance, spend). Not available until the bot logs trips."""
-    raise MCPToolError(NOT_YET.format(what="trip stats", phase=4))
+@cache
+def _db() -> sqlite3.Connection:
+    return tools.open_database()
 
 
-@mcp.tool(name="agla_get_visited_stations", annotations=READ_ONLY)
-def get_visited_stations(
-    telegram_id: Annotated[int | None, Field(description="Rider; defaults to the demo user")] = None,
-) -> str:
-    """Stations a rider has visited (origin, destination or interchange of a logged trip)."""
-    raise MCPToolError(NOT_YET.format(what="visited stations", phase=4))
+def _rider(telegram_id: int | None) -> tools.User:
+    tid = telegram_id or tools.DEMO_TELEGRAM_ID
+    user = tools.find_user_by_telegram_id(_db(), tid)
+    if user is None:
+        hint = " Run `uv run python -m scripts.seed_demo` to create the demo rider." if telegram_id is None else ""
+        raise MCPToolError(f"No rider with telegram_id {tid}.{hint}")
+    return user
 
 
-@mcp.tool(name="agla_get_badges", annotations=READ_ONLY)
-def get_badges(telegram_id: Annotated[int | None, Field(description="Rider; defaults to the demo user")] = None) -> str:
-    """A rider's earned and locked badges."""
-    raise MCPToolError(NOT_YET.format(what="badges", phase=6))
+@mcp.tool(name="agla_get_stats", annotations=READ_ONLY, structured_output=True)
+def get_stats(telegram_id: TelegramIdArg = None) -> dict[str, Any]:
+    """A rider's trip statistics: trips, unique stations, minutes, km, spend (INR), favourite line,
+    top stations, states visited, first/last trip time."""
+    return tools.get_stats(_db(), _rider(telegram_id).user_id).to_dict()
 
 
-@mcp.tool(name="agla_get_miles", annotations=READ_ONLY)
-def get_miles(telegram_id: Annotated[int | None, Field(description="Rider; defaults to the demo user")] = None) -> str:
-    """A rider's Metro Miles balance and recent awards."""
-    raise MCPToolError(NOT_YET.format(what="Metro Miles", phase=6))
+@mcp.tool(name="agla_get_visited_stations", annotations=READ_ONLY, structured_output=True)
+def get_visited_stations(telegram_id: TelegramIdArg = None) -> list[dict[str, Any]]:
+    """Stations a rider has visited (origin, destination or interchange of a logged trip):
+    station_id, name, state, first_visit, count."""
+    return [v.to_dict() for v in tools.get_visited_stations(_db(), _rider(telegram_id).user_id)]
+
+
+@mcp.tool(name="agla_get_badges", annotations=READ_ONLY, structured_output=True)
+def get_badges(telegram_id: TelegramIdArg = None) -> list[dict[str, Any]]:
+    """A rider's badges: badge_id, name, description, hint (how to earn it), earned_at (null while locked)."""
+    return [b.to_dict() for b in tools.get_badges(_db(), _rider(telegram_id).user_id)]
+
+
+@mcp.tool(name="agla_get_miles", annotations=READ_ONLY, structured_output=True)
+def get_miles(telegram_id: TelegramIdArg = None) -> dict[str, Any]:
+    """A rider's Metro Miles (concept demo): balance, earned_total, recent awards with reasons, and the
+    rewards catalogue with costs."""
+    user = _rider(telegram_id)
+    return {**tools.get_miles(_db(), user.user_id).to_dict(), "rewards": [r.to_dict() for r in tools.list_rewards()]}
 
 
 def main() -> None:
