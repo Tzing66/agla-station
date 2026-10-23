@@ -9,7 +9,7 @@ from __future__ import annotations
 import sqlite3
 from pathlib import Path
 
-SCHEMA_VERSION = 3
+SCHEMA_VERSION = 4
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS users (
@@ -125,8 +125,14 @@ def migrate(conn: sqlite3.Connection) -> None:
     if "language" not in user_cols:  # v2
         conn.execute("ALTER TABLE users ADD COLUMN language TEXT NOT NULL DEFAULT 'en'")
     trip_cols = {r["name"] for r in conn.execute("PRAGMA table_info(trips)")}
-    if "arrived_at" not in trip_cols:  # v3: arrival moved onto the trip; safety-check tables are no longer used
+    if "arrived_at" not in trip_cols:  # v3: arrival moved onto the trip
         conn.execute("ALTER TABLE trips ADD COLUMN arrived_at TEXT")
+    # v4: the automatic safety check was removed (see ledger/decisions.md); drop what it left behind
+    for table in ("safety_checks", "trusted_contacts", "trust_invites"):
+        conn.execute(f"DROP TABLE IF EXISTS {table}")
+    for col in ("safety_on", "demo_fast"):
+        if col in user_cols:
+            conn.execute(f"ALTER TABLE users DROP COLUMN {col}")
 
 
 class tx:

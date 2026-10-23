@@ -1,19 +1,20 @@
 # Agla Station
 
-Telegram bot for the Delhi NCR metro (DMRC, Rapid Metro Gurugram, Noida Aqua Line): plain-language route planning, fares, UPI payment link, mock QR tickets, Metro Miles, badges, monthly Metro Wrapped, journey sharing with a timetable ETA, and an opt-in "I've reached" safety check. Dashboard is a Telegram Mini App.
+Telegram bot for the Delhi NCR metro (DMRC lines, Airport Express, Rapid Metro Gurugram, Noida Aqua Line): plain-language route planning, official fares, UPI payment link, mock QR tickets, Metro Miles, badges, monthly Metro Wrapped, journey sharing with a timetable ETA and an "I've reached" message. Dashboard is a Telegram Mini App.
 
-`plan.md` is the build plan. Work phase by phase; don't start a phase until the previous one meets its "Done when" checks. **Stop and ask before any decision that changes the architecture.**
+`plan.md` is the original build plan; `docs/architecture.md` is the system as built, and `ledger/decisions.md` records every change from the plan and why. **Stop and ask before any decision that changes the architecture.**
 
 ## Ground rules
 
-- **Code decides, the LLM narrates.** Routes, fares, ETAs, miles, badges, stats and recap numbers are computed in Python. The LLM only picks tools, parses user intent and writes words. Never let the model state a number that did not come from a tool result.
-- **One tool layer.** All metro logic lives in `agla/tools/`. The Telegram bot, the MCP server and the dashboard API are thin front ends over it. No business logic in front ends.
-- **Cost discipline.** Use `claude-sonnet-5-5` for everything by default. Enable prompt caching on the system prompt and tool definitions. Keep the bot's context small: no chat history beyond the last 6 messages.
-- **Privacy by default.** Sharing and safety alerts are opt-in, share links expire, share pages show first name only, and trusted contacts must accept an invite.
-- **Never commit secrets.** All keys in `.env`; `.env` is gitignored; the ledger hook scrubs secrets. The repo is **public**, so this includes the UPI VPA.
-- **Never invent fares.** Fares come from official sources (recorded with URL + date in `data/fares.yaml`) and are spot-checked by the human.
-- Python 3.12 (3.11+ compatible), type hints, `ruff` for lint, `pytest` for tests. Small modules, no framework magic.
-- After finishing each phase: run tests, then remind the human to run `/checkpoint`.
+- **Code decides, the LLM narrates.** Routes, fares, ETAs, miles, badges, stats and recap numbers are computed in Python. The LLM only picks tools, parses intent and writes words; a number guard rejects any number in its reply that didn't come from a tool result.
+- **One tool layer.** All metro logic lives in `agla/tools/` (plus the domain modules it re-exports: `badges.py`, `miles.py`, `sharing.py`, `wrapped.py`). The bot, the MCP server and the web app are thin front ends; `tests/test_layering.py` enforces it.
+- **Money stays in code.** The LLM can quote a trip but never set an amount, log a trip or redeem: payments reference a stored quote id; "I've paid", "I've reached" and redeem are buttons.
+- **Cost discipline.** `claude-sonnet-5-5` at low effort, prompt caching on system prompt + tools, chat history capped at 6 plain-text messages, menu buttons and repeated off-topic chatter answered without an API call.
+- **Privacy by default.** Share links expire and show the first name only; the bot never messages anyone but the rider (sending "I've reached" uses Telegram's own share sheet).
+- **Never commit secrets.** All keys in `.env` (gitignored, along with the SQLite db and its WAL files); the ledger hook redacts `.env` values, tokens and emails. The repo is **public**.
+- **Never invent fares.** Fares come from official sources recorded in `data/fares.yaml` and are checked by `scripts/verify_fares.py` and a human spot-check.
+- Python 3.12 (3.11+ compatible), type hints, `ruff`, `pytest`. Small modules, no framework magic. Run everything from the repo root with `uv run python -m ...` (the project isn't installed as a package).
+- After finishing each piece of work: run tests, then remind the human to run `/checkpoint`.
 
 ## Honest constraints (also in README)
 
@@ -26,15 +27,16 @@ Telegram bot for the Delhi NCR metro (DMRC, Rapid Metro Gurugram, Noida Aqua Lin
 
 | Concern | Choice |
 | --- | --- |
-| Env / deps | `uv` (`uv run pytest`, `uv run ruff check`) |
-| Bot | python-telegram-bot (polling for dev), `JobQueue` for safety-check timers |
-| LLM | Anthropic SDK, `claude-sonnet-5-5`, tool use + prompt caching |
+| Env / deps | `uv` (`uv run pytest`, `uv run ruff check .`) |
+| Bot | python-telegram-bot, long polling; persistent button menu instead of slash commands |
+| LLM | Anthropic SDK, `claude-sonnet-5-5`, tool use + prompt caching + server-side refusal fallbacks |
+| Network data | Snapshot of DMRC's journey-planner API + NMRC planner + OpenStreetMap (GTFS feed was unavailable) |
 | Routing | networkx |
-| Storage | SQLite |
-| MCP server | official `mcp` Python SDK, stdio |
-| Web | FastAPI + Jinja2 + HTMX, Leaflet, Chart.js |
-| QR / images | `qrcode` + Pillow |
-| HTTPS for demo | cloudflared tunnel |
+| Storage | SQLite (WAL), schema + migrations in `agla/db.py` |
+| MCP server | official `mcp` Python SDK 2.x (`MCPServer`), stdio |
+| Web | FastAPI + Jinja2 + HTMX (share pages), Leaflet + Chart.js (Mini App) |
+| Images | `qrcode` + Pillow (tickets, Wrapped card) |
+| Run | `uv run python -m agla --tunnel` (bot + web + cloudflared in one process) |
 
 ## Layout
 
@@ -42,16 +44,18 @@ Telegram bot for the Delhi NCR metro (DMRC, Rapid Metro Gurugram, Noida Aqua Lin
 .claude/          settings.json (hooks + statusline), commands/, agents/, skills/
 .mcp.json         project-scoped MCP servers (Playwright, agla-mcp)
 ledger/           hook.py, events.jsonl (auto), decisions.md (/decision /surprise /checkpoint), chats/
-data/             raw/ (GTFS), manual/ (hand-made CSVs), fares.yaml, miles.yaml, rewards.yaml
+data/             network.json (built), raw/ (official snapshots), manual/ (hand-made CSVs + provenance),
+                  fares.yaml, fares/*.csv, miles.yaml, rewards.yaml
 agla/
-  network/        GTFS loading, graph building
-  tools/          THE tool layer (pure functions)
-  db.py badges.py miles.py sharing.py wrapped.py llm.py
-  bot/            Telegram handlers
+  network/        build.py (snapshots -> network.json), graph.py, geo.py
+  tools/          THE tool layer (stations, routing, fares, quotes, payments, trips, stats, intent, auth, insights)
+  db.py badges.py miles.py sharing.py wrapped.py llm.py config.py
+  bot/            Telegram handlers, templates, off-topic chatter policy
   mcp_server.py   agla-mcp
-  web/            FastAPI: dashboard + public share pages
-evals/            station_parsing.jsonl, run_eval.py, results.md
-scripts/          seed_demo.py
+  web/            FastAPI: share pages, dashboard Mini App + JSON API
+evals/            station_parsing.jsonl, run_eval.py, resolver_baseline.py, results.md
+scripts/          seed_demo.py, verify_fares.py, e2e_dashboard.py, dashboard_link.py
+docs/             architecture.md, backlog.md, screenshots/
 tests/
 ```
 

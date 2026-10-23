@@ -92,7 +92,7 @@ def main() -> None:
     args = p.parse_args()
 
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
-    for noisy in ("httpx", "httpx2", "httpcore", "telegram.ext", "apscheduler"):  # httpx URLs contain the bot token
+    for noisy in ("httpx", "httpx2", "httpcore", "telegram.ext"):  # httpx URLs contain the bot token
         logging.getLogger(noisy).setLevel(logging.WARNING)
 
     s = settings()

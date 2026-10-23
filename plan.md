@@ -1,5 +1,7 @@
 # Agla Station — Build Plan for Claude Code
 
+> **Original plan, kept as written.** What changed during the build and why: [docs/architecture.md §6](docs/architecture.md) and [ledger/decisions.md](ledger/decisions.md).
+
 > Read this whole file before doing anything. Work phase by phase. Do not start a phase until the previous one meets its "Done when" checks. Stop and ask me before any decision that changes the architecture below.
 
 ## 1. What we are building

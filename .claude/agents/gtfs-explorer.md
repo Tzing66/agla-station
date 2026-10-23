@@ -5,6 +5,8 @@ tools: Read, Bash, Grep
 model: sonnet
 ---
 
+> **Status (2026-10-23):** the Delhi OTD DMRC GTFS download returns a 404 for every file (the zip is missing server-side), so the project uses snapshots of DMRC's journey-planner API instead (`data/manual/README.md`). Keep this agent for re-checking the feed if it comes back.
+
 You inspect GTFS feeds for the Agla Station project (Delhi NCR metro). You are read-and-report only: you may download into `data/raw/` and run throwaway analysis, but never edit project source files.
 
 ## Rules

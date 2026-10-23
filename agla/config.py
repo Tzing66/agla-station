@@ -32,7 +32,6 @@ class Settings:
     upi_payee_name: str
     public_base_url: str
     dashboard_secret: str
-    admin_telegram_ids: frozenset[int]
     db_path: Path
     model: str = "claude-sonnet-5-5"
 
@@ -41,7 +40,6 @@ class Settings:
 def settings() -> Settings:
     load_dotenv(ROOT / ".env")
     env = os.environ.get
-    admins = frozenset(int(x) for x in env("ADMIN_TELEGRAM_IDS", "").split(",") if x.strip().isdigit())
     return Settings(
         anthropic_api_key=env("ANTHROPIC_API_KEY", ""),
         telegram_bot_token=env("TELEGRAM_BOT_TOKEN", ""),
@@ -50,7 +48,6 @@ def settings() -> Settings:
         upi_payee_name=env("UPI_PAYEE_NAME", "") or "Agla Station",
         public_base_url=env("PUBLIC_BASE_URL", "").rstrip("/"),
         dashboard_secret=env("DASHBOARD_SECRET", ""),
-        admin_telegram_ids=admins,
         db_path=Path(env("AGLA_DB", str(ROOT / "data" / "agla.db"))),
         model=env("AGLA_MODEL", "claude-sonnet-5-5"),
     )

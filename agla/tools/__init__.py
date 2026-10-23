@@ -43,7 +43,7 @@ __all__ = [
     "DEMO_TELEGRAM_ID", "open_database", "is_metro_related",
     "sign_dashboard_token", "verify_dashboard_token", "verify_init_data",
     "insights", "line_completion", "map_data", "trip_months",
-    "award_safe_arrival", "get_badges", "get_miles", "list_rewards", "list_vouchers", "redeem_reward",
+    "award_arrival", "get_badges", "get_miles", "list_rewards", "list_vouchers", "redeem_reward",
 ]
 
 # Domain modules (docs/architecture.md) are re-exported lazily: they import tool submodules themselves, so a
@@ -55,10 +55,10 @@ import agla.wrapped as _wrapped  # noqa: E402
 
 _DOMAIN = {
     "get_badges": _badges,
-    "award_safe_arrival": _miles, "get_miles": _miles, "list_rewards": _miles, "list_vouchers": _miles,
+    "award_arrival": _miles, "get_miles": _miles, "list_rewards": _miles, "list_vouchers": _miles,
     "redeem_reward": _miles,
     "wrapped_stats": _wrapped, "template_text": _wrapped, "save_recap": _wrapped, "get_recap": _wrapped,
-    "fresh_recap": _wrapped, "list_recaps": _wrapped, "render_card": _wrapped,
+    "fresh_recap": _wrapped, "render_card": _wrapped,
     "WrappedStats": _wrapped, "Recap": _wrapped,
     **{name: _sharing for name in (
         "estimate_position", "create_share", "get_share_view", "share_message", "confirm_arrival",

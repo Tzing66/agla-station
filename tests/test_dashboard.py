@@ -62,7 +62,7 @@ def client():
         when = NOW - timedelta(days=3 - i)
         q = tools.quote_trip(conn, uid, a, b, "fastest", when)
         tools.log_trip(conn, q.quote_id, 42, when)
-    cfg = Settings("", BOT_TOKEN, "example_test_bot", "demo@upi", "Demo", "", SECRET, frozenset(), Path(":memory:"))
+    cfg = Settings("", BOT_TOKEN, "example_test_bot", "demo@upi", "Demo", "", SECRET, Path(":memory:"))
     return TestClient(create_app(conn, cfg))
 
 

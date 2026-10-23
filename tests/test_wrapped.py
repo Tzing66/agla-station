@@ -61,7 +61,7 @@ def test_recap_is_reused_until_stats_change(conn, uid):
     q = tools.quote_trip(conn, uid, "botanical garden", "rajiv chowk", "fastest", OCT_B.replace(hour=19))
     tools.log_trip(conn, q.quote_id, 9, OCT_B.replace(hour=19))
     assert tools.fresh_recap(conn, uid, tools.wrapped_stats(conn, uid, "2026-10")) is None
-    assert [r.month for r in tools.list_recaps(conn, uid)] == ["2026-10"]
+    assert tools.get_recap(conn, uid, "2026-10").text == "great month"
 
 
 def test_runtime_prompt_is_the_voice_skill():

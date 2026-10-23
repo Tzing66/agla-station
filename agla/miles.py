@@ -94,7 +94,7 @@ def award_trip_miles(conn: sqlite3.Connection, trip: Trip, now: datetime) -> dic
     return {"total": sum(d for d, _ in awards), "awards": [{"delta": d, "reason": r} for d, r in awards if d]}
 
 
-def award_safe_arrival(conn: sqlite3.Connection, user_id: int, trip_id: int, now: datetime) -> int:
+def award_arrival(conn: sqlite3.Connection, user_id: int, trip_id: int, now: datetime) -> int:
     bonus = rules()["arrival_bonus"]
     conn.execute(
         "INSERT INTO miles_ledger (user_id, trip_id, delta, reason, created_at) VALUES (?, ?, ?, ?, ?)",

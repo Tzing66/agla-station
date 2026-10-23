@@ -72,3 +72,7 @@
 ## [CHECKPOINT] 2026-10-23 22:35 IST — Phases 8-9: journey sharing + I've reached, dashboard Mini App, button menu
 
 - **Session cost:** n/a (status line does not run in VS Code) (session 456b20f1)
+
+## [CHECKPOINT] 2026-10-23 22:44 IST — Cleanup: remove safety leftovers, refresh docs, README
+
+- **Session cost:** n/a (status line does not run in VS Code) (session 456b20f1)

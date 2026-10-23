@@ -1,4 +1,4 @@
-"""Phase 8: timetable position estimates, share links, trusted contacts, and the safety-check escalation."""
+"""Phase 8: timetable position estimates, share links and "I've reached"."""
 
 from __future__ import annotations
 

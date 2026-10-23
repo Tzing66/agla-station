@@ -123,4 +123,6 @@ def test_migration_upgrades_a_v1_database(tmp_path):
     old.close()
     conn = connect(path)
     assert tools.find_user_by_telegram_id(conn, 7).language == "en"
-    assert conn.execute("PRAGMA user_version").fetchone()[0] == 3
+    assert conn.execute("PRAGMA user_version").fetchone()[0] == 4
+    user_cols = {r["name"] for r in conn.execute("PRAGMA table_info(users)")}
+    assert "language" in user_cols and not user_cols & {"safety_on", "demo_fast"}  # v4 drops the safety leftovers

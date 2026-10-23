@@ -165,7 +165,7 @@ def confirm_arrival(conn: sqlite3.Connection, trip_id: int, telegram_user_id: in
     """The traveller taps "I've reached". Marks the trip arrived (once), flips any shared page to Arrived and lets
     its link expire 30 min later, and awards the arrival miles once.
     Returns {"already": bool, "miles": int, "message": str} where message is ready to send to someone."""
-    from agla.miles import award_safe_arrival  # local: miles imports the tool layer
+    from agla.miles import award_arrival  # local: miles imports the tool layer
 
     trip = _own_trip(conn, trip_id, telegram_user_id)
     user = get_user(conn, trip.user_id)
@@ -179,7 +179,7 @@ def confirm_arrival(conn: sqlite3.Connection, trip_id: int, telegram_user_id: in
         expires = min(datetime.fromisoformat(share["expires_at"]), now + SHARE_TTL_AFTER_ARRIVAL)
         conn.execute("UPDATE shares SET arrived_at = ?, expires_at = ? WHERE trip_id = ?",
                      (now.isoformat(), expires.isoformat(), trip_id))
-    miles = award_safe_arrival(conn, trip.user_id, trip_id, now)
+    miles = award_arrival(conn, trip.user_id, trip_id, now)
     return {"already": False, "miles": miles, "message": message}
 
 

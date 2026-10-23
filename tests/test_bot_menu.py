@@ -10,7 +10,7 @@ from agla.config import Settings
 
 
 def bot(public_url: str) -> Bot:
-    cfg = Settings("", "1:x", "example_test_bot", "demo@upi", "Demo", "", "s", frozenset(), Path(":memory:"))
+    cfg = Settings("", "1:x", "example_test_bot", "demo@upi", "Demo", "", "s", Path(":memory:"))
     return Bot(cfg, conn=None, agent=None, public_url=public_url)  # type: ignore[arg-type]
 
 

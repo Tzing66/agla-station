@@ -150,11 +150,6 @@ def get_recap(conn: sqlite3.Connection, user_id: int, month: str) -> Recap | Non
     return _recap(row) if row else None
 
 
-def list_recaps(conn: sqlite3.Connection, user_id: int) -> list[Recap]:
-    rows = conn.execute("SELECT * FROM wrapped_recaps WHERE user_id = ? ORDER BY month DESC", (user_id,))
-    return [_recap(r) for r in rows]
-
-
 def _recap(row: sqlite3.Row) -> Recap:
     d = json.loads(row["stats_json"])
     stats = WrappedStats(**{**d, "top_stations": [tuple(x) for x in d["top_stations"]]})
