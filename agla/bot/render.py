@@ -151,8 +151,11 @@ HELP = (
 )
 
 COMING_SOON = {
-    "wrapped": "🎁 Metro Wrapped, your monthly recap, is coming soon.",
     "dashboard": "🗺 Your dashboard is coming soon.",
     "trusted": "🤝 Trusted contacts are coming soon.",
     "safety": "🛟 The \"I've reached\" safety check is coming soon.",
 }
+
+
+def wrapped_caption(stats: tools.WrappedStats, text: str) -> str:
+    return f"<b>{escape(stats.month_name)}</b>\n{escape(text)}"[:1024]

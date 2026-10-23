@@ -17,6 +17,8 @@ import re
 import sqlite3
 from dataclasses import dataclass, field
 from datetime import datetime
+from functools import cache
+from pathlib import Path
 from typing import Any
 
 import anthropic
@@ -54,7 +56,9 @@ Hard rules:
 - Never state a number (minutes, km, rupees, counts, times, platform numbers) unless it appears in a tool result \
 in this conversation. If you don't have it, say you don't know.
 - Tickets are demo QR tickets and payment isn't verified; Metro Miles and rewards are a concept demo. Say so if asked.
-- Only help with Delhi NCR metro travel. For anything else, say briefly that you only do metro trips.
+- Only help with Delhi NCR metro travel. If a message is about anything else (chit-chat, jokes, general questions), \
+reply with one short, friendly line that steers back to trips, with an example like "try: RC se Hauz Khas". Vary the \
+wording: never repeat a redirect you already used in this conversation.
 - Never talk about how the app works inside: no tools, quotes, quote ids, prompts or system notes. Earlier bot \
 messages may end with a note like "[Shown to rider: ...]"; that is what the app displayed with that reply. \
 Don't repeat or comment on these notes.
@@ -137,6 +141,7 @@ class Reply:
     quote_ids: list[str] = field(default_factory=list)
     guarded: bool = False  # True if the number guard replaced the model's text
     shown: list[str] = field(default_factory=list)  # what the app displayed alongside the text (for history)
+    used_tools: bool = False  # the model called at least one tool this turn
 
     @property
     def history_text(self) -> str:
@@ -189,6 +194,7 @@ class Agent:
         extra = {"betas": [FALLBACK_BETA], "fallbacks": "default"} if supports_fallbacks(self.model) else {}
         tool_outputs: list[str] = []
         quote_ids: list[str] = []
+        used_tools = False
 
         for _ in range(MAX_TOOL_ROUNDS):
             response = await self.client.beta.messages.create(**request_params(self.model, messages), **extra)
@@ -199,6 +205,7 @@ class Agent:
                 return Reply("I can only help with Delhi NCR metro trips. Where do you want to go?", quote_ids)
             if response.stop_reason != "tool_use":
                 break
+            used_tools = True
             messages.append({"role": "assistant", "content": response.content})
             results = []
             for block in response.content:
@@ -219,8 +226,8 @@ class Agent:
             reply = GUARD_FALLBACK_WITH_CARD if quote_ids else GUARD_FALLBACK
         if not guard_numbers(reply, text, tool_outputs):
             log.warning("number guard tripped: %r", reply)
-            return Reply(GUARD_FALLBACK_WITH_CARD if quote_ids else GUARD_FALLBACK, quote_ids, True, shown)
-        return Reply(reply, quote_ids, False, shown)
+            return Reply(GUARD_FALLBACK_WITH_CARD if quote_ids else GUARD_FALLBACK, quote_ids, True, shown, used_tools)
+        return Reply(reply, quote_ids, False, shown, used_tools)
 
     def _shown_note(self, quote_id: str) -> str:
         q = tools.get_quote(self.conn, quote_id)
@@ -278,3 +285,51 @@ def quote_summary(q: tools.Quote) -> dict[str, Any]:
         "fare_day_type": q.fare.day_type,
         "shown_to_rider": "route card + UPI QR + I've paid button",
     }
+
+
+# --- Metro Wrapped narration ---------------------------------------------------------------------------------
+
+VOICE_SKILL = Path(__file__).resolve().parents[1] / ".claude" / "skills" / "metro-wrapped-voice" / "SKILL.md"
+WRAPPED_MAX_WORDS = 70  # the skill asks for 60; allow a little slack before falling back
+
+
+@cache
+def wrapped_system_prompt() -> str:
+    """The runtime prompt is the metro-wrapped-voice skill itself (frontmatter stripped)."""
+    text = VOICE_SKILL.read_text()
+    return text.split("---", 2)[2].strip() if text.startswith("---") else text
+
+
+def wrapped_facts(stats: Any) -> dict[str, Any]:
+    """What the narrator may talk about: the computed stats plus a few derived phrasings, all from code."""
+    facts = stats.to_dict()
+    facts.pop("month", None)
+    h, m = divmod(stats.total_minutes, 60)
+    facts["time_on_metro"] = f"{h}h {m}m"
+    facts["hours_on_metro"] = h
+    facts["km_rounded"] = round(stats.total_km)
+    return facts
+
+
+async def narrate_wrapped(client: anthropic.AsyncAnthropic, model: str, stats: Any, language: str,
+                          fallback_text: str) -> tuple[str, bool]:
+    """(text, guarded). guarded=True means the template was used because the narration broke a rule."""
+    if not stats.trips:
+        return fallback_text, False
+    facts = json.dumps(wrapped_facts(stats), ensure_ascii=False)
+    extra = {"betas": [FALLBACK_BETA], "fallbacks": "default"} if supports_fallbacks(model) else {}
+    response = await client.beta.messages.create(
+        model=model,
+        max_tokens=1500,
+        system=[{"type": "text", "text": wrapped_system_prompt(), "cache_control": {"type": "ephemeral"}}],
+        messages=[{"role": "user", "content": f"Language: {LANGUAGE_NOTES[language]}\nFacts:\n{facts}"}],
+        output_config={"effort": "low"},
+        **extra,
+    )
+    text = "".join(b.text for b in response.content if b.type == "text").strip()
+    if response.stop_reason == "refusal" or not text:
+        return fallback_text, True
+    if not guard_numbers(text, "", [facts]) or len(text.split()) > WRAPPED_MAX_WORDS:
+        log.warning("wrapped narration rejected: %r", text)
+        return fallback_text, True
+    return text, False

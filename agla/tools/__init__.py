@@ -1,6 +1,7 @@
 """The tool layer: the only API front ends (bot, MCP server, web) may call. All numbers come from here."""
 
 from agla.tools.fares import get_fare
+from agla.tools.intent import is_metro_related
 from agla.tools.payments import make_payment_link
 from agla.tools.quotes import get_quote, quote_trip
 from agla.tools.routing import plan_route
@@ -38,7 +39,7 @@ __all__ = [
     "plan_route", "quote_trip", "register_post_trip_hook", "resolve_station", "search_station", "set_language",
     "set_safety",
     "BadgeStatus", "MilesAward", "MilesSummary", "Reward", "Voucher",
-    "DEMO_TELEGRAM_ID", "open_database",
+    "DEMO_TELEGRAM_ID", "open_database", "is_metro_related",
     "award_safe_arrival", "get_badges", "get_miles", "list_rewards", "list_vouchers", "redeem_reward",
 ]
 
@@ -46,11 +47,15 @@ __all__ = [
 # from-import here would be circular whenever agla.miles / agla.badges is imported before agla.tools.
 import agla.badges as _badges  # noqa: E402
 import agla.miles as _miles  # noqa: E402
+import agla.wrapped as _wrapped  # noqa: E402
 
 _DOMAIN = {
     "get_badges": _badges,
     "award_safe_arrival": _miles, "get_miles": _miles, "list_rewards": _miles, "list_vouchers": _miles,
     "redeem_reward": _miles,
+    "wrapped_stats": _wrapped, "template_text": _wrapped, "save_recap": _wrapped, "get_recap": _wrapped,
+    "fresh_recap": _wrapped, "list_recaps": _wrapped, "render_card": _wrapped,
+    "WrappedStats": _wrapped, "Recap": _wrapped,
 }
 
 

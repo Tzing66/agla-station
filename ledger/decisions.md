@@ -56,3 +56,7 @@
 ## [CHECKPOINT] 2026-10-23 19:24 IST — Phase 6: badges and Metro Miles (calibrated rules, rewards, demo seed)
 
 - **Session cost:** n/a (status line does not run in VS Code) (session 456b20f1)
+
+## [CHECKPOINT] 2026-10-23 19:51 IST — Phase 7: Metro Wrapped (voice skill, pastel card) + off-topic redirects
+
+- **Session cost:** n/a (status line does not run in VS Code) (session 456b20f1)

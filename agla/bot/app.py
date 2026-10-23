@@ -20,8 +20,9 @@ from telegram.ext import (
 
 from agla import tools
 from agla.bot import render
+from agla.bot.chatter import ChatterState
 from agla.config import Settings, now
-from agla.llm import MAX_HISTORY, Agent
+from agla.llm import MAX_HISTORY, Agent, narrate_wrapped
 
 log = logging.getLogger(__name__)
 
@@ -87,6 +88,30 @@ class Bot:
         await query.message.reply_html(render.voucher_text(voucher, balance))
         await query.edit_message_text(parse_mode=ParseMode.HTML, **self._miles_view(user))
 
+    async def wrapped(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        user = self.user(update)
+        month = context.args[0] if context.args else now().strftime("%Y-%m")
+        try:
+            stats = tools.wrapped_stats(self.conn, user.user_id, month)
+        except tools.ToolError as exc:
+            await update.message.reply_text(str(exc))
+            return
+        if not stats.trips:
+            await update.message.reply_text(tools.template_text(stats))
+            return
+        await update.message.chat.send_action(ChatAction.UPLOAD_PHOTO)
+        recap = tools.fresh_recap(self.conn, user.user_id, stats)
+        if recap is None:
+            try:
+                text, _ = await narrate_wrapped(self.agent.client, self.agent.model, stats, user.language,
+                                                tools.template_text(stats))
+            except anthropic.APIError:
+                log.exception("wrapped narration failed")
+                text = tools.template_text(stats)
+            recap = tools.save_recap(self.conn, user.user_id, stats, text, now())
+        await update.message.reply_photo(tools.render_card(stats),
+                                         caption=render.wrapped_caption(stats, recap.text), parse_mode=ParseMode.HTML)
+
     async def coming_soon(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         command = update.message.text.split()[0].lstrip("/").split("@")[0]
         await update.message.reply_html(render.COMING_SOON.get(command, "Coming soon."))
@@ -97,6 +122,11 @@ class Bot:
         user = self.user(update)
         text = update.message.text.strip()[:500]
         history: list[dict[str, str]] = context.chat_data.setdefault("history", [])
+        chatter: ChatterState = context.chat_data.setdefault("chatter", ChatterState())
+        metro_related = tools.is_metro_related(text)
+        if chatter.should_skip_llm(metro_related):  # repeated off-topic chatter: no API call
+            await update.message.reply_text(chatter.canned(user.language))
+            return
         await update.message.chat.send_action(ChatAction.TYPING)
         try:
             reply = await self.agent.respond(user, history, text, now())
@@ -105,6 +135,7 @@ class Bot:
             await update.message.reply_text("My brain's stuck between stations 😅 Try again in a moment?")
             return
 
+        chatter.record(metro_related, reply.used_tools)
         history += [{"role": "user", "content": text}, {"role": "assistant", "content": reply.history_text}]
         del history[:-MAX_HISTORY]
 
@@ -167,6 +198,7 @@ def build_application(settings: Settings, conn: sqlite3.Connection, agent: Agent
     app.add_handler(CommandHandler("language", bot.language))
     app.add_handler(CommandHandler("miles", bot.miles))
     app.add_handler(CommandHandler("badges", bot.badges))
+    app.add_handler(CommandHandler("wrapped", bot.wrapped))
     app.add_handler(CommandHandler(list(render.COMING_SOON), bot.coming_soon))
     app.add_handler(CallbackQueryHandler(bot.paid, pattern=f"^{PAID}"))
     app.add_handler(CallbackQueryHandler(bot.set_language, pattern=f"^{LANG}"))
