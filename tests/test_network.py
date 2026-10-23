@@ -75,7 +75,8 @@ def test_cheapest_avoids_airport_express_when_it_costs_more():
     cheapest = plan_route("dwarka_sector_21", "noida_electronic_city", "cheapest", on=MONDAY)
     assert "DMRC_AIRPORT" in lines_of(fastest)
     assert lines_of(cheapest) == ["DMRC_BLUE"]
-    assert get_fare(cheapest, MONDAY).total < get_fare(fastest, MONDAY).total
+    assert get_fare(cheapest, MONDAY).total == 64  # human spot-check: matches DMRC's minimum-interchange fare
+    assert get_fare(fastest, MONDAY).total == 118  # human spot-check: matches DMRC's quickest-route fare
 
 
 def test_cheapest_keeps_airport_express_when_it_is_the_only_sensible_option():
@@ -110,10 +111,21 @@ def test_bad_inputs_raise_tool_error():
         ("new_delhi", "dhaula_kuan", SUNDAY, 43),  # Airport Express: no Sunday discount
         ("noida_sector_51", "gnida_office", MONDAY, 50),  # NMRC: 19 stations
         ("noida_sector_51", "gnida_office", SUNDAY, 40),
+        # human spot-check against the DMRC / NMRC apps, 2026-10-23
+        ("millennium_city_centre_gurugram", "botanical_garden", SUNDAY, 54),
+        ("noida_sector_51", "pari_chowk", MONDAY, 40),
+        ("janakpuri_west", "kalkaji_mandir", SUNDAY, 43),
+        ("new_delhi", "airport_t3", MONDAY, 64),
     ],
 )
 def test_fares_match_official(a, b, on, official):
     assert get_fare(plan_route(a, b), on).total == official
+
+
+@pytest.mark.xfail(strict=True, reason="known: straight-line km under-measures near slab boundaries (README)")
+def test_fare_near_21km_boundary_kashmere_gate_noida_city_centre():
+    # Human spot-check 2026-10-23: DMRC app shows Rs 54; we compute 20.7 km -> Rs 43.
+    assert get_fare(plan_route("kashmere_gate", "noida_city_centre"), MONDAY).total == 54
 
 
 def test_cross_operator_fare_lists_components():
