@@ -127,10 +127,9 @@ BADGES: list[Badge] = [
     Badge("miles_1000", "Thousand Miler", "Earned 1,000 Metro Miles.", "Earn 1,000 Metro Miles.",
           lambda c, u, n: _count(c, "SELECT COALESCE(SUM(delta), 0) FROM miles_ledger WHERE user_id = ? AND delta > 0",
                                  u) >= 1000),
-    Badge("safe_and_sound", "Safe and Sound", "Confirmed 5 arrivals with the safety check on.",
-          "Turn on /safety and confirm 5 arrivals.",
-          lambda c, u, n: _count(c, "SELECT COUNT(*) FROM safety_checks WHERE user_id = ? AND arrived_at IS NOT NULL",
-                                 u) >= 5),
+    Badge("safe_and_sound", "Safe and Sound", "Told someone you'd reached, 5 times.",
+          "Tap \"I've reached\" on 5 tickets.",
+          lambda c, u, n: _count(c, "SELECT COUNT(*) FROM trips WHERE user_id = ? AND arrived_at IS NOT NULL", u) >= 5),
 ]
 
 

@@ -95,10 +95,10 @@ def award_trip_miles(conn: sqlite3.Connection, trip: Trip, now: datetime) -> dic
 
 
 def award_safe_arrival(conn: sqlite3.Connection, user_id: int, trip_id: int, now: datetime) -> int:
-    bonus = rules()["safe_arrival_bonus"]
+    bonus = rules()["arrival_bonus"]
     conn.execute(
         "INSERT INTO miles_ledger (user_id, trip_id, delta, reason, created_at) VALUES (?, ?, ?, ?, ?)",
-        (user_id, trip_id, bonus, "safe arrival confirmed", now.isoformat()),
+        (user_id, trip_id, bonus, "confirmed arrival", now.isoformat()),
     )
     return bonus
 

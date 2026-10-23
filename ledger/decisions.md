@@ -60,3 +60,15 @@
 ## [CHECKPOINT] 2026-10-23 19:51 IST — Phase 7: Metro Wrapped (voice skill, pastel card) + off-topic redirects
 
 - **Session cost:** n/a (status line does not run in VS Code) (session 456b20f1)
+
+## [OVERRIDE] 2026-10-23 22:30 IST — Safety check simplified to "I've reached" + share link
+
+- **Question:** The automatic safety check (ask at ETA, nudge, alert trusted contacts; /safety, /trusted invites, /demo_fast) failed its first live test because setup steps weren't obvious. Fix it, park it, or cut it?
+- **Options:** (1) fix the setup UX (explicit on/off buttons, status on every ticket, arm for one trip, warnings); (2) park it and move on; (3) cut it down to a traveller-sent "I've reached" message plus the journey share link.
+- **Claude suggested:** Option 1 (plan.md lists the safety check under "never cut"); built the UX fixes, 148 tests passing.
+- **Chose:** Option 3. Keep 📤 Share journey and a ✅ I've reached button that hands the traveller a ready-made message to send via Telegram's share sheet; remove trusted contacts, invites, timed escalation, the polling job and /demo_fast.
+- **Why:** Still didn't like the flow after the fixes; a simple, traveller-controlled "I've reached" is clearer and needs no setup.
+
+## [CHECKPOINT] 2026-10-23 22:35 IST — Phases 8-9: journey sharing + I've reached, dashboard Mini App, button menu
+
+- **Session cost:** n/a (status line does not run in VS Code) (session 456b20f1)

@@ -17,4 +17,4 @@ streak:
   from_day: 3             # bonus starts on the 3rd consecutive day with a trip
   bonus: 10               # once per day, on that day's first trip
 
-safe_arrival_bonus: 10    # when the "I've reached" safety check is confirmed (Phase 8)
+arrival_bonus: 10         # once per trip, when the traveller taps "I've reached"

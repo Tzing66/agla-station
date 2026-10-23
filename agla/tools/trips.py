@@ -1,4 +1,4 @@
-"""Logging a trip, plus the post-trip hooks later phases plug into (miles, badges, safety check).
+"""Logging a trip, plus the post-trip hooks later phases plug into (miles, badges).
 
 A hook is `fn(conn, trip, now) -> Any`; its return value lands in TripResult.hook_results[name].
 Front ends never change when a hook is added.

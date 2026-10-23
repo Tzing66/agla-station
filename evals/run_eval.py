@@ -72,7 +72,7 @@ def load_cases() -> list[dict]:
 
 
 def eval_user() -> tools.User:
-    return tools.User(user_id=0, telegram_id=0, first_name="Rider", safety_on=False, demo_fast=False, language="en")
+    return tools.User(user_id=0, telegram_id=0, first_name="Rider", language="en")
 
 
 def score(case: dict, content: list[Any]) -> CaseResult:

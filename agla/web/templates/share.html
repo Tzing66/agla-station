@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}{{ v.first_name }}'s journey · Agla Station{% endblock %}
+{% block content %}
+<div class="eyebrow">agla station · shared journey</div>
+<h1>{{ v.first_name }} is travelling<br>{{ v.from_name }} → {{ v.to_name }}</h1>
+
+<div hx-get="/s/{{ token }}/status" hx-trigger="every 30s" hx-swap="outerHTML" hx-target="#status">
+  {% include "_status.html" %}
+</div>
+
+<p class="note">Estimated from the metro timetable, not live GPS.<br>This link stops working shortly after the journey ends.</p>
+{% endblock %}

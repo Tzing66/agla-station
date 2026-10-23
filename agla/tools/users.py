@@ -13,8 +13,6 @@ def _user(row: sqlite3.Row) -> User:
         user_id=row["id"],
         telegram_id=row["telegram_id"],
         first_name=row["first_name"] or "Rider",
-        safety_on=bool(row["safety_on"]),
-        demo_fast=bool(row["demo_fast"]),
         language=row["language"],
     )
 
@@ -40,11 +38,6 @@ def get_user(conn: sqlite3.Connection, user_id: int) -> User:
 def find_user_by_telegram_id(conn: sqlite3.Connection, telegram_id: int) -> User | None:
     row = conn.execute("SELECT * FROM users WHERE telegram_id = ?", (telegram_id,)).fetchone()
     return _user(row) if row else None
-
-
-def set_safety(conn: sqlite3.Connection, user_id: int, on: bool) -> User:
-    conn.execute("UPDATE users SET safety_on = ? WHERE id = ?", (int(on), user_id))
-    return get_user(conn, user_id)
 
 
 def set_language(conn: sqlite3.Connection, user_id: int, language: str) -> User:

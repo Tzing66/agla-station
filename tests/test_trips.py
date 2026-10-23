@@ -111,7 +111,7 @@ def test_language_setting_and_validation(conn, rider):
         tools.set_language(conn, rider.user_id, "tamil")
 
 
-def test_migration_adds_language_to_v1_database(tmp_path):
+def test_migration_upgrades_a_v1_database(tmp_path):
     import sqlite3
 
     path = tmp_path / "old.db"
@@ -123,4 +123,4 @@ def test_migration_adds_language_to_v1_database(tmp_path):
     old.close()
     conn = connect(path)
     assert tools.find_user_by_telegram_id(conn, 7).language == "en"
-    assert conn.execute("PRAGMA user_version").fetchone()[0] == 2
+    assert conn.execute("PRAGMA user_version").fetchone()[0] == 3

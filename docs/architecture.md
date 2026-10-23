@@ -8,7 +8,7 @@ Phase 1 of plan.md: agreed the module interfaces for `agla/tools/` and the full 
 
 Three deliberate deviations from plan.md, agreed with the human:
 1. **Quote IDs**: the LLM never passes amounts or logs trips. It calls `quote_trip`; the server stores route+fare; the payment link and "✅ I've paid" button reference `quote_id`; only the button handler calls `log_trip(quote_id)`.
-2. **One polling safety job** (every 20s, `due_safety_actions(now)`) instead of three run_once jobs per trip. DB is the only state, so restarts need no rescheduling.
+2. ~~One polling safety job~~ **Removed in Phase 8 (OVERRIDE, see ledger):** the automatic safety check, trusted contacts and timed escalation were cut. What remains is the journey share link and a traveller-sent "I've reached" message (`trips.arrived_at`, schema v3).
 3. **One process**: `python -m agla` runs FastAPI (uvicorn) + the PTB bot in one asyncio loop. agla-mcp stays a separate stdio process.
 
 
@@ -138,3 +138,9 @@ Schema migration: `db.init(conn)` runs `CREATE TABLE IF NOT EXISTS`; a `schema_v
 
 From plan.md: Telegram over WhatsApp · UPI link over Paytm API · Mini App over separate website · timetable ETA over GPS.
 Agreed today: quote IDs (LLM can't set amounts/log trips) · single polling safety job · one process · visit rule (origin/destination/interchanges).
+
+## 7. Phase 8 as built (simplified)
+
+- `agla/sharing.py`: `estimate_position` (pure, timetable-based), share links (`shares`, first name only, expire at ETA + 2 h or 30 min after arrival), `confirm_arrival` (sets `trips.arrived_at`, +10 Metro Miles once, returns a ready-made "✅ X has reached Y" message).
+- Bot: tickets carry 📤 Share journey and ✅ I've reached; both reply with a "📨 Send to…" button (`t.me/share/url`) so the traveller picks the recipient. The bot never messages third parties.
+- Removed: `/safety`, `/trusted`, `/demo_fast`, trust invites, trusted contacts, safety checks, the polling job. Their tables remain only in databases created before schema v3 and are unused.

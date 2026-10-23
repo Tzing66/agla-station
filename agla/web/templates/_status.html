@@ -1,0 +1,48 @@
+<div id="status">
+  <style>
+    .pill { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 14px; font-weight: 600; color: #2b2d42; }
+    .on_the_way { background: var(--sky); } .arrived { background: var(--mint); } .overdue { background: var(--peach); }
+    .where { font-size: 20px; margin: 12px 0 4px; }
+    .meta { color: var(--muted); font-size: 14px; }
+    .bar { height: 10px; background: var(--line); border-radius: 999px; overflow: hidden; margin: 14px 0 6px; }
+    .bar > span { display: block; height: 100%; background: linear-gradient(90deg, var(--lilac), var(--sky)); }
+    ol.stops { list-style: none; padding: 0; margin: 0; }
+    ol.stops li { position: relative; padding: 6px 0 6px 26px; font-size: 15px; color: var(--muted); }
+    ol.stops li::before { content: ""; position: absolute; left: 6px; top: 13px; width: 10px; height: 10px;
+                          border-radius: 50%; border: 2px solid var(--line); background: var(--card); }
+    ol.stops li.done { color: var(--ink); }
+    ol.stops li.done::before { background: var(--lilac); border-color: var(--lilac); }
+    ol.stops li.now { font-weight: 600; }
+    ol.stops li.gap { font-size: 13px; padding-top: 2px; padding-bottom: 2px; }
+    ol.stops li.gap::before { width: 2px; height: 14px; left: 10px; top: 6px; border: 0; border-radius: 0; background: var(--line); }
+  </style>
+  <div class="card">
+    {% if v.status == "arrived" %}
+      <span class="pill arrived">Arrived{% if v.arrived_hm %} · {{ v.arrived_hm }}{% endif %}</span>
+      <div class="where">{{ v.first_name }} confirmed they've reached {{ v.to_name }}.</div>
+    {% elif v.status == "overdue" %}
+      <span class="pill overdue">Should have arrived by {{ v.eta_hm }}</span>
+      <div class="where">{{ v.position.text }}</div>
+      <div class="meta">{{ v.first_name }} hasn't confirmed arrival yet.</div>
+    {% else %}
+      <span class="pill on_the_way">On the way · ETA {{ v.eta_hm }}</span>
+      <div class="where">{{ v.position.text }}{% if v.position.line_name %} <span class="meta">({{ v.position.line_name }})</span>{% endif %}</div>
+      <div class="meta">{% if v.position.minutes_left %}about {{ v.position.minutes_left }} min to go{% else %}arriving now{% endif %}</div>
+    {% endif %}
+    {% set pct = 100 if v.status == "arrived" else v.position.progress_pct %}
+    <div class="bar" role="progressbar" aria-valuenow="{{ pct }}" aria-valuemin="0" aria-valuemax="100"><span style="width: {{ pct }}%"></span></div>
+    <div class="meta">{{ pct }}% of the way</div>
+  </div>
+  <div class="card">
+    <ol class="stops">
+      {% set ns = namespace(last=-1, hidden=0) %}
+      {% for name, reached, key in v.stations %}{% if reached %}{% set ns.last = loop.index0 %}{% endif %}{% endfor %}
+      {% for name, reached, key in v.stations %}
+        {% if key %}
+          {% if ns.hidden %}<li class="gap{{ ' done' if reached }}">· {{ ns.hidden }} stop{{ 's' if ns.hidden != 1 }} ·</li>{% set ns.hidden = 0 %}{% endif %}
+          <li class="{{ 'done' if reached }} {{ 'now' if loop.index0 == ns.last }}">{{ name }}</li>
+        {% else %}{% set ns.hidden = ns.hidden + 1 %}{% endif %}
+      {% endfor %}
+    </ol>
+  </div>
+</div>

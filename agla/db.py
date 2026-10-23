@@ -9,15 +9,13 @@ from __future__ import annotations
 import sqlite3
 from pathlib import Path
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY,
     telegram_id INTEGER UNIQUE NOT NULL,
     first_name TEXT,
-    safety_on INTEGER NOT NULL DEFAULT 0,
-    demo_fast INTEGER NOT NULL DEFAULT 0,
     language TEXT NOT NULL DEFAULT 'en',  -- en | hinglish | hi
     created_at TEXT NOT NULL
 );
@@ -49,6 +47,7 @@ CREATE TABLE IF NOT EXISTS trips (
     fare REAL NOT NULL,
     depart_at TEXT NOT NULL,
     eta TEXT NOT NULL,
+    arrived_at TEXT,              -- set when the traveller taps "I've reached"
     created_at TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS trips_user_depart ON trips(user_id, depart_at);
@@ -98,27 +97,6 @@ CREATE TABLE IF NOT EXISTS shares (
     expires_at TEXT NOT NULL,
     arrived_at TEXT
 );
-CREATE TABLE IF NOT EXISTS trusted_contacts (
-    user_id INTEGER NOT NULL REFERENCES users(id),
-    contact_user_id INTEGER NOT NULL REFERENCES users(id),
-    accepted_at TEXT NOT NULL,
-    PRIMARY KEY (user_id, contact_user_id)
-);
-CREATE TABLE IF NOT EXISTS trust_invites (
-    token TEXT PRIMARY KEY,
-    user_id INTEGER NOT NULL REFERENCES users(id),
-    created_at TEXT NOT NULL,
-    expires_at TEXT NOT NULL,
-    used_by INTEGER REFERENCES users(id)
-);
-CREATE TABLE IF NOT EXISTS safety_checks (
-    trip_id INTEGER PRIMARY KEY REFERENCES trips(id),
-    user_id INTEGER NOT NULL REFERENCES users(id),
-    eta TEXT NOT NULL,
-    stage INTEGER NOT NULL DEFAULT 0,
-    arrived_at TEXT
-);
-CREATE INDEX IF NOT EXISTS safety_pending ON safety_checks(arrived_at, stage);
 """
 
 
@@ -146,6 +124,9 @@ def migrate(conn: sqlite3.Connection) -> None:
     user_cols = {r["name"] for r in conn.execute("PRAGMA table_info(users)")}
     if "language" not in user_cols:  # v2
         conn.execute("ALTER TABLE users ADD COLUMN language TEXT NOT NULL DEFAULT 'en'")
+    trip_cols = {r["name"] for r in conn.execute("PRAGMA table_info(trips)")}
+    if "arrived_at" not in trip_cols:  # v3: arrival moved onto the trip; safety-check tables are no longer used
+        conn.execute("ALTER TABLE trips ADD COLUMN arrived_at TEXT")
 
 
 class tx:

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>{% block title %}Agla Station{% endblock %}</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚇</text></svg>">
+  <script src="https://unpkg.com/htmx.org@1.9.12" defer></script>
+  <style>
+    :root {
+      --bg: #fbf7f0; --card: #ffffff; --ink: #2b2d42; --muted: #8d8fa3; --line: #ece6dc;
+      --mint: #cdeac0; --peach: #ffd6a5; --lilac: #d7c8f3; --sky: #bde0fe; --pink: #ffc8dd; --ok: #3a7d44; --warn: #b5541c;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #17181f; --card: #21232c; --ink: #eceaf2; --muted: #9a9cb0; --line: #2f3140; --ok: #8fd19e; --warn: #f2a37a; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink);
+           font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    main { max-width: 460px; margin: 0 auto; padding: 28px 16px 40px; }
+    .eyebrow { color: var(--muted); font-size: 14px; letter-spacing: .02em; }
+    h1 { font-size: 28px; line-height: 1.2; margin: 4px 0 18px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 18px; margin-bottom: 14px; }
+    .note { color: var(--muted); font-size: 13px; text-align: center; margin-top: 18px; }
+  </style>
+</head>
+<body>
+  <main>{% block content %}{% endblock %}</main>
+</body>
+</html>

@@ -121,6 +121,12 @@ def stats_text(s: tools.Stats) -> str:
     ])
 
 
+# Persistent menu buttons (a reply keyboard): tapping one works like a command, no slashes to remember.
+BTN_STATS, BTN_MILES, BTN_BADGES = "📊 My stats", "✨ Miles", "🏅 Badges"
+BTN_WRAPPED, BTN_DASHBOARD, BTN_LANGUAGE = "🎁 Wrapped", "🗺️ Dashboard", "🌐 Language"
+MENU_ROWS = [[BTN_STATS, BTN_MILES, BTN_BADGES], [BTN_WRAPPED, BTN_DASHBOARD, BTN_LANGUAGE]]
+INPUT_HINT = "Where to? e.g. RC se Hauz Khas"
+
 LANGUAGE_PROMPT = "Which language should I reply in? / किस भाषा में जवाब दूँ?"
 LANGUAGE_SET = {
     "en": "Done! I'll reply in English. Change any time with /language.",
@@ -130,30 +136,30 @@ LANGUAGE_SET = {
 
 WELCOME = (
     "Namaste {name}! 🚇 I'm <b>Agla Station</b>, your Delhi NCR metro buddy.\n\n"
-    "Tell me where you're going in plain words:\n"
+    "Just type where you're going:\n"
     "• <i>rajiv chowk to hauz khas</i>\n"
     "• <i>RC se botanical garden, sasta wala</i>\n"
     "• <i>cyber hub to noida sec 18, kam change</i>\n\n"
     "I'll find the route and fare, send a UPI payment QR, and give you a (demo) ticket. "
-    "Try /help for everything else."
+    "Everything else is in the buttons below 👇"
 )
 
 HELP = (
     "<b>What I can do</b>\n"
-    "• Plan any trip on DMRC, Airport Express, Rapid Metro Gurugram and the Noida Aqua Line\n"
-    "• Fastest, fewest changes or cheapest route\n"
-    "• UPI payment link + demo QR ticket\n\n"
-    "<b>Commands</b>\n"
-    "/stats your trips · /badges · /miles · /wrapped monthly recap\n"
-    "/language English, Hinglish or हिंदी\n"
-    "/dashboard your map and insights · /safety arrival check · /trusted invite a contact\n\n"
+    "• Plan any trip on DMRC, Airport Express, Rapid Metro Gurugram and the Noida Aqua Line: just type it\n"
+    "• Fastest, fewest changes or cheapest (\"sasta\") route\n"
+    "• UPI payment link + demo QR ticket, with 📤 Share journey and ✅ I've reached\n\n"
+    "<b>Buttons below</b>\n"
+    "📊 your trips · ✨ Metro Miles and rewards · 🏅 badges\n"
+    "🎁 monthly Wrapped · 🗺️ map and insights · 🌐 English, Hinglish or हिंदी\n\n"
     + DEMO_NOTE
 )
 
-COMING_SOON = {
-    "dashboard": "🗺 Your dashboard is coming soon.",
-    "trusted": "🤝 Trusted contacts are coming soon.",
-    "safety": "🛟 The \"I've reached\" safety check is coming soon.",
+RETIRED = {  # commands that were replaced; still answered so old menus and habits don't hit silence
+    "safety": "The safety check is now simpler: tap ✅ I've reached on your ticket and send the message to "
+              "whoever's waiting. 📤 Share journey sends them a live link while you travel.",
+    "trusted": "No contacts to set up any more: tap ✅ I've reached on your ticket and pick who to tell.",
+    "demo_fast": "Not needed any more: there are no timed safety messages.",
 }
 
 

@@ -59,7 +59,7 @@ def plan() -> list[tuple[datetime, str, str]]:
 
 
 def reset(conn: sqlite3.Connection, user_id: int) -> None:
-    for table in ("miles_ledger", "vouchers", "badges", "visits", "safety_checks", "shares", "wrapped_recaps"):
+    for table in ("miles_ledger", "vouchers", "badges", "visits", "shares", "wrapped_recaps"):
         conn.execute(f"DELETE FROM {table} WHERE user_id = ?", (user_id,))
     conn.execute("DELETE FROM trips WHERE user_id = ?", (user_id,))
     conn.execute("DELETE FROM quotes WHERE user_id = ?", (user_id,))

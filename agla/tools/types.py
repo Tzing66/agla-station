@@ -111,8 +111,6 @@ class User(_Base):
     user_id: int
     telegram_id: int
     first_name: str
-    safety_on: bool
-    demo_fast: bool
     language: Language = "en"
 
 
@@ -153,7 +151,7 @@ class TripResult(_Base):
     trip: Trip
     ticket_png: bytes
     new_visits: list[str]  # station names visited for the first time on this trip
-    hook_results: dict  # post-trip hook name -> whatever it returned (miles, badges, safety...)
+    hook_results: dict  # post-trip hook name -> whatever it returned (miles, badges)
     already_logged: bool = False  # True when "I've paid" was pressed again for the same quote
 
 
