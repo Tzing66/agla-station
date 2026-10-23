@@ -14,6 +14,9 @@ __pycache__/
 # data / runtime
 data/raw/*.zip
 *.db
+*.db-wal
+*.db-shm
+*.db-journal
 *.sqlite3
 ledger/.session_cost.json
 

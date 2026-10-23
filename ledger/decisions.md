@@ -28,3 +28,7 @@
 ## [CHECKPOINT] 2026-10-23 17:59 IST — Phase 3: agla-mcp server
 
 - **Session cost:** n/a (status line does not run in VS Code) (session 456b20f1)
+
+## [CHECKPOINT] 2026-10-23 18:47 IST — Phase 4: Telegram bot (quotes, UPI link, demo tickets, stats, language choice)
+
+- **Session cost:** n/a (status line does not run in VS Code) (session 456b20f1)

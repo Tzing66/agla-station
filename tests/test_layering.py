@@ -7,7 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1] / "agla"
 FRONT_ENDS = [ROOT / "mcp_server.py", *ROOT.glob("bot/**/*.py"), *ROOT.glob("web/**/*.py")]
-ALLOWED = ("agla.tools", "agla.config")
+ALLOWED = ("agla.tools", "agla.config", "agla.llm", "agla.bot")  # llm sits beside the bot (architecture §1)
 
 
 def agla_imports(path: Path) -> list[str]:

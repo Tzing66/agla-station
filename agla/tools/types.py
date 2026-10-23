@@ -8,6 +8,8 @@ from typing import Literal
 State = Literal["Delhi", "Haryana", "UP"]
 Preference = Literal["fastest", "fewest_changes", "cheapest"]
 DayType = Literal["weekday", "sunday_holiday"]
+Language = Literal["en", "hinglish", "hi"]
+LANGUAGES: dict[str, str] = {"en": "English", "hinglish": "Hinglish", "hi": "हिंदी"}
 
 
 class ToolError(Exception):
@@ -92,3 +94,87 @@ class Fare(_Base):
     components: list[FareComponent]
     currency: str = "INR"
     note: str | None = None
+
+
+def route_from_dict(d: dict) -> Route:
+    return Route(
+        **{**d, "legs": [Leg(**leg) for leg in d["legs"]], "stops": [Stop(**s) for s in d["stops"]]}
+    )
+
+
+def fare_from_dict(d: dict) -> Fare:
+    return Fare(**{**d, "components": [FareComponent(**c) for c in d["components"]]})
+
+
+@dataclass(frozen=True)
+class User(_Base):
+    user_id: int
+    telegram_id: int
+    first_name: str
+    safety_on: bool
+    demo_fast: bool
+    language: Language = "en"
+
+
+@dataclass(frozen=True)
+class Quote(_Base):
+    quote_id: str
+    user_id: int
+    route: Route
+    fare: Fare
+    created_at: str
+    expires_at: str
+
+
+@dataclass(frozen=True)
+class PaymentLink(_Base):
+    upi_uri: str
+    qr_png: bytes
+    amount: int
+    payee_name: str
+    note: str
+
+
+@dataclass(frozen=True)
+class Trip(_Base):
+    """A logged trip, as stored. Post-trip hooks receive this."""
+
+    trip_id: int
+    user_id: int
+    ticket_id: str
+    route: Route
+    fare: Fare
+    depart_at: str
+    eta: str
+
+
+@dataclass(frozen=True)
+class TripResult(_Base):
+    trip: Trip
+    ticket_png: bytes
+    new_visits: list[str]  # station names visited for the first time on this trip
+    hook_results: dict  # post-trip hook name -> whatever it returned (miles, badges, safety...)
+    already_logged: bool = False  # True when "I've paid" was pressed again for the same quote
+
+
+@dataclass(frozen=True)
+class Visit(_Base):
+    station_id: str
+    name: str
+    state: State
+    first_visit: str
+    count: int
+
+
+@dataclass(frozen=True)
+class Stats(_Base):
+    trips: int
+    unique_stations: int
+    total_minutes: int
+    total_km: float
+    total_fare: int
+    favourite_line: str | None
+    top_stations: list[tuple[str, int]]  # (station name, visits), most visited first
+    states_visited: list[str]
+    first_trip_at: str | None
+    last_trip_at: str | None
