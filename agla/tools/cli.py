@@ -9,20 +9,11 @@ import argparse
 import sys
 from datetime import date
 
+from agla.config import today
 from agla.tools.fares import get_fare
 from agla.tools.routing import plan_route
-from agla.tools.stations import get_station, search_station
-from agla.tools.types import StationMatch, ToolError
-
-
-def pick(query: str) -> StationMatch:
-    matches = search_station(query)
-    if not matches:
-        raise ToolError(f"No station matches {query!r}.")
-    if len(matches) > 1 and matches[0].score - matches[1].score < 5:
-        options = ", ".join(f"{m.name} ({m.score:.0f})" for m in matches)
-        raise ToolError(f"{query!r} is ambiguous: {options}")
-    return matches[0]
+from agla.tools.stations import get_station, resolve_station
+from agla.tools.types import ToolError
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -32,10 +23,10 @@ def main(argv: list[str] | None = None) -> int:
     pref = p.add_mutually_exclusive_group()
     pref.add_argument("--fewest-changes", action="store_true")
     pref.add_argument("--cheapest", action="store_true")
-    p.add_argument("--date", type=date.fromisoformat, default=date.today())
+    p.add_argument("--date", type=date.fromisoformat, default=today())
     args = p.parse_args(argv)
     try:
-        a, b = pick(args.origin), pick(args.destination)
+        a, b = resolve_station(args.origin), resolve_station(args.destination)
         preference = "cheapest" if args.cheapest else "fewest_changes" if args.fewest_changes else "fastest"
         route = plan_route(a.station_id, b.station_id, preference, on=args.date)
         fare = get_fare(route, args.date)

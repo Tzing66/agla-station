@@ -131,7 +131,7 @@ Schema migration: `db.init(conn)` runs `CREATE TABLE IF NOT EXISTS`; a `schema_v
 - **LLM tools exposed to Claude**: `search_station`, `quote_trip`, `get_stats`, `get_badges`, `get_miles`, `list_rewards`. *Not exposed*: `log_trip`, `redeem_reward`, `confirm_arrival` (buttons only). Prompt caching on system prompt + tool defs; history in memory (`chat_data`), last 6 messages.
 - **Safety job**: one `JobQueue.run_repeating(20s)` → `due_safety_actions(conn, now)` → send ask/nudge/alert → `mark_safety_stage`. Offsets 0/+15/+25 min; `demo_fast` → 0/+15/+25 **seconds**.
 - **Web (`agla/web/`)**: `/s/{token}` public share page; `/app` Mini App; `/api/*` JSON (initData HMAC auth, `itsdangerous` magic-link fallback). Handlers call tools only.
-- **MCP (`agla/mcp_server.py`)**: stdio; network tools stateless; user tools take optional `telegram_id`, default = seeded demo user (local, single-user).
+- **MCP (`agla/mcp_server.py`)**: stdio, `mcp` SDK 2.x (`MCPServer`). Tools are prefixed `agla_` (`agla_search_station`, `agla_plan_route`, `agla_get_fare`, + user tools). Route/fare tools accept names or ids via `tools.resolve_station` (ambiguous → error listing candidates). User tools take optional `telegram_id`, default = seeded demo user.
 - **Entry point**: `python -m agla` → uvicorn serving FastAPI, PTB started/stopped in FastAPI lifespan (polling). One process, one SQLite writer.
 
 ## 6. Decisions behind this design (see `ledger/decisions.md`)

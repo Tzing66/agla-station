@@ -81,6 +81,23 @@ def search_station(query: str, limit: int = 3) -> list[StationMatch]:
     return sorted(best.values(), key=lambda m: (-m.score, m.name))[:limit]
 
 
+AMBIGUITY_MARGIN = 5.0  # top two scores closer than this -> ask the user
+
+
+def resolve_station(query: str) -> StationMatch:
+    """One station for an id or a messy name; ToolError (listing candidates) if unknown or ambiguous."""
+    if query in load_network().stations:
+        s = _station(query)
+        return StationMatch(query, s.name, 100.0, query, [load_network().lines[ln]["name"] for ln in s.lines])
+    matches = search_station(query)
+    if not matches:
+        raise ToolError(f"No station matches {query!r}. Try the station's name as shown on the metro map.")
+    if len(matches) > 1 and matches[0].score - matches[1].score < AMBIGUITY_MARGIN:
+        options = "; ".join(f"{m.name} [{m.station_id}]" for m in matches)
+        raise ToolError(f"{query!r} is ambiguous. Ask the user which one they mean: {options}")
+    return matches[0]
+
+
 def _score(query: str, choice: str, **_: object) -> float:
     if query == choice:
         return 100.0

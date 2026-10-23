@@ -24,3 +24,7 @@
 ## [CHECKPOINT] 2026-10-23 17:46 IST — Phase 2 follow-up: fare slab limitation documented, spot-check tests
 
 - **Session cost:** n/a (status line does not run in VS Code) (session 456b20f1)
+
+## [CHECKPOINT] 2026-10-23 17:59 IST — Phase 3: agla-mcp server
+
+- **Session cost:** n/a (status line does not run in VS Code) (session 456b20f1)

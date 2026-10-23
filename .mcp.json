@@ -2,7 +2,21 @@
   "mcpServers": {
     "playwright": {
       "command": "npx",
-      "args": ["-y", "@playwright/mcp@0.0.83"]
+      "args": [
+        "-y",
+        "@playwright/mcp@0.0.83"
+      ]
+    },
+    "agla": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "${CLAUDE_PROJECT_DIR:-.}",
+        "python",
+        "-m",
+        "agla.mcp_server"
+      ]
     }
   }
 }
