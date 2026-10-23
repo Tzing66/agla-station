@@ -1,0 +1,26 @@
+# MANUAL DATA. Noida Metro Aqua Line (NMRC), in line order.
+# cum_minutes, cum_km: official NMRC journey planner, cumulative from Noida Sector 51 (data/raw/nmrc/journey_planner_from_sector51.csv, fetched 2026-10-23).
+# lat, lon: OpenStreetMap (overpass-api.de, fetched 2026-10-23; data/raw/osm/). OSM calls Sector 50 "Rainbow Metro Station".
+# NMRC lists NSEZ and Sector 83 at the same cum_km (5.53); kept as published.
+order,code,name,lat,lon,cum_minutes,cum_km
+1,AQ01,Noida Sector 51,28.58572,77.37526,0,0
+2,AQ02,Noida Sector 50,28.57436,77.37823,2,1.27
+3,AQ03,Noida Sector 76,28.56533,77.37966,4,2.27
+4,AQ04,Noida Sector 101,28.55605,77.38495,6,3.43
+5,AQ05,Noida Sector 81,28.54930,77.38995,8,4.34
+6,AQ06,NSEZ,28.53240,77.39475,10,5.53
+7,AQ07,Noida Sector 83,28.52227,77.39645,12,5.53
+8,AQ08,Noida Sector 137,28.51077,77.40361,14,6.99
+9,AQ09,Noida Sector 142,28.49905,77.41277,16,8.67
+10,AQ10,Noida Sector 143,28.49426,77.42238,18,9.77
+11,AQ11,Noida Sector 144,28.48629,77.43308,20,11.16
+12,AQ12,Noida Sector 145,28.47900,77.44241,22,12.37
+13,AQ13,Noida Sector 146,28.46882,77.45521,24,14.10
+14,AQ14,Noida Sector 147,28.45935,77.46612,26,15.60
+15,AQ15,Noida Sector 148,28.44806,77.47660,28,17.22
+16,AQ16,Knowledge Park II,28.45700,77.50025,30,20.19
+17,AQ17,Pari Chowk,28.46316,77.50814,32,21.29
+18,AQ18,Alpha 1,28.47103,77.51274,34,22.41
+19,AQ19,Delta 1,28.47848,77.52573,36,23.93
+20,AQ20,GNIDA Office,28.48468,77.53650,38,25.20
+21,AQ21,Depot,28.48901,77.54401,40,26.06

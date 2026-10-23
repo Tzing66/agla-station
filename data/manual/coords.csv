@@ -1,0 +1,3 @@
+# MANUAL DATA. Coordinate overrides where the DMRC API is wrong.
+code,lat,lon,note
+KPEN,28.6477917,77.0843425,"DMRC API repeats Janakpuri West's coordinates; OpenStreetMap node 'Krishna Park Extension' (ref KPEN), fetched 2026-10-23"

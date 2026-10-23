@@ -32,14 +32,17 @@ Three deliberate deviations from plan.md, agreed with the human:
 
 ## 2. Network data (agla/network/)
 
-- `gtfs.py` — parse DMRC GTFS zip (stops, routes, trips, stop_times, fare_* if present).
-- `manual.py` — load `data/manual/*.csv` (Aqua Line, Rapid Metro, interchange walks, aliases), each row flagged `source=manual`.
-- `build.py` — `python -m agla.network.build` merges both into **`data/network.json`** (committed, so raw zips stay gitignored and deploys don't need GTFS).
-- `graph.py` — `Network` loaded from `network.json` once (`functools.cache`):
-  - nodes `(station_id, line_id)`; ride edges weight = minutes from stop_times; interchange edges (same station across lines, or walk links like Sector 51↔52) weight = `transfer_penalty` (default 6, walks use their own minutes).
+> **Changed in Phase 2:** the source is a snapshot of DMRC's official journey-planner API plus NMRC's planner, not GTFS (the OTD GTFS download is broken server-side). Provenance: `data/manual/README.md`.
+
+- `build.py` — `python -m agla.network.build` merges `data/raw/` snapshots and `data/manual/*.csv` into **`data/network.json`** and `data/fares/*.csv` (all committed; the app never calls external APIs at runtime).
+- `geo.py` — haversine distance.
+- `graph.py` — `Network` loaded from `network.json` once (`functools.cache`), as a `networkx.DiGraph`:
+  - nodes `(station_id, line_id)`; ride edges carry `minutes`, `km` and `fare_km`; the Rapid Metro loop edges are one-way.
+  - transfer edges between lines at a station: 6 min; same-family lines (Pink ↔ Pink ext.) 2 min and not counted as a change; walk edges (Sector 52 ↔ 51, Dhaula Kuan footbridge) use their own minutes.
   - virtual `("src", station_id)` / `("dst", station_id)` nodes at 0 cost so the start/end line choice isn't penalised.
-  - `fewest_changes` = minutes + 1000 × interchange edges.
-- IDs: `station_id` = snake slug (`rajiv_chowk`, `sector_52_noida`); `line_id` = `DMRC_YELLOW`, `RAPID`, `NMRC_AQUA` …
+  - `fewest_changes` = minutes + 1000 × (transfer + walk edges).
+- IDs: `station_id` = slug of the display name (`rajiv_chowk`, `noida_sector_52`); `line_id` = `DMRC_YELLOW`, `DMRC_AIRPORT`, `RAPID`, `NMRC_AQUA` …
+- Fares: `fares.yaml` per operator — DMRC distance slabs, Airport Express and Rapid Metro official per-pair tables, NMRC station-count slabs, Rapid Metro flat `through_fare` when changing at Sikanderpur. Cross-operator = sum of each operator's contiguous segment.
 
 ## 3. Tool layer interfaces (`agla/tools/`)
 
@@ -47,12 +50,13 @@ Types (`agla/tools/types.py`, frozen dataclasses, `to_dict()` for JSON/MCP/LLM):
 
 ```python
 Station(station_id, name, aliases: list[str], lat, lon, state: Literal["Delhi","Haryana","UP"], lines: list[str], operator)
-StationMatch(station_id, name, score: float, matched_on: str)
+StationMatch(station_id, name, score: float, matched_on: str, lines: list[str])
 Stop(station_id, name, line_id, cum_minutes: float, is_interchange: bool)
-Leg(line_id, line_name, operator, from_id, to_id, station_ids: list[str], minutes: float)
+Leg(line_id, line_name, operator, from_id, to_id, station_ids: list[str], minutes: float, start_minutes, end_minutes)  # line_id "WALK" for walks
 Route(from_id, to_id, preference, legs: list[Leg], stops: list[Stop], interchange_ids: list[str], minutes: int, distance_km: float)
 FareComponent(operator, from_id, to_id, amount: int, rule: str, source_url: str)
-Fare(total: int, currency="INR", day_type: Literal["weekday","sunday_holiday"], components: list[FareComponent], note: str|None)
+Fare(total: int, day_type: Literal["weekday","sunday_holiday"], components: list[FareComponent], currency="INR", note: str|None)
+ToolError(Exception)  # user-facing failure: unknown station, no route, missing fare
 Quote(quote_id: str, route: Route, fare: Fare, created_at, expires_at)
 PaymentLink(upi_uri: str, qr_png: bytes, amount: int, note: str)
 TripResult(trip_id, ticket_id, ticket_png: bytes, route, fare, eta, new_visits: list[str], miles: list[MilesAward], new_badges: list[BadgeStatus])
@@ -64,7 +68,7 @@ Functions (all numbers originate here):
 | Module | Function | Phase |
 | --- | --- | --- |
 | `stations.py` | `search_station(query, limit=3) -> list[StationMatch]` (rapidfuzz over names+aliases, Hinglish normalisation: strip "se/to/tak/metro/station", expand `sec`→`sector`) · `get_station(id) -> Station` · `list_stations() -> list[Station]` | 2 |
-| `routing.py` | `plan_route(from_id, to_id, preference="fastest") -> Route` | 2 |
+| `routing.py` | `plan_route(from_id, to_id, preference="fastest"|"fewest_changes"|"cheapest", on: date|None) -> Route` ("cheapest" prices fastest/fewest-changes candidates with and without Airport Express) | 2 |
 | `fares.py` | `get_fare(route, on: date) -> Fare` (rules from `data/fares.yaml`; cross-operator = sum of components) | 2 |
 | `quotes.py` | `quote_trip(conn, user_id, from_id, to_id, preference, now) -> Quote` (stores route+fare, 30-min expiry) · `get_quote(conn, quote_id)` | 4 |
 | `payments.py` | `make_payment_link(quote: Quote, settings) -> PaymentLink` (amount comes from the stored quote, never an argument) | 4 |

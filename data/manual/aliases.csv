@@ -1,0 +1,72 @@
+# MANUAL DATA. Extra names people actually type: abbreviations, old names, landmarks, Hinglish spellings.
+# "(earlier X)" names from the DMRC API are added automatically.
+code,alias
+RCK,rc
+RCK,cp
+RCK,connaught place
+HKS,hkv
+HKS,hauz khas village
+KG,kg
+KG,kashmiri gate
+KG,isbt kashmere gate
+NDI,new delhi railway station
+NDI,ndls
+GAT,cyber hub
+GAT,dlf cyber city
+BCGN,botanical
+CTST,central sec
+CTST,cs
+LLQA,red fort
+LLQA,lal qila
+QM,qutub minar
+QM,qutb minar
+HCC,huda city centre
+HCC,huda city center
+HCC,millennium city
+APOT,igi airport
+APOT,terminal 3
+APOT,t3
+IGDA,terminal 1
+IGDA,t1
+IICC,yashobhoomi
+IICC,iicc
+DSTO,dwarka 21
+NSET,noida 18
+NSET,sector 18
+NSET,mall of india
+GE,guru dronacharya
+SKRP,sikandarpur
+MGRO,mg road
+IFOC,iffco
+AIIMS,aims
+VW,north campus
+VW,du north campus
+DDSC,south campus
+SOEN,south ex
+GKEI,gk
+GKEI,gk 1
+NP,nehru place
+AVIT,anand vihar
+NIZM,nizamuddin
+NIZM,hazrat nizamuddin
+NIZM,sarai kale khan
+SAKT,select citywalk
+DACY,aerocity
+JLNS,nehru stadium
+PTMD,pragati maidan
+RG,rajouri
+NCC,city centre noida
+NECC,electronic city
+AQ16,knowledge park
+AQ16,kp 2
+AQ17,pari chowk
+AQ20,greater noida office
+MVP1,mayur vihar 1
+MVP1,mayur vihar phase 1
+INA,dilli haat
+INA,ina
+SVMB,moti bagh
+SFTN,sector 52
+AQ01,sector 51
+UDB,udyog bhawan
+PTP,pitampura

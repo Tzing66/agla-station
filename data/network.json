@@ -1,0 +1,6482 @@
+{
+ "meta": {
+  "built_at": "2026-10-23T11:50:23+00:00",
+  "sources": {
+   "dmrc_api": "https://backend.delhimetrorail.com/api/v2/en/ (stations, station_by_line, station_route), fetched 2026-10-23",
+   "nmrc_planner": "https://www.nmrcnoida.com/Passenger-Information/Journey-Planner-and-Fares, fetched 2026-10-23",
+   "osm": "OpenStreetMap via overpass-api.de (Aqua Line coordinates), fetched 2026-10-23",
+   "manual": "data/manual/*.csv"
+  },
+  "flagged_edges": [
+   "BURI-MKPR: estimated (planner gave 0.03333333333333333 min)",
+   "PHVR-PTP: estimated (planner gave 0.03333333333333333 min)"
+  ]
+ },
+ "lines": {
+  "DMRC_RED": {
+   "name": "Red Line",
+   "operator": "DMRC",
+   "fare_operator": "DMRC",
+   "family": "RED",
+   "colour": "#c0282c"
+  },
+  "DMRC_YELLOW": {
+   "name": "Yellow Line",
+   "operator": "DMRC",
+   "fare_operator": "DMRC",
+   "family": "YELLOW",
+   "colour": "#f6d71a"
+  },
+  "DMRC_BLUE": {
+   "name": "Blue Line",
+   "operator": "DMRC",
+   "fare_operator": "DMRC",
+   "family": "BLUE",
+   "colour": "#3b76c0"
+  },
+  "DMRC_BLUE_BRANCH": {
+   "name": "Blue Line (Vaishali branch)",
+   "operator": "DMRC",
+   "fare_operator": "DMRC",
+   "family": "BLUE",
+   "colour": "#3b76c0"
+  },
+  "DMRC_GREEN": {
+   "name": "Green Line",
+   "operator": "DMRC",
+   "fare_operator": "DMRC",
+   "family": "GREEN",
+   "colour": "#54ab55"
+  },
+  "DMRC_VIOLET": {
+   "name": "Violet Line",
+   "operator": "DMRC",
+   "fare_operator": "DMRC",
+   "family": "VIOLET",
+   "colour": "#8115ff"
+  },
+  "DMRC_PINK": {
+   "name": "Pink Line",
+   "operator": "DMRC",
+   "fare_operator": "DMRC",
+   "family": "PINK",
+   "colour": "#ed91c9"
+  },
+  "DMRC_PINK_EXT": {
+   "name": "Pink Line (extension)",
+   "operator": "DMRC",
+   "fare_operator": "DMRC",
+   "family": "PINK",
+   "colour": "#ed91c9"
+  },
+  "DMRC_MAGENTA": {
+   "name": "Magenta Line",
+   "operator": "DMRC",
+   "fare_operator": "DMRC",
+   "family": "MAGENTA",
+   "colour": "#f300f3"
+  },
+  "DMRC_MAGENTA_EXT": {
+   "name": "Magenta Line (extension)",
+   "operator": "DMRC",
+   "fare_operator": "DMRC",
+   "family": "MAGENTA",
+   "colour": "#f300f3"
+  },
+  "DMRC_GREY": {
+   "name": "Grey Line",
+   "operator": "DMRC",
+   "fare_operator": "DMRC",
+   "family": "GREY",
+   "colour": "#808080"
+  },
+  "DMRC_AIRPORT": {
+   "name": "Airport Express",
+   "operator": "DMRC",
+   "fare_operator": "DMRC_AIRPORT",
+   "family": "AIRPORT",
+   "colour": "#f46808"
+  },
+  "RAPID": {
+   "name": "Rapid Metro Gurugram",
+   "operator": "Rapid Metro",
+   "fare_operator": "RAPID",
+   "family": "RAPID",
+   "colour": "#015b97"
+  },
+  "NMRC_AQUA": {
+   "name": "Aqua Line",
+   "operator": "NMRC",
+   "fare_operator": "NMRC",
+   "family": "AQUA",
+   "colour": "#00b4d8"
+  }
+ },
+ "stations": {
+  "adarsh_nagar": {
+   "name": "Adarsh Nagar",
+   "code": "AHNR",
+   "lat": 28.7144,
+   "lon": 77.1669,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "aiims": {
+   "name": "AIIMS",
+   "code": "AIIMS",
+   "lat": 28.5668,
+   "lon": 77.2081,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [
+    "aims"
+   ],
+   "source": "dmrc_api"
+  },
+  "airport_t3": {
+   "name": "Airport (T3)",
+   "code": "APOT",
+   "lat": 28.5573141,
+   "lon": 77.0869171,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_AIRPORT"
+   ],
+   "aliases": [
+    "igi airport",
+    "terminal 3",
+    "t3"
+   ],
+   "source": "dmrc_api"
+  },
+  "akshardham": {
+   "name": "Akshardham",
+   "code": "ASDM",
+   "lat": 28.618,
+   "lon": 77.2794,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "alpha_1": {
+   "name": "Alpha 1",
+   "code": "AQ18",
+   "lat": 28.47103,
+   "lon": 77.51274,
+   "state": "UP",
+   "lines": [
+    "NMRC_AQUA"
+   ],
+   "aliases": [],
+   "source": "manual"
+  },
+  "anand_vihar_isbt": {
+   "name": "Anand Vihar ISBT",
+   "code": "AVIT",
+   "lat": 28.647,
+   "lon": 77.3159,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE_BRANCH",
+    "DMRC_PINK"
+   ],
+   "aliases": [
+    "anand vihar"
+   ],
+   "source": "dmrc_api"
+  },
+  "arjan_garh": {
+   "name": "Arjan Garh",
+   "code": "AJG",
+   "lat": 28.4809,
+   "lon": 77.1259,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "arthala": {
+   "name": "Arthala",
+   "code": "ATHA",
+   "lat": 28.6729,
+   "lon": 77.3917,
+   "state": "UP",
+   "lines": [
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "ashok_park_main": {
+   "name": "Ashok Park Main",
+   "code": "APMN",
+   "lat": 28.6715791,
+   "lon": 77.1552039,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_GREEN"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "ashram": {
+   "name": "Ashram",
+   "code": "AHRM",
+   "lat": 28.5727649,
+   "lon": 77.258494,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "azadpur": {
+   "name": "Azadpur",
+   "code": "AZU",
+   "lat": 28.707,
+   "lon": 77.1807,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW",
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "badarpur_border": {
+   "name": "Badarpur Border",
+   "code": "BAPB",
+   "lat": 28.49325,
+   "lon": 77.3007813,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "badkal_mor": {
+   "name": "Badkal Mor",
+   "code": "BKMR",
+   "lat": 28.4228115,
+   "lon": 77.3079462,
+   "state": "Haryana",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "bahadurgarh_city": {
+   "name": "Bahadurgarh City",
+   "code": "BUSS",
+   "lat": 28.6906885,
+   "lon": 76.9352146,
+   "state": "Haryana",
+   "lines": [
+    "DMRC_GREEN"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "barakhamba_road": {
+   "name": "Barakhamba Road",
+   "code": "BRKR",
+   "lat": 28.6299,
+   "lon": 77.2245,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "bata_chowk": {
+   "name": "Bata Chowk",
+   "code": "BACH",
+   "lat": 28.385109,
+   "lon": 77.3113603,
+   "state": "Haryana",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "belvedere_towers": {
+   "name": "Belvedere Towers",
+   "code": "BEL",
+   "lat": 28.4923,
+   "lon": 77.0884,
+   "state": "Haryana",
+   "lines": [
+    "RAPID"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "bhajanpura": {
+   "name": "Bhajanpura",
+   "code": "BJPU",
+   "lat": 28.703581,
+   "lon": 77.262331,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "bhalaswa": {
+   "name": "Bhalaswa",
+   "code": "BLSW",
+   "lat": 28.736927,
+   "lon": 77.167997,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA_EXT"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "bhikaji_cama_place": {
+   "name": "Bhikaji Cama Place",
+   "code": "BKCP",
+   "lat": 28.5703764,
+   "lon": 77.1843847,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "botanical_garden": {
+   "name": "Botanical Garden",
+   "code": "BCGN",
+   "lat": 28.564,
+   "lon": 77.3343,
+   "state": "UP",
+   "lines": [
+    "DMRC_BLUE",
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [
+    "botanical"
+   ],
+   "source": "dmrc_api"
+  },
+  "brig_hoshiar_singh": {
+   "name": "Brig. Hoshiar Singh",
+   "code": "CIPK",
+   "lat": 28.6973662,
+   "lon": 76.9187353,
+   "state": "Haryana",
+   "lines": [
+    "DMRC_GREEN"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "burari": {
+   "name": "Burari",
+   "code": "BURI",
+   "lat": 28.72976,
+   "lon": 77.19952,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "central_secretariat": {
+   "name": "Central Secretariat",
+   "code": "CTST",
+   "lat": 28.6152,
+   "lon": 77.2123,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW",
+    "DMRC_VIOLET"
+   ],
+   "aliases": [
+    "central sec",
+    "cs"
+   ],
+   "source": "dmrc_api"
+  },
+  "chandni_chowk": {
+   "name": "Chandni Chowk",
+   "code": "CHK",
+   "lat": 28.6588,
+   "lon": 77.2304,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "chawri_bazar": {
+   "name": "Chawri Bazar",
+   "code": "CWBR",
+   "lat": 28.6488,
+   "lon": 77.2263,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "chhatarpur": {
+   "name": "Chhatarpur",
+   "code": "CHTP",
+   "lat": 28.5068,
+   "lon": 77.175,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "chirag_delhi": {
+   "name": "Chirag Delhi",
+   "code": "CDLI",
+   "lat": 28.5410031,
+   "lon": 77.2304831,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "civil_lines": {
+   "name": "Civil Lines",
+   "code": "CL",
+   "lat": 28.6773,
+   "lon": 77.2248,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "cyber_city": {
+   "name": "Cyber City",
+   "code": "GAT",
+   "lat": 28.4977,
+   "lon": 77.0894,
+   "state": "Haryana",
+   "lines": [
+    "RAPID"
+   ],
+   "aliases": [
+    "cyber hub",
+    "dlf cyber city"
+   ],
+   "source": "dmrc_api"
+  },
+  "dabri_mor_janakpuri_south": {
+   "name": "Dabri Mor Janakpuri South",
+   "code": "DBMR",
+   "lat": 28.6155363,
+   "lon": 77.0825158,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "dashrathpuri": {
+   "name": "Dashrathpuri",
+   "code": "DSHP",
+   "lat": 28.6024422,
+   "lon": 77.0803213,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "deepali_chowk": {
+   "name": "Deepali Chowk",
+   "code": "DPCK",
+   "lat": 28.698002,
+   "lon": 77.118101,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA_EXT"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "delhi_aerocity": {
+   "name": "Delhi Aerocity",
+   "code": "DACY",
+   "lat": 28.548032,
+   "lon": 77.1182363,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_AIRPORT"
+   ],
+   "aliases": [
+    "aerocity"
+   ],
+   "source": "dmrc_api"
+  },
+  "delhi_cantt": {
+   "name": "Delhi Cantt.",
+   "code": "DLIC",
+   "lat": 28.6086915,
+   "lon": 77.1382338,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "delhi_gate": {
+   "name": "Delhi Gate",
+   "code": "DLIG",
+   "lat": 28.640061,
+   "lon": 77.2386843,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "delta_1": {
+   "name": "Delta 1",
+   "code": "AQ19",
+   "lat": 28.47848,
+   "lon": 77.52573,
+   "state": "UP",
+   "lines": [
+    "NMRC_AQUA"
+   ],
+   "aliases": [],
+   "source": "manual"
+  },
+  "depot": {
+   "name": "Depot",
+   "code": "AQ21",
+   "lat": 28.48901,
+   "lon": 77.54401,
+   "state": "UP",
+   "lines": [
+    "NMRC_AQUA"
+   ],
+   "aliases": [],
+   "source": "manual"
+  },
+  "dhansa_bus_stand": {
+   "name": "Dhansa Bus Stand",
+   "code": "DNBT",
+   "lat": 28.6118577,
+   "lon": 76.9754261,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_GREY"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "dhaula_kuan": {
+   "name": "Dhaula Kuan",
+   "code": "DKV",
+   "lat": 28.5921119,
+   "lon": 77.1615398,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_AIRPORT"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "dilli_haat_ina": {
+   "name": "Dilli Haat INA",
+   "code": "INA",
+   "lat": 28.5744,
+   "lon": 77.2096,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW",
+    "DMRC_PINK"
+   ],
+   "aliases": [
+    "dilli haat",
+    "ina"
+   ],
+   "source": "dmrc_api"
+  },
+  "dilshad_garden": {
+   "name": "Dilshad Garden",
+   "code": "DSG",
+   "lat": 28.6759,
+   "lon": 77.3215,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "dr_baba_saheb_ambedkar_hospital": {
+   "name": "Dr. Baba Saheb Ambedkar Hospital",
+   "code": "RHW",
+   "lat": 28.7149,
+   "lon": 77.1155,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "durgabai_deshmukh_south_campus": {
+   "name": "Durgabai Deshmukh South Campus",
+   "code": "DDSC",
+   "lat": 28.58938,
+   "lon": 77.1673313,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [
+    "south campus"
+   ],
+   "source": "dmrc_api"
+  },
+  "dwarka_kakrola": {
+   "name": "Dwarka-Kakrola",
+   "code": "DW",
+   "lat": 28.6149,
+   "lon": 77.0227,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_GREY",
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "dwarka_mor": {
+   "name": "Dwarka Mor",
+   "code": "DM",
+   "lat": 28.6218,
+   "lon": 77.0411,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "dwarka_sector_10": {
+   "name": "Dwarka Sector 10",
+   "code": "DST",
+   "lat": 28.5811,
+   "lon": 77.0575,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "dwarka_sector_11": {
+   "name": "Dwarka Sector 11",
+   "code": "DSE",
+   "lat": 28.5864,
+   "lon": 77.0497,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "dwarka_sector_12": {
+   "name": "Dwarka Sector 12",
+   "code": "DSW",
+   "lat": 28.5955,
+   "lon": 77.0417,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "dwarka_sector_13": {
+   "name": "Dwarka Sector 13",
+   "code": "DSTN",
+   "lat": 28.5972,
+   "lon": 77.0333,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "dwarka_sector_14": {
+   "name": "Dwarka Sector 14",
+   "code": "DSFN",
+   "lat": 28.6022,
+   "lon": 77.0259,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "dwarka_sector_21": {
+   "name": "Dwarka Sector 21",
+   "code": "DSTO",
+   "lat": 28.5522,
+   "lon": 77.0583,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE",
+    "DMRC_AIRPORT"
+   ],
+   "aliases": [
+    "dwarka 21"
+   ],
+   "source": "dmrc_api"
+  },
+  "dwarka_sector_8": {
+   "name": "Dwarka Sector 8",
+   "code": "DSET",
+   "lat": 28.5657,
+   "lon": 77.0671,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "dwarka_sector_9": {
+   "name": "Dwarka Sector 9",
+   "code": "DSN",
+   "lat": 28.5743,
+   "lon": 77.0653,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "east_azad_nagar": {
+   "name": "East Azad Nagar",
+   "code": "EANR",
+   "lat": 28.66479,
+   "lon": 77.2826113,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "east_vinod_nagar_mayur_vihar_ii": {
+   "name": "East Vinod Nagar - Mayur Vihar II",
+   "code": "VENT",
+   "lat": 28.620363,
+   "lon": 77.3023292,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "escorts_mujesar": {
+   "name": "Escorts Mujesar",
+   "code": "ECMJ",
+   "lat": 28.37016,
+   "lon": 77.31494,
+   "state": "Haryana",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "esi_basaidarapur": {
+   "name": "ESI-Basaidarapur",
+   "code": "ESIH",
+   "lat": 28.6582712,
+   "lon": 77.1252019,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "ghevra": {
+   "name": "Ghevra",
+   "code": "GHEM",
+   "lat": 28.6853835,
+   "lon": 76.9949917,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_GREEN"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "ghitorni": {
+   "name": "Ghitorni",
+   "code": "GTNI",
+   "lat": 28.4938,
+   "lon": 77.1492,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "gnida_office": {
+   "name": "GNIDA Office",
+   "code": "AQ20",
+   "lat": 28.48468,
+   "lon": 77.5365,
+   "state": "UP",
+   "lines": [
+    "NMRC_AQUA"
+   ],
+   "aliases": [
+    "greater noida office"
+   ],
+   "source": "manual"
+  },
+  "gokulpuri": {
+   "name": "Gokulpuri",
+   "code": "GKPR",
+   "lat": 28.7025224,
+   "lon": 77.2861548,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK_EXT"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "golf_course": {
+   "name": "Golf Course",
+   "code": "GEC",
+   "lat": 28.5672,
+   "lon": 77.346,
+   "state": "UP",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "govind_puri": {
+   "name": "Govind Puri",
+   "code": "GDPI",
+   "lat": 28.5446117,
+   "lon": 77.261992,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "greater_kailash": {
+   "name": "Greater Kailash",
+   "code": "GKEI",
+   "lat": 28.5430994,
+   "lon": 77.2410711,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [
+    "gk",
+    "gk 1"
+   ],
+   "source": "dmrc_api"
+  },
+  "green_park": {
+   "name": "Green Park",
+   "code": "GNPK",
+   "lat": 28.5598,
+   "lon": 77.2068,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "guru_dronacharya": {
+   "name": "Guru Dronacharya",
+   "code": "GE",
+   "lat": 28.4819,
+   "lon": 77.1023,
+   "state": "Haryana",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [
+    "guru dronacharya"
+   ],
+   "source": "dmrc_api"
+  },
+  "guru_teg_bahadur_nagar": {
+   "name": "Guru Teg Bahadur Nagar",
+   "code": "GTBR",
+   "lat": 28.6984,
+   "lon": 77.2059,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "haiderpur_badli_mor": {
+   "name": "Haiderpur Badli Mor",
+   "code": "BIMR",
+   "lat": 28.7299849889464,
+   "lon": 77.1491824510158,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW",
+    "DMRC_MAGENTA_EXT"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "harkesh_nagar_okhla": {
+   "name": "Harkesh Nagar Okhla",
+   "code": "HNOK",
+   "lat": 28.5429658,
+   "lon": 77.273094,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "hauz_khas": {
+   "name": "Hauz Khas",
+   "code": "HKS",
+   "lat": 28.544,
+   "lon": 77.2062,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW",
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [
+    "hkv",
+    "hauz khas village"
+   ],
+   "source": "dmrc_api"
+  },
+  "hindon_river": {
+   "name": "Hindon River",
+   "code": "HDNR",
+   "lat": 28.6734,
+   "lon": 77.4065,
+   "state": "UP",
+   "lines": [
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "i_p_extension": {
+   "name": "I.P. Extension",
+   "code": "IPE",
+   "lat": 28.6319356,
+   "lon": 77.3085679,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "iffco_chowk": {
+   "name": "Iffco Chowk",
+   "code": "IFOC",
+   "lat": 28.4722,
+   "lon": 77.0724,
+   "state": "Haryana",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [
+    "iffco"
+   ],
+   "source": "dmrc_api"
+  },
+  "iit": {
+   "name": "IIT",
+   "code": "IIT",
+   "lat": 28.547199,
+   "lon": 77.1916283,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "inderlok": {
+   "name": "Inderlok",
+   "code": "ILOK",
+   "lat": 28.6736,
+   "lon": 77.1703,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_GREEN",
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "indraprastha": {
+   "name": "Indraprastha",
+   "code": "IDPT",
+   "lat": 28.6206,
+   "lon": 77.25,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "ito": {
+   "name": "ITO",
+   "code": "ITO",
+   "lat": 28.6278305,
+   "lon": 77.240214,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "jafrabad": {
+   "name": "Jafrabad",
+   "code": "JFRB",
+   "lat": 28.6827585,
+   "lon": 77.2725587,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "jagatpur_wazirabad": {
+   "name": "Jagatpur-Wazirabad",
+   "code": "JPVE",
+   "lat": 28.721209,
+   "lon": 77.223913,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "jahangirpuri": {
+   "name": "Jahangirpuri",
+   "code": "JGPI",
+   "lat": 28.7296,
+   "lon": 77.1666,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "jama_masjid": {
+   "name": "Jama Masjid",
+   "code": "JAMD",
+   "lat": 28.6504603,
+   "lon": 77.2362374,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "jamia_millia_islamia": {
+   "name": "Jamia Millia Islamia",
+   "code": "JANR",
+   "lat": 28.5627144,
+   "lon": 77.2857862,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "janakpuri_east": {
+   "name": "Janakpuri East",
+   "code": "JPE",
+   "lat": 28.6328,
+   "lon": 77.0862,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "janakpuri_west": {
+   "name": "Janakpuri West",
+   "code": "JPW",
+   "lat": 28.6295,
+   "lon": 77.0778,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE",
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "jangpura": {
+   "name": "Jangpura",
+   "code": "JGPA",
+   "lat": 28.583698,
+   "lon": 77.2362473,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "janpath": {
+   "name": "Janpath",
+   "code": "JNPH",
+   "lat": 28.625061,
+   "lon": 77.2169953,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "jasola_apollo": {
+   "name": "Jasola-Apollo",
+   "code": "JLA",
+   "lat": 28.5382066,
+   "lon": 77.2811108,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "jasola_vihar_shaheen_bagh": {
+   "name": "Jasola Vihar Shaheen Bagh",
+   "code": "JLA8",
+   "lat": 28.5462285,
+   "lon": 77.2943212,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "jhandewalan": {
+   "name": "Jhandewalan",
+   "code": "JW",
+   "lat": 28.6443,
+   "lon": 77.1999,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "jharoda_majra": {
+   "name": "Jharoda Majra",
+   "code": "JRMR",
+   "lat": 28.72501,
+   "lon": 77.2159,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "jhilmil": {
+   "name": "Jhilmil",
+   "code": "JLML",
+   "lat": 28.6758,
+   "lon": 77.3124,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "jln_stadium": {
+   "name": "JLN Stadium",
+   "code": "JLNS",
+   "lat": 28.587146,
+   "lon": 77.2310163,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [
+    "nehru stadium"
+   ],
+   "source": "dmrc_api"
+  },
+  "johri_enclave": {
+   "name": "Johri Enclave",
+   "code": "JIEE",
+   "lat": 28.714627,
+   "lon": 77.2866533,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK_EXT"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "jor_bagh": {
+   "name": "Jor Bagh",
+   "code": "JB",
+   "lat": 28.5859,
+   "lon": 77.2125,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "kailash_colony": {
+   "name": "Kailash Colony",
+   "code": "KHCY",
+   "lat": 28.55554,
+   "lon": 77.2394585,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "kalindi_kunj": {
+   "name": "Kalindi Kunj",
+   "code": "KIKJ",
+   "lat": 28.543,
+   "lon": 77.30968,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "kalkaji_mandir": {
+   "name": "Kalkaji Mandir",
+   "code": "KJMD",
+   "lat": 28.54945,
+   "lon": 77.2570313,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_VIOLET",
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "kanhaiya_nagar": {
+   "name": "Kanhaiya Nagar",
+   "code": "KN",
+   "lat": 28.6824,
+   "lon": 77.1648,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "karkarduma": {
+   "name": "Karkarduma",
+   "code": "KKDA",
+   "lat": 28.6485,
+   "lon": 77.3056,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE_BRANCH",
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "karkarduma_court": {
+   "name": "Karkarduma Court",
+   "code": "KKDC",
+   "lat": 28.6450398,
+   "lon": 77.3042615,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "karol_bagh": {
+   "name": "Karol Bagh",
+   "code": "KB",
+   "lat": 28.644,
+   "lon": 77.1885,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "kashmere_gate": {
+   "name": "Kashmere Gate",
+   "code": "KG",
+   "lat": 28.6675,
+   "lon": 77.2282,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW",
+    "DMRC_RED",
+    "DMRC_VIOLET"
+   ],
+   "aliases": [
+    "kg",
+    "kashmiri gate",
+    "isbt kashmere gate"
+   ],
+   "source": "dmrc_api"
+  },
+  "kaushambi": {
+   "name": "Kaushambi",
+   "code": "KSHI",
+   "lat": 28.6455,
+   "lon": 77.3244,
+   "state": "UP",
+   "lines": [
+    "DMRC_BLUE_BRANCH"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "keshav_puram": {
+   "name": "Keshav Puram",
+   "code": "KP",
+   "lat": 28.6876,
+   "lon": 77.1625,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "khajuri_khas": {
+   "name": "Khajuri Khas",
+   "code": "KJKS",
+   "lat": 28.70521,
+   "lon": 77.25447,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "khan_market": {
+   "name": "Khan Market",
+   "code": "KM",
+   "lat": 28.6009531,
+   "lon": 77.2252085,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "kirti_nagar": {
+   "name": "Kirti Nagar",
+   "code": "KNR",
+   "lat": 28.6557,
+   "lon": 77.1508,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE",
+    "DMRC_GREEN"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "knowledge_park_ii": {
+   "name": "Knowledge Park II",
+   "code": "AQ16",
+   "lat": 28.457,
+   "lon": 77.50025,
+   "state": "UP",
+   "lines": [
+    "NMRC_AQUA"
+   ],
+   "aliases": [
+    "knowledge park",
+    "kp 2"
+   ],
+   "source": "manual"
+  },
+  "kohat_enclave": {
+   "name": "Kohat Enclave",
+   "code": "KE",
+   "lat": 28.698,
+   "lon": 77.1405,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "krishna_nagar": {
+   "name": "Krishna Nagar",
+   "code": "KHNA",
+   "lat": 28.6575316,
+   "lon": 77.2885172,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "krishna_park_extension": {
+   "name": "Krishna Park Extension",
+   "code": "KPEN",
+   "lat": 28.6477917,
+   "lon": 77.0843425,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [],
+   "source": "dmrc_api + manual coords"
+  },
+  "lajpat_nagar": {
+   "name": "Lajpat Nagar",
+   "code": "LJPN",
+   "lat": 28.5706249,
+   "lon": 77.2342561,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_VIOLET",
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "lal_quila": {
+   "name": "Lal Quila",
+   "code": "LLQA",
+   "lat": 28.6577564,
+   "lon": 77.2347368,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [
+    "red fort",
+    "lal qila"
+   ],
+   "source": "dmrc_api"
+  },
+  "laxmi_nagar": {
+   "name": "Laxmi Nagar",
+   "code": "LN",
+   "lat": 28.6305,
+   "lon": 77.2773,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE_BRANCH"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "lok_kalyan_marg": {
+   "name": "Lok Kalyan Marg",
+   "code": "LKM",
+   "lat": 28.5977,
+   "lon": 77.2112,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "m_g_road": {
+   "name": "M.G. Road",
+   "code": "MGRO",
+   "lat": 28.4796,
+   "lon": 77.0801,
+   "state": "Haryana",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [
+    "mg road"
+   ],
+   "source": "dmrc_api"
+  },
+  "madhuban_chowk": {
+   "name": "Madhuban Chowk",
+   "code": "PTP",
+   "lat": 28.7031,
+   "lon": 77.1325,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_RED",
+    "DMRC_MAGENTA_EXT"
+   ],
+   "aliases": [
+    "Pitampura",
+    "pitampura"
+   ],
+   "source": "dmrc_api"
+  },
+  "madipur": {
+   "name": "Madipur",
+   "code": "MAPR",
+   "lat": 28.67634,
+   "lon": 77.1175513,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_GREEN"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "maharaja_surajmal_stadium": {
+   "name": "Maharaja Surajmal Stadium",
+   "code": "SMSM",
+   "lat": 28.68182,
+   "lon": 77.0717713,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_GREEN"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "majlis_park": {
+   "name": "Majlis Park",
+   "code": "MKPR",
+   "lat": 28.724167,
+   "lon": 77.1805273,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK",
+    "DMRC_MAGENTA_EXT"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "major_mohit_sharma_rajendra_nagar": {
+   "name": "Major Mohit Sharma Rajendra Nagar",
+   "code": "RJNM",
+   "lat": 28.6776,
+   "lon": 77.3581,
+   "state": "UP",
+   "lines": [
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "malviya_nagar": {
+   "name": "Malviya Nagar",
+   "code": "MVNR",
+   "lat": 28.529,
+   "lon": 77.205,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "mandawali_west_vinod_nagar": {
+   "name": "Mandawali - West Vinod Nagar",
+   "code": "VNNR",
+   "lat": 28.624877,
+   "lon": 77.3021833,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "mandi_house": {
+   "name": "Mandi House",
+   "code": "MDHS",
+   "lat": 28.6259,
+   "lon": 77.2343,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE",
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "mansarovar_park": {
+   "name": "Mansarovar Park",
+   "code": "MPK",
+   "lat": 28.6756,
+   "lon": 77.3001,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "maujpur_babarpur": {
+   "name": "Maujpur-Babarpur",
+   "code": "MUPR",
+   "lat": 28.6921031,
+   "lon": 77.2774233,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK",
+    "DMRC_PINK_EXT"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "mayapuri": {
+   "name": "Mayapuri",
+   "code": "MYPI",
+   "lat": 28.637099,
+   "lon": 77.1275523,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "mayur_vihar_extension": {
+   "name": "Mayur Vihar Extension",
+   "code": "MVE",
+   "lat": 28.5928,
+   "lon": 77.2947,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "mayur_vihar_i": {
+   "name": "Mayur Vihar I",
+   "code": "MVP1",
+   "lat": 28.6042,
+   "lon": 77.2896,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE",
+    "DMRC_PINK"
+   ],
+   "aliases": [
+    "mayur vihar 1",
+    "mayur vihar phase 1"
+   ],
+   "source": "dmrc_api"
+  },
+  "mewala_maharajpur": {
+   "name": "Mewala Maharajpur",
+   "code": "MMJR",
+   "lat": 28.4484907,
+   "lon": 77.3054333,
+   "state": "Haryana",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "millennium_city_centre_gurugram": {
+   "name": "Millennium City Centre Gurugram",
+   "code": "HCC",
+   "lat": 28.4592,
+   "lon": 77.0725,
+   "state": "Haryana",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [
+    "huda city centre",
+    "huda city center",
+    "millennium city"
+   ],
+   "source": "dmrc_api"
+  },
+  "model_town": {
+   "name": "Model Town",
+   "code": "MDTW",
+   "lat": 28.7029,
+   "lon": 77.1937,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "mohan_estate": {
+   "name": "Mohan Estate",
+   "code": "METE",
+   "lat": 28.514454,
+   "lon": 77.2902056,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "mohan_nagar": {
+   "name": "Mohan Nagar",
+   "code": "MNGM",
+   "lat": 28.6785,
+   "lon": 77.3839,
+   "state": "UP",
+   "lines": [
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "moolchand": {
+   "name": "Moolchand",
+   "code": "MLCD",
+   "lat": 28.5647817,
+   "lon": 77.2309781,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "moti_nagar": {
+   "name": "Moti Nagar",
+   "code": "MN",
+   "lat": 28.6579,
+   "lon": 77.1427,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "moulsari_avenue": {
+   "name": "Moulsari Avenue",
+   "code": "MAL",
+   "lat": 28.4997,
+   "lon": 77.0939,
+   "state": "Haryana",
+   "lines": [
+    "RAPID"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "mundka": {
+   "name": "Mundka",
+   "code": "MUDK",
+   "lat": 28.68239,
+   "lon": 77.0281513,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_GREEN"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "mundka_industrial_area": {
+   "name": "Mundka Industrial Area",
+   "code": "MIAA",
+   "lat": 28.6822749,
+   "lon": 77.0146522,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_GREEN"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "munirka": {
+   "name": "Munirka",
+   "code": "MIRK",
+   "lat": 28.5567549,
+   "lon": 77.1719806,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "najafgarh": {
+   "name": "Najafgarh",
+   "code": "NFGH",
+   "lat": 28.6126772,
+   "lon": 76.984354,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_GREY"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "nangli": {
+   "name": "Nangli",
+   "code": "NNGI",
+   "lat": 28.6174019,
+   "lon": 77.0083739,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_GREY"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "nangloi": {
+   "name": "Nangloi",
+   "code": "NNOI",
+   "lat": 28.681984,
+   "lon": 77.0616903,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_GREEN"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "nangloi_railway_station": {
+   "name": "Nangloi Railway Station",
+   "code": "NRSN",
+   "lat": 28.682133,
+   "lon": 77.0540313,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_GREEN"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "naraina_vihar": {
+   "name": "Naraina Vihar",
+   "code": "NAVR",
+   "lat": 28.624125,
+   "lon": 77.1342993,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "nawada": {
+   "name": "Nawada",
+   "code": "NWD",
+   "lat": 28.6202,
+   "lon": 77.045,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "neelam_chowk_ajronda": {
+   "name": "Neelam Chowk Ajronda",
+   "code": "NCAJ",
+   "lat": 28.3976537,
+   "lon": 77.3101607,
+   "state": "Haryana",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "nehru_enclave": {
+   "name": "Nehru Enclave",
+   "code": "NUEE",
+   "lat": 28.5458514,
+   "lon": 77.251167,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "nehru_place": {
+   "name": "Nehru Place",
+   "code": "NP",
+   "lat": 28.5514171,
+   "lon": 77.2506607,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [
+    "nehru place"
+   ],
+   "source": "dmrc_api"
+  },
+  "netaji_subhash_place": {
+   "name": "Netaji Subhash Place",
+   "code": "NSHP",
+   "lat": 28.696,
+   "lon": 77.1526,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_RED",
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "new_ashok_nagar": {
+   "name": "New Ashok Nagar",
+   "code": "NAGR",
+   "lat": 28.5892,
+   "lon": 77.3021,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "new_delhi": {
+   "name": "New Delhi",
+   "code": "NDI",
+   "lat": 28.6427,
+   "lon": 77.2199,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW",
+    "DMRC_AIRPORT"
+   ],
+   "aliases": [
+    "new delhi railway station",
+    "ndls"
+   ],
+   "source": "dmrc_api"
+  },
+  "nhpc_chowk": {
+   "name": "NHPC Chowk",
+   "code": "NHPC",
+   "lat": 28.4576694,
+   "lon": 77.3047513,
+   "state": "Haryana",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "nirman_vihar": {
+   "name": "Nirman Vihar",
+   "code": "NV",
+   "lat": 28.6366,
+   "lon": 77.2868,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE_BRANCH"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "noida_city_centre": {
+   "name": "Noida City Centre",
+   "code": "NCC",
+   "lat": 28.5747,
+   "lon": 77.356,
+   "state": "UP",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [
+    "city centre noida"
+   ],
+   "source": "dmrc_api"
+  },
+  "noida_electronic_city": {
+   "name": "Noida Electronic City",
+   "code": "NECC",
+   "lat": 28.6279,
+   "lon": 77.3749,
+   "state": "UP",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [
+    "electronic city"
+   ],
+   "source": "dmrc_api"
+  },
+  "noida_sector_101": {
+   "name": "Noida Sector 101",
+   "code": "AQ04",
+   "lat": 28.55605,
+   "lon": 77.38495,
+   "state": "UP",
+   "lines": [
+    "NMRC_AQUA"
+   ],
+   "aliases": [],
+   "source": "manual"
+  },
+  "noida_sector_137": {
+   "name": "Noida Sector 137",
+   "code": "AQ08",
+   "lat": 28.51077,
+   "lon": 77.40361,
+   "state": "UP",
+   "lines": [
+    "NMRC_AQUA"
+   ],
+   "aliases": [],
+   "source": "manual"
+  },
+  "noida_sector_142": {
+   "name": "Noida Sector 142",
+   "code": "AQ09",
+   "lat": 28.49905,
+   "lon": 77.41277,
+   "state": "UP",
+   "lines": [
+    "NMRC_AQUA"
+   ],
+   "aliases": [],
+   "source": "manual"
+  },
+  "noida_sector_143": {
+   "name": "Noida Sector 143",
+   "code": "AQ10",
+   "lat": 28.49426,
+   "lon": 77.42238,
+   "state": "UP",
+   "lines": [
+    "NMRC_AQUA"
+   ],
+   "aliases": [],
+   "source": "manual"
+  },
+  "noida_sector_144": {
+   "name": "Noida Sector 144",
+   "code": "AQ11",
+   "lat": 28.48629,
+   "lon": 77.43308,
+   "state": "UP",
+   "lines": [
+    "NMRC_AQUA"
+   ],
+   "aliases": [],
+   "source": "manual"
+  },
+  "noida_sector_145": {
+   "name": "Noida Sector 145",
+   "code": "AQ12",
+   "lat": 28.479,
+   "lon": 77.44241,
+   "state": "UP",
+   "lines": [
+    "NMRC_AQUA"
+   ],
+   "aliases": [],
+   "source": "manual"
+  },
+  "noida_sector_146": {
+   "name": "Noida Sector 146",
+   "code": "AQ13",
+   "lat": 28.46882,
+   "lon": 77.45521,
+   "state": "UP",
+   "lines": [
+    "NMRC_AQUA"
+   ],
+   "aliases": [],
+   "source": "manual"
+  },
+  "noida_sector_147": {
+   "name": "Noida Sector 147",
+   "code": "AQ14",
+   "lat": 28.45935,
+   "lon": 77.46612,
+   "state": "UP",
+   "lines": [
+    "NMRC_AQUA"
+   ],
+   "aliases": [],
+   "source": "manual"
+  },
+  "noida_sector_148": {
+   "name": "Noida Sector 148",
+   "code": "AQ15",
+   "lat": 28.44806,
+   "lon": 77.4766,
+   "state": "UP",
+   "lines": [
+    "NMRC_AQUA"
+   ],
+   "aliases": [],
+   "source": "manual"
+  },
+  "noida_sector_15": {
+   "name": "Noida Sector 15",
+   "code": "NSFT",
+   "lat": 28.5851,
+   "lon": 77.3116,
+   "state": "UP",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "noida_sector_16": {
+   "name": "Noida Sector 16",
+   "code": "NSST",
+   "lat": 28.5787,
+   "lon": 77.3174,
+   "state": "UP",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "noida_sector_18": {
+   "name": "Noida Sector 18",
+   "code": "NSET",
+   "lat": 28.5708,
+   "lon": 77.3262,
+   "state": "UP",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [
+    "noida 18",
+    "sector 18",
+    "mall of india"
+   ],
+   "source": "dmrc_api"
+  },
+  "noida_sector_34": {
+   "name": "Noida Sector 34",
+   "code": "STFN",
+   "lat": 28.5801,
+   "lon": 77.3635,
+   "state": "UP",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "noida_sector_50": {
+   "name": "Noida Sector 50",
+   "code": "AQ02",
+   "lat": 28.57436,
+   "lon": 77.37823,
+   "state": "UP",
+   "lines": [
+    "NMRC_AQUA"
+   ],
+   "aliases": [],
+   "source": "manual"
+  },
+  "noida_sector_51": {
+   "name": "Noida Sector 51",
+   "code": "AQ01",
+   "lat": 28.58572,
+   "lon": 77.37526,
+   "state": "UP",
+   "lines": [
+    "NMRC_AQUA"
+   ],
+   "aliases": [
+    "sector 51"
+   ],
+   "source": "manual"
+  },
+  "noida_sector_52": {
+   "name": "Noida Sector 52",
+   "code": "SFTN",
+   "lat": 28.5867,
+   "lon": 77.3728,
+   "state": "UP",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [
+    "sector 52"
+   ],
+   "source": "dmrc_api"
+  },
+  "noida_sector_59": {
+   "name": "Noida Sector 59",
+   "code": "SFNN",
+   "lat": 28.6064,
+   "lon": 77.3731,
+   "state": "UP",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "noida_sector_61": {
+   "name": "Noida Sector 61",
+   "code": "SSON",
+   "lat": 28.5976,
+   "lon": 77.3701,
+   "state": "UP",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "noida_sector_62": {
+   "name": "Noida Sector 62",
+   "code": "SSTN",
+   "lat": 28.617,
+   "lon": 77.3736,
+   "state": "UP",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "noida_sector_76": {
+   "name": "Noida Sector 76",
+   "code": "AQ03",
+   "lat": 28.56533,
+   "lon": 77.37966,
+   "state": "UP",
+   "lines": [
+    "NMRC_AQUA"
+   ],
+   "aliases": [],
+   "source": "manual"
+  },
+  "noida_sector_81": {
+   "name": "Noida Sector 81",
+   "code": "AQ05",
+   "lat": 28.5493,
+   "lon": 77.38995,
+   "state": "UP",
+   "lines": [
+    "NMRC_AQUA"
+   ],
+   "aliases": [],
+   "source": "manual"
+  },
+  "noida_sector_83": {
+   "name": "Noida Sector 83",
+   "code": "AQ07",
+   "lat": 28.52227,
+   "lon": 77.39645,
+   "state": "UP",
+   "lines": [
+    "NMRC_AQUA"
+   ],
+   "aliases": [],
+   "source": "manual"
+  },
+  "north_pitampura": {
+   "name": "North Pitampura",
+   "code": "NPPR",
+   "lat": 28.723761,
+   "lon": 77.143663,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA_EXT"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "nsez": {
+   "name": "NSEZ",
+   "code": "AQ06",
+   "lat": 28.5324,
+   "lon": 77.39475,
+   "state": "UP",
+   "lines": [
+    "NMRC_AQUA"
+   ],
+   "aliases": [],
+   "source": "manual"
+  },
+  "okhla_bird_sanctuary": {
+   "name": "Okhla Bird Sanctuary",
+   "code": "OKBS",
+   "lat": 28.5530441,
+   "lon": 77.3201621,
+   "state": "UP",
+   "lines": [
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "okhla_nsic": {
+   "name": "Okhla NSIC",
+   "code": "OKNS",
+   "lat": 28.5544365,
+   "lon": 77.2648578,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "okhla_vihar": {
+   "name": "Okhla Vihar",
+   "code": "OVA",
+   "lat": 28.5614626,
+   "lon": 77.2919823,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "old_faridabad": {
+   "name": "Old Faridabad",
+   "code": "OFDB",
+   "lat": 28.4102041,
+   "lon": 77.3086392,
+   "state": "Haryana",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "palam": {
+   "name": "Palam",
+   "code": "PALM",
+   "lat": 28.5889555,
+   "lon": 77.0806434,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "panchsheel_park": {
+   "name": "Panchsheel Park",
+   "code": "PSPK",
+   "lat": 28.5422964,
+   "lon": 77.2185052,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "pandit_shree_ram_sharma": {
+   "name": "Pandit Shree Ram Sharma",
+   "code": "MIEE",
+   "lat": 28.6892418,
+   "lon": 76.9489583,
+   "state": "Haryana",
+   "lines": [
+    "DMRC_GREEN"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "pari_chowk": {
+   "name": "Pari Chowk",
+   "code": "AQ17",
+   "lat": 28.46316,
+   "lon": 77.50814,
+   "state": "UP",
+   "lines": [
+    "NMRC_AQUA"
+   ],
+   "aliases": [
+    "pari chowk"
+   ],
+   "source": "manual"
+  },
+  "paschim_vihar_east": {
+   "name": "Paschim Vihar East",
+   "code": "PVE",
+   "lat": 28.6773312,
+   "lon": 77.1101289,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_GREEN"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "paschim_vihar_west": {
+   "name": "Paschim Vihar West",
+   "code": "PVW",
+   "lat": 28.678829,
+   "lon": 77.0994732,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_GREEN"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "patel_chowk": {
+   "name": "Patel Chowk",
+   "code": "PTCK",
+   "lat": 28.6233,
+   "lon": 77.2145,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "patel_nagar": {
+   "name": "Patel Nagar",
+   "code": "PN",
+   "lat": 28.645,
+   "lon": 77.1693,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "peeragarhi": {
+   "name": "Peeragarhi",
+   "code": "PAGI",
+   "lat": 28.6798828,
+   "lon": 77.0910404,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_GREEN"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "phase_1": {
+   "name": "Phase 1",
+   "code": "PH1",
+   "lat": 28.4706,
+   "lon": 77.0932,
+   "state": "Haryana",
+   "lines": [
+    "RAPID"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "phase_2": {
+   "name": "Phase 2",
+   "code": "DL2",
+   "lat": 28.4873,
+   "lon": 77.0931,
+   "state": "Haryana",
+   "lines": [
+    "RAPID"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "phase_3": {
+   "name": "Phase 3",
+   "code": "DL3",
+   "lat": 28.4925,
+   "lon": 77.0919,
+   "state": "Haryana",
+   "lines": [
+    "RAPID"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "prashant_vihar": {
+   "name": "Prashant Vihar",
+   "code": "PHVR",
+   "lat": 28.713198,
+   "lon": 77.138755,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA_EXT"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "pratap_nagar": {
+   "name": "Pratap Nagar",
+   "code": "PRA",
+   "lat": 28.6666,
+   "lon": 77.1989,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "preet_vihar": {
+   "name": "Preet Vihar",
+   "code": "PTVR",
+   "lat": 28.6419,
+   "lon": 77.2956,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE_BRANCH"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "pulbangash": {
+   "name": "Pulbangash",
+   "code": "PBGH",
+   "lat": 28.6664,
+   "lon": 77.2074,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "punjabi_bagh": {
+   "name": "Punjabi Bagh",
+   "code": "PBGA",
+   "lat": 28.6729291,
+   "lon": 77.1438705,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_GREEN"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "punjabi_bagh_west": {
+   "name": "Punjabi Bagh West",
+   "code": "PBGW",
+   "lat": 28.6727751,
+   "lon": 77.136418,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK",
+    "DMRC_GREEN"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "qutab_minar": {
+   "name": "Qutab Minar",
+   "code": "QM",
+   "lat": 28.5129,
+   "lon": 77.1863,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [
+    "qutub minar",
+    "qutb minar"
+   ],
+   "source": "dmrc_api"
+  },
+  "r_k_puram": {
+   "name": "R.K. Puram",
+   "code": "RKPM",
+   "lat": 28.5503497,
+   "lon": 77.1851486,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "raj_bagh": {
+   "name": "Raj Bagh",
+   "code": "RJBH",
+   "lat": 28.6808,
+   "lon": 77.3439,
+   "state": "UP",
+   "lines": [
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "raja_nahar_singh_ballabhgarh": {
+   "name": "Raja Nahar Singh (Ballabhgarh)",
+   "code": "BVHM",
+   "lat": 28.3397812,
+   "lon": 77.316603,
+   "state": "Haryana",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "rajdhani_park": {
+   "name": "Rajdhani Park",
+   "code": "RDPK",
+   "lat": 28.6822794,
+   "lon": 77.0418183,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_GREEN"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "rajendra_place": {
+   "name": "Rajendra Place",
+   "code": "RP",
+   "lat": 28.6425,
+   "lon": 77.1782,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "rajiv_chowk": {
+   "name": "Rajiv Chowk",
+   "code": "RCK",
+   "lat": 28.633,
+   "lon": 77.2194,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW",
+    "DMRC_BLUE"
+   ],
+   "aliases": [
+    "rc",
+    "cp",
+    "connaught place"
+   ],
+   "source": "dmrc_api"
+  },
+  "rajouri_garden": {
+   "name": "Rajouri Garden",
+   "code": "RG",
+   "lat": 28.649,
+   "lon": 77.1227,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE",
+    "DMRC_PINK"
+   ],
+   "aliases": [
+    "rajouri"
+   ],
+   "source": "dmrc_api"
+  },
+  "ramakrishna_ashram_marg": {
+   "name": "Ramakrishna Ashram Marg",
+   "code": "RKAM",
+   "lat": 28.6392,
+   "lon": 77.2086,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "ramesh_nagar": {
+   "name": "Ramesh Nagar",
+   "code": "RN",
+   "lat": 28.6527,
+   "lon": 77.1315,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "rithala": {
+   "name": "Rithala",
+   "code": "RI",
+   "lat": 28.7208,
+   "lon": 77.1072,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "rohini": {
+   "name": "Rohini",
+   "code": "RHE",
+   "lat": 28.7077,
+   "lon": 77.1259,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "rohini_sector_18_19": {
+   "name": "Rohini Sector 18-19",
+   "code": "RISE",
+   "lat": 28.7327,
+   "lon": 77.1341,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "sadar_bazar_cantonment": {
+   "name": "Sadar Bazar Cantonment",
+   "code": "SABR",
+   "lat": 28.5764632,
+   "lon": 77.1114814,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "saket": {
+   "name": "Saket",
+   "code": "SAKT",
+   "lat": 28.5211,
+   "lon": 77.2022,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [
+    "select citywalk"
+   ],
+   "source": "dmrc_api"
+  },
+  "samaypur_badli": {
+   "name": "Samaypur Badli",
+   "code": "SPBI",
+   "lat": 28.7446,
+   "lon": 77.1383,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "sant_surdas_sihi": {
+   "name": "Sant Surdas (Sihi)",
+   "code": "NCBC",
+   "lat": 28.354673,
+   "lon": 77.3140293,
+   "state": "Haryana",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "sarai": {
+   "name": "Sarai",
+   "code": "SRAI",
+   "lat": 28.4780481,
+   "lon": 77.3028175,
+   "state": "Haryana",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "sarai_kale_khan_nizamuddin": {
+   "name": "Sarai Kale Khan - Nizamuddin",
+   "code": "NIZM",
+   "lat": 28.58936,
+   "lon": 77.2549413,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [
+    "nizamuddin",
+    "hazrat nizamuddin",
+    "sarai kale khan"
+   ],
+   "source": "dmrc_api"
+  },
+  "sarita_vihar": {
+   "name": "Sarita Vihar",
+   "code": "STVR",
+   "lat": 28.5294337,
+   "lon": 77.2861724,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "sarojini_nagar": {
+   "name": "Sarojini Nagar",
+   "code": "SOJI",
+   "lat": 28.5757221,
+   "lon": 77.1955806,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "satguru_ram_singh_marg": {
+   "name": "Satguru Ram Singh Marg",
+   "code": "SRSM",
+   "lat": 28.66213,
+   "lon": 77.1554713,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_GREEN"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "sector_28_faridabad": {
+   "name": "Sector 28 Faridabad",
+   "code": "STTA",
+   "lat": 28.43838,
+   "lon": 77.3067493,
+   "state": "Haryana",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "sector_42_43": {
+   "name": "Sector 42-43",
+   "code": "SUL",
+   "lat": 28.4574,
+   "lon": 77.0947,
+   "state": "Haryana",
+   "lines": [
+    "RAPID"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "sector_53_54": {
+   "name": "Sector 53-54",
+   "code": "S53",
+   "lat": 28.4464,
+   "lon": 77.0982,
+   "state": "Haryana",
+   "lines": [
+    "RAPID"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "sector_54_chowk": {
+   "name": "Sector 54 Chowk",
+   "code": "AIT",
+   "lat": 28.431,
+   "lon": 77.1028,
+   "state": "Haryana",
+   "lines": [
+    "RAPID"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "sector_55_56": {
+   "name": "Sector 55-56",
+   "code": "S55",
+   "lat": 28.4234,
+   "lon": 77.1052,
+   "state": "Haryana",
+   "lines": [
+    "RAPID"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "seelampur": {
+   "name": "Seelampur",
+   "code": "SLAP",
+   "lat": 28.6699,
+   "lon": 77.2666,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "seva_teerth": {
+   "name": "Seva Teerth",
+   "code": "UDB",
+   "lat": 28.611,
+   "lon": 77.2122,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [
+    "Udyog Bhawan",
+    "udyog bhawan"
+   ],
+   "source": "dmrc_api"
+  },
+  "shadipur": {
+   "name": "Shadipur",
+   "code": "SP",
+   "lat": 28.6516,
+   "lon": 77.1582,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "shahdara": {
+   "name": "Shahdara",
+   "code": "SHD",
+   "lat": 28.6735,
+   "lon": 77.2899,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "shaheed_nagar": {
+   "name": "Shaheed Nagar",
+   "code": "SHDN",
+   "lat": 28.6766,
+   "lon": 77.3338,
+   "state": "UP",
+   "lines": [
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "shaheed_sthal_new_bus_adda": {
+   "name": "Shaheed Sthal (New Bus Adda)",
+   "code": "NBAA",
+   "lat": 28.6705,
+   "lon": 77.4158,
+   "state": "UP",
+   "lines": [
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "shakurpur": {
+   "name": "Shakurpur",
+   "code": "SAKP",
+   "lat": 28.6857703,
+   "lon": 77.1474327,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "shalimar_bagh": {
+   "name": "Shalimar Bagh",
+   "code": "SMBG",
+   "lat": 28.702018,
+   "lon": 77.1625815,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "shankar_vihar": {
+   "name": "Shankar Vihar",
+   "code": "SKVR",
+   "lat": 28.5608173,
+   "lon": 77.1381563,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "shastri_nagar": {
+   "name": "Shastri Nagar",
+   "code": "SHT",
+   "lat": 28.6701,
+   "lon": 77.1813,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "shastri_park": {
+   "name": "Shastri Park",
+   "code": "SHPK",
+   "lat": 28.6683,
+   "lon": 77.2503,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "shiv_vihar": {
+   "name": "Shiv Vihar",
+   "code": "SVVR",
+   "lat": 28.7215468,
+   "lon": 77.2883255,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK_EXT"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "shivaji_park": {
+   "name": "Shivaji Park",
+   "code": "SHVP",
+   "lat": 28.674939,
+   "lon": 77.1283933,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_GREEN"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "shivaji_stadium": {
+   "name": "Shivaji Stadium",
+   "code": "SJSU",
+   "lat": 28.6287699,
+   "lon": 77.2114121,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_AIRPORT"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "shree_ram_mayur_vihar_mandir": {
+   "name": "Shree Ram Mayur Vihar Mandir",
+   "code": "MVPO",
+   "lat": 28.6057944,
+   "lon": 77.2965148,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [
+    "Mayur Vihar Pocket-1"
+   ],
+   "source": "dmrc_api"
+  },
+  "shyam_park": {
+   "name": "Shyam Park",
+   "code": "SMPK",
+   "lat": 28.6782,
+   "lon": 77.3702,
+   "state": "UP",
+   "lines": [
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "sikanderpur": {
+   "name": "Sikanderpur",
+   "code": "SKRP",
+   "lat": 28.4813,
+   "lon": 77.0931,
+   "state": "Haryana",
+   "lines": [
+    "DMRC_YELLOW",
+    "RAPID"
+   ],
+   "aliases": [
+    "sikandarpur"
+   ],
+   "source": "dmrc_api"
+  },
+  "sir_m_vishweshwaraiah_moti_bagh": {
+   "name": "Sir M. Vishweshwaraiah Moti Bagh",
+   "code": "SVMB",
+   "lat": 28.578504,
+   "lon": 77.1735373,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [
+    "moti bagh"
+   ],
+   "source": "dmrc_api"
+  },
+  "sonia_vihar": {
+   "name": "Sonia Vihar",
+   "code": "SNVH",
+   "lat": 28.708431,
+   "lon": 77.242124,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "soorghat": {
+   "name": "Soorghat",
+   "code": "SOOG",
+   "lat": 28.710449573671905,
+   "lon": 77.23041226878645,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "south_extension": {
+   "name": "South Extension",
+   "code": "SOEN",
+   "lat": 28.5686386,
+   "lon": 77.2180074,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [
+    "south ex"
+   ],
+   "source": "dmrc_api"
+  },
+  "subhash_nagar": {
+   "name": "Subhash Nagar",
+   "code": "SN",
+   "lat": 28.6404,
+   "lon": 77.1049,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "sukhdev_vihar": {
+   "name": "Sukhdev Vihar",
+   "code": "IWNR",
+   "lat": 28.5596435,
+   "lon": 77.2733625,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "sultanpur": {
+   "name": "Sultanpur",
+   "code": "SLTP",
+   "lat": 28.4991,
+   "lon": 77.1612,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "supreme_court": {
+   "name": "Supreme Court",
+   "code": "PTMD",
+   "lat": 28.6233,
+   "lon": 77.2427,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [
+    "pragati maidan"
+   ],
+   "source": "dmrc_api"
+  },
+  "tagore_garden": {
+   "name": "Tagore Garden",
+   "code": "TG",
+   "lat": 28.6438,
+   "lon": 77.1129,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "terminal_1_igi_airport": {
+   "name": "Terminal 1 IGI Airport",
+   "code": "IGDA",
+   "lat": 28.5647538,
+   "lon": 77.1221478,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [
+    "terminal 1",
+    "t1"
+   ],
+   "source": "dmrc_api"
+  },
+  "tikri_border": {
+   "name": "Tikri Border",
+   "code": "TKBR",
+   "lat": 28.688233,
+   "lon": 76.9620993,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_GREEN"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "tikri_kalan": {
+   "name": "Tikri Kalan",
+   "code": "TKLM",
+   "lat": 28.68688,
+   "lon": 76.9750813,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_GREEN"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "tilak_nagar": {
+   "name": "Tilak Nagar",
+   "code": "TN",
+   "lat": 28.6366,
+   "lon": 77.0965,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "tis_hazari": {
+   "name": "Tis Hazari",
+   "code": "TZI",
+   "lat": 28.6671,
+   "lon": 77.2165,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_RED"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "trilokpuri_sanjay_lake": {
+   "name": "Trilokpuri-Sanjay Lake",
+   "code": "TKPR",
+   "lat": 28.6134317,
+   "lon": 77.3077957,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "tughlakabad_station": {
+   "name": "Tughlakabad Station",
+   "code": "TKDS",
+   "lat": 28.5031672,
+   "lon": 77.2963205,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_VIOLET"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "udyog_nagar": {
+   "name": "Udyog Nagar",
+   "code": "UNRG",
+   "lat": 28.6810606,
+   "lon": 77.0787957,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_GREEN"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "uttam_nagar_east": {
+   "name": "Uttam Nagar East",
+   "code": "UNE",
+   "lat": 28.6248,
+   "lon": 77.0653,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "uttam_nagar_west": {
+   "name": "Uttam Nagar West",
+   "code": "UNW",
+   "lat": 28.6218,
+   "lon": 77.0558,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "vaishali": {
+   "name": "Vaishali",
+   "code": "VASI",
+   "lat": 28.6498,
+   "lon": 77.3397,
+   "state": "UP",
+   "lines": [
+    "DMRC_BLUE_BRANCH"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "vasant_vihar": {
+   "name": "Vasant Vihar",
+   "code": "VTVR",
+   "lat": 28.5581039,
+   "lon": 77.1603043,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_MAGENTA"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "vidhan_sabha": {
+   "name": "Vidhan Sabha",
+   "code": "VS",
+   "lat": 28.6878,
+   "lon": 77.2216,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "vinobapuri": {
+   "name": "Vinobapuri",
+   "code": "VNPR",
+   "lat": 28.5655297,
+   "lon": 77.2485991,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "vishwavidyalaya": {
+   "name": "Vishwavidyalaya",
+   "code": "VW",
+   "lat": 28.6952,
+   "lon": 77.2145,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_YELLOW"
+   ],
+   "aliases": [
+    "north campus",
+    "du north campus"
+   ],
+   "source": "dmrc_api"
+  },
+  "welcome": {
+   "name": "Welcome",
+   "code": "WC",
+   "lat": 28.6718,
+   "lon": 77.2777,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_RED",
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "yamuna_bank": {
+   "name": "Yamuna Bank",
+   "code": "YB",
+   "lat": 28.6233,
+   "lon": 77.2679,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_BLUE",
+    "DMRC_BLUE_BRANCH"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "yamuna_vihar": {
+   "name": "Yamuna Vihar",
+   "code": "YMVR",
+   "lat": 28.702367,
+   "lon": 77.277337,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_PINK"
+   ],
+   "aliases": [],
+   "source": "dmrc_api"
+  },
+  "yashobhoomi_dwarka_sector_25": {
+   "name": "Yashobhoomi Dwarka Sector 25",
+   "code": "IICC",
+   "lat": 28.550816,
+   "lon": 77.045253,
+   "state": "Delhi",
+   "lines": [
+    "DMRC_AIRPORT"
+   ],
+   "aliases": [
+    "yashobhoomi",
+    "iicc"
+   ],
+   "source": "dmrc_api"
+  }
+ },
+ "edges": [
+  {
+   "line": "DMRC_RED",
+   "from": "shaheed_sthal_new_bus_adda",
+   "to": "hindon_river",
+   "minutes": 1.73,
+   "km": 0.963,
+   "fare_km": 0.963,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "hindon_river",
+   "to": "arthala",
+   "minutes": 2.32,
+   "km": 1.445,
+   "fare_km": 1.445,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "arthala",
+   "to": "mohan_nagar",
+   "minutes": 1.52,
+   "km": 0.983,
+   "fare_km": 0.983,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "mohan_nagar",
+   "to": "shyam_park",
+   "minutes": 2.23,
+   "km": 1.337,
+   "fare_km": 1.337,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "shyam_park",
+   "to": "major_mohit_sharma_rajendra_nagar",
+   "minutes": 1.95,
+   "km": 1.182,
+   "fare_km": 1.182,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "major_mohit_sharma_rajendra_nagar",
+   "to": "raj_bagh",
+   "minutes": 2.0,
+   "km": 1.43,
+   "fare_km": 1.43,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "raj_bagh",
+   "to": "shaheed_nagar",
+   "minutes": 2.17,
+   "km": 1.09,
+   "fare_km": 1.09,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "shaheed_nagar",
+   "to": "dilshad_garden",
+   "minutes": 2.27,
+   "km": 1.202,
+   "fare_km": 1.202,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "dilshad_garden",
+   "to": "jhilmil",
+   "minutes": 1.88,
+   "km": 0.888,
+   "fare_km": 0.888,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "jhilmil",
+   "to": "mansarovar_park",
+   "minutes": 2.02,
+   "km": 1.2,
+   "fare_km": 1.2,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "mansarovar_park",
+   "to": "shahdara",
+   "minutes": 2.08,
+   "km": 1.022,
+   "fare_km": 1.022,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "shahdara",
+   "to": "welcome",
+   "minutes": 2.2,
+   "km": 1.205,
+   "fare_km": 1.205,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "welcome",
+   "to": "seelampur",
+   "minutes": 1.98,
+   "km": 1.103,
+   "fare_km": 1.103,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "seelampur",
+   "to": "shastri_park",
+   "minutes": 2.45,
+   "km": 1.6,
+   "fare_km": 1.6,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "shastri_park",
+   "to": "kashmere_gate",
+   "minutes": 3.27,
+   "km": 2.158,
+   "fare_km": 2.158,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "kashmere_gate",
+   "to": "tis_hazari",
+   "minutes": 2.17,
+   "km": 1.142,
+   "fare_km": 1.142,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "tis_hazari",
+   "to": "pulbangash",
+   "minutes": 1.82,
+   "km": 0.891,
+   "fare_km": 0.891,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "pulbangash",
+   "to": "pratap_nagar",
+   "minutes": 1.77,
+   "km": 0.83,
+   "fare_km": 0.83,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "pratap_nagar",
+   "to": "shastri_nagar",
+   "minutes": 2.45,
+   "km": 1.761,
+   "fare_km": 1.761,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "shastri_nagar",
+   "to": "inderlok",
+   "minutes": 2.12,
+   "km": 1.142,
+   "fare_km": 1.142,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "inderlok",
+   "to": "kanhaiya_nagar",
+   "minutes": 2.05,
+   "km": 1.116,
+   "fare_km": 1.116,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "kanhaiya_nagar",
+   "to": "keshav_puram",
+   "minutes": 1.65,
+   "km": 0.62,
+   "fare_km": 0.62,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "keshav_puram",
+   "to": "netaji_subhash_place",
+   "minutes": 2.3,
+   "km": 1.343,
+   "fare_km": 1.343,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "netaji_subhash_place",
+   "to": "kohat_enclave",
+   "minutes": 2.07,
+   "km": 1.201,
+   "fare_km": 1.201,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "kohat_enclave",
+   "to": "madhuban_chowk",
+   "minutes": 1.85,
+   "km": 0.965,
+   "fare_km": 0.965,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "madhuban_chowk",
+   "to": "rohini",
+   "minutes": 1.65,
+   "km": 0.822,
+   "fare_km": 0.822,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "rohini",
+   "to": "dr_baba_saheb_ambedkar_hospital",
+   "minutes": 2.08,
+   "km": 1.292,
+   "fare_km": 1.292,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_RED",
+   "from": "dr_baba_saheb_ambedkar_hospital",
+   "to": "rithala",
+   "minutes": 1.98,
+   "km": 1.042,
+   "fare_km": 1.042,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "samaypur_badli",
+   "to": "rohini_sector_18_19",
+   "minutes": 2.07,
+   "km": 1.385,
+   "fare_km": 1.385,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "rohini_sector_18_19",
+   "to": "haiderpur_badli_mor",
+   "minutes": 2.92,
+   "km": 1.501,
+   "fare_km": 1.501,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "haiderpur_badli_mor",
+   "to": "jahangirpuri",
+   "minutes": 2.17,
+   "km": 1.699,
+   "fare_km": 1.699,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "jahangirpuri",
+   "to": "adarsh_nagar",
+   "minutes": 2.03,
+   "km": 1.69,
+   "fare_km": 1.69,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "adarsh_nagar",
+   "to": "azadpur",
+   "minutes": 2.22,
+   "km": 1.577,
+   "fare_km": 1.577,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "azadpur",
+   "to": "model_town",
+   "minutes": 2.22,
+   "km": 1.347,
+   "fare_km": 1.347,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "model_town",
+   "to": "guru_teg_bahadur_nagar",
+   "minutes": 2.27,
+   "km": 1.291,
+   "fare_km": 1.291,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "guru_teg_bahadur_nagar",
+   "to": "vishwavidyalaya",
+   "minutes": 2.02,
+   "km": 0.911,
+   "fare_km": 0.911,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "vishwavidyalaya",
+   "to": "vidhan_sabha",
+   "minutes": 2.2,
+   "km": 1.075,
+   "fare_km": 1.075,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "vidhan_sabha",
+   "to": "civil_lines",
+   "minutes": 2.23,
+   "km": 1.209,
+   "fare_km": 1.209,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "civil_lines",
+   "to": "kashmere_gate",
+   "minutes": 2.35,
+   "km": 1.139,
+   "fare_km": 1.139,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "kashmere_gate",
+   "to": "chandni_chowk",
+   "minutes": 2.27,
+   "km": 0.991,
+   "fare_km": 0.991,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "chandni_chowk",
+   "to": "chawri_bazar",
+   "minutes": 2.22,
+   "km": 1.182,
+   "fare_km": 1.182,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "chawri_bazar",
+   "to": "new_delhi",
+   "minutes": 1.7,
+   "km": 0.922,
+   "fare_km": 0.922,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "new_delhi",
+   "to": "rajiv_chowk",
+   "minutes": 2.43,
+   "km": 1.08,
+   "fare_km": 1.08,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "rajiv_chowk",
+   "to": "patel_chowk",
+   "minutes": 2.27,
+   "km": 1.18,
+   "fare_km": 1.18,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "patel_chowk",
+   "to": "central_secretariat",
+   "minutes": 1.92,
+   "km": 0.926,
+   "fare_km": 0.926,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "central_secretariat",
+   "to": "seva_teerth",
+   "minutes": 1.73,
+   "km": 0.467,
+   "fare_km": 0.467,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "seva_teerth",
+   "to": "lok_kalyan_marg",
+   "minutes": 2.33,
+   "km": 1.482,
+   "fare_km": 1.482,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "lok_kalyan_marg",
+   "to": "jor_bagh",
+   "minutes": 2.28,
+   "km": 1.318,
+   "fare_km": 1.318,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "jor_bagh",
+   "to": "dilli_haat_ina",
+   "minutes": 2.22,
+   "km": 1.31,
+   "fare_km": 1.31,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "dilli_haat_ina",
+   "to": "aiims",
+   "minutes": 1.82,
+   "km": 0.858,
+   "fare_km": 0.858,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "aiims",
+   "to": "green_park",
+   "minutes": 2.25,
+   "km": 0.789,
+   "fare_km": 0.789,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "green_park",
+   "to": "hauz_khas",
+   "minutes": 2.58,
+   "km": 1.758,
+   "fare_km": 1.758,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "hauz_khas",
+   "to": "malviya_nagar",
+   "minutes": 2.67,
+   "km": 1.672,
+   "fare_km": 1.672,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "malviya_nagar",
+   "to": "saket",
+   "minutes": 2.35,
+   "km": 0.92,
+   "fare_km": 0.92,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "saket",
+   "to": "qutab_minar",
+   "minutes": 2.75,
+   "km": 1.801,
+   "fare_km": 1.801,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "qutab_minar",
+   "to": "chhatarpur",
+   "minutes": 2.82,
+   "km": 1.296,
+   "fare_km": 1.296,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "chhatarpur",
+   "to": "sultanpur",
+   "minutes": 2.6,
+   "km": 1.597,
+   "fare_km": 1.597,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "sultanpur",
+   "to": "ghitorni",
+   "minutes": 2.12,
+   "km": 1.312,
+   "fare_km": 1.312,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "ghitorni",
+   "to": "arjan_garh",
+   "minutes": 3.23,
+   "km": 2.691,
+   "fare_km": 2.691,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "arjan_garh",
+   "to": "guru_dronacharya",
+   "minutes": 3.3,
+   "km": 2.309,
+   "fare_km": 2.309,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "guru_dronacharya",
+   "to": "sikanderpur",
+   "minutes": 1.87,
+   "km": 0.902,
+   "fare_km": 0.902,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "sikanderpur",
+   "to": "m_g_road",
+   "minutes": 2.22,
+   "km": 1.285,
+   "fare_km": 1.285,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "m_g_road",
+   "to": "iffco_chowk",
+   "minutes": 2.45,
+   "km": 1.115,
+   "fare_km": 1.115,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_YELLOW",
+   "from": "iffco_chowk",
+   "to": "millennium_city_centre_gurugram",
+   "minutes": 2.3,
+   "km": 1.446,
+   "fare_km": 1.446,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "dwarka_sector_21",
+   "to": "dwarka_sector_8",
+   "minutes": 3.02,
+   "km": 1.73,
+   "fare_km": 1.73,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "dwarka_sector_8",
+   "to": "dwarka_sector_9",
+   "minutes": 1.97,
+   "km": 0.972,
+   "fare_km": 0.972,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "dwarka_sector_9",
+   "to": "dwarka_sector_10",
+   "minutes": 2.08,
+   "km": 1.073,
+   "fare_km": 1.073,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "dwarka_sector_10",
+   "to": "dwarka_sector_11",
+   "minutes": 2.0,
+   "km": 0.963,
+   "fare_km": 0.963,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "dwarka_sector_11",
+   "to": "dwarka_sector_12",
+   "minutes": 2.05,
+   "km": 1.278,
+   "fare_km": 1.278,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "dwarka_sector_12",
+   "to": "dwarka_sector_13",
+   "minutes": 2.03,
+   "km": 0.842,
+   "fare_km": 0.842,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "dwarka_sector_13",
+   "to": "dwarka_sector_14",
+   "minutes": 1.93,
+   "km": 0.912,
+   "fare_km": 0.912,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "dwarka_sector_14",
+   "to": "dwarka_kakrola",
+   "minutes": 2.42,
+   "km": 1.446,
+   "fare_km": 1.446,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "dwarka_kakrola",
+   "to": "dwarka_mor",
+   "minutes": 2.47,
+   "km": 1.953,
+   "fare_km": 1.953,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "dwarka_mor",
+   "to": "nawada",
+   "minutes": 2.17,
+   "km": 0.42,
+   "fare_km": 0.42,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "nawada",
+   "to": "uttam_nagar_west",
+   "minutes": 2.03,
+   "km": 1.069,
+   "fare_km": 1.069,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "uttam_nagar_west",
+   "to": "uttam_nagar_east",
+   "minutes": 1.97,
+   "km": 0.985,
+   "fare_km": 0.985,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "uttam_nagar_east",
+   "to": "janakpuri_west",
+   "minutes": 2.42,
+   "km": 1.327,
+   "fare_km": 1.327,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "janakpuri_west",
+   "to": "janakpuri_east",
+   "minutes": 1.95,
+   "km": 0.898,
+   "fare_km": 0.898,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "janakpuri_east",
+   "to": "tilak_nagar",
+   "minutes": 2.02,
+   "km": 1.09,
+   "fare_km": 1.09,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "tilak_nagar",
+   "to": "subhash_nagar",
+   "minutes": 1.92,
+   "km": 0.922,
+   "fare_km": 0.922,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "subhash_nagar",
+   "to": "tagore_garden",
+   "minutes": 1.83,
+   "km": 0.867,
+   "fare_km": 0.867,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "tagore_garden",
+   "to": "rajouri_garden",
+   "minutes": 2.18,
+   "km": 1.118,
+   "fare_km": 1.118,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "rajouri_garden",
+   "to": "ramesh_nagar",
+   "minutes": 1.98,
+   "km": 0.952,
+   "fare_km": 0.952,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "ramesh_nagar",
+   "to": "moti_nagar",
+   "minutes": 2.18,
+   "km": 1.236,
+   "fare_km": 1.236,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "moti_nagar",
+   "to": "kirti_nagar",
+   "minutes": 2.05,
+   "km": 0.827,
+   "fare_km": 0.827,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "kirti_nagar",
+   "to": "shadipur",
+   "minutes": 1.93,
+   "km": 0.854,
+   "fare_km": 0.854,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "shadipur",
+   "to": "patel_nagar",
+   "minutes": 2.27,
+   "km": 1.308,
+   "fare_km": 1.308,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "patel_nagar",
+   "to": "rajendra_place",
+   "minutes": 1.97,
+   "km": 0.912,
+   "fare_km": 0.912,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "rajendra_place",
+   "to": "karol_bagh",
+   "minutes": 2.05,
+   "km": 1.019,
+   "fare_km": 1.019,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "karol_bagh",
+   "to": "jhandewalan",
+   "minutes": 2.2,
+   "km": 1.113,
+   "fare_km": 1.113,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "jhandewalan",
+   "to": "ramakrishna_ashram_marg",
+   "minutes": 2.13,
+   "km": 1.021,
+   "fare_km": 1.021,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "ramakrishna_ashram_marg",
+   "to": "rajiv_chowk",
+   "minutes": 2.45,
+   "km": 1.259,
+   "fare_km": 1.259,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "rajiv_chowk",
+   "to": "barakhamba_road",
+   "minutes": 1.8,
+   "km": 0.605,
+   "fare_km": 0.605,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "barakhamba_road",
+   "to": "mandi_house",
+   "minutes": 2.13,
+   "km": 1.055,
+   "fare_km": 1.055,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "mandi_house",
+   "to": "supreme_court",
+   "minutes": 1.95,
+   "km": 0.869,
+   "fare_km": 0.869,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "supreme_court",
+   "to": "indraprastha",
+   "minutes": 1.85,
+   "km": 0.773,
+   "fare_km": 0.773,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "indraprastha",
+   "to": "yamuna_bank",
+   "minutes": 2.95,
+   "km": 1.773,
+   "fare_km": 1.773,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "yamuna_bank",
+   "to": "akshardham",
+   "minutes": 2.78,
+   "km": 1.268,
+   "fare_km": 1.268,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "akshardham",
+   "to": "mayur_vihar_i",
+   "minutes": 2.92,
+   "km": 1.829,
+   "fare_km": 1.829,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "mayur_vihar_i",
+   "to": "mayur_vihar_extension",
+   "minutes": 2.25,
+   "km": 1.362,
+   "fare_km": 1.362,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "mayur_vihar_extension",
+   "to": "new_ashok_nagar",
+   "minutes": 2.03,
+   "km": 0.826,
+   "fare_km": 0.826,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "new_ashok_nagar",
+   "to": "noida_sector_15",
+   "minutes": 2.25,
+   "km": 1.034,
+   "fare_km": 1.034,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "noida_sector_15",
+   "to": "noida_sector_16",
+   "minutes": 1.98,
+   "km": 0.909,
+   "fare_km": 0.909,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "noida_sector_16",
+   "to": "noida_sector_18",
+   "minutes": 2.28,
+   "km": 1.229,
+   "fare_km": 1.229,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "noida_sector_18",
+   "to": "botanical_garden",
+   "minutes": 2.23,
+   "km": 1.094,
+   "fare_km": 1.094,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "botanical_garden",
+   "to": "golf_course",
+   "minutes": 2.6,
+   "km": 1.197,
+   "fare_km": 1.197,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "golf_course",
+   "to": "noida_city_centre",
+   "minutes": 2.13,
+   "km": 1.284,
+   "fare_km": 1.284,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "noida_city_centre",
+   "to": "noida_sector_34",
+   "minutes": 2.02,
+   "km": 0.947,
+   "fare_km": 0.947,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "noida_sector_34",
+   "to": "noida_sector_52",
+   "minutes": 2.15,
+   "km": 1.168,
+   "fare_km": 1.168,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "noida_sector_52",
+   "to": "noida_sector_61",
+   "minutes": 2.48,
+   "km": 1.24,
+   "fare_km": 1.24,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "noida_sector_61",
+   "to": "noida_sector_59",
+   "minutes": 1.93,
+   "km": 1.021,
+   "fare_km": 1.021,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "noida_sector_59",
+   "to": "noida_sector_62",
+   "minutes": 2.17,
+   "km": 1.18,
+   "fare_km": 1.18,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE",
+   "from": "noida_sector_62",
+   "to": "noida_electronic_city",
+   "minutes": 2.32,
+   "km": 1.219,
+   "fare_km": 1.219,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE_BRANCH",
+   "from": "yamuna_bank",
+   "to": "laxmi_nagar",
+   "minutes": 2.8,
+   "km": 1.218,
+   "fare_km": 1.218,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE_BRANCH",
+   "from": "laxmi_nagar",
+   "to": "nirman_vihar",
+   "minutes": 2.93,
+   "km": 1.149,
+   "fare_km": 1.149,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE_BRANCH",
+   "from": "nirman_vihar",
+   "to": "preet_vihar",
+   "minutes": 2.25,
+   "km": 1.042,
+   "fare_km": 1.042,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE_BRANCH",
+   "from": "preet_vihar",
+   "to": "karkarduma",
+   "minutes": 2.02,
+   "km": 1.221,
+   "fare_km": 1.221,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE_BRANCH",
+   "from": "karkarduma",
+   "to": "anand_vihar_isbt",
+   "minutes": 2.25,
+   "km": 1.019,
+   "fare_km": 1.019,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE_BRANCH",
+   "from": "anand_vihar_isbt",
+   "to": "kaushambi",
+   "minutes": 1.98,
+   "km": 0.846,
+   "fare_km": 0.846,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_BLUE_BRANCH",
+   "from": "kaushambi",
+   "to": "vaishali",
+   "minutes": 2.28,
+   "km": 1.568,
+   "fare_km": 1.568,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREEN",
+   "from": "kirti_nagar",
+   "to": "satguru_ram_singh_marg",
+   "minutes": 2.07,
+   "km": 0.848,
+   "fare_km": 0.848,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREEN",
+   "from": "inderlok",
+   "to": "ashok_park_main",
+   "minutes": 3.22,
+   "km": 1.49,
+   "fare_km": 1.49,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREEN",
+   "from": "ashok_park_main",
+   "to": "punjabi_bagh",
+   "minutes": 1.93,
+   "km": 1.116,
+   "fare_km": 1.116,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREEN",
+   "from": "punjabi_bagh",
+   "to": "punjabi_bagh_west",
+   "minutes": 2.33,
+   "km": 0.727,
+   "fare_km": 0.727,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREEN",
+   "from": "punjabi_bagh_west",
+   "to": "shivaji_park",
+   "minutes": 2.43,
+   "km": 0.819,
+   "fare_km": 0.819,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREEN",
+   "from": "shivaji_park",
+   "to": "madipur",
+   "minutes": 1.87,
+   "km": 1.069,
+   "fare_km": 1.069,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREEN",
+   "from": "madipur",
+   "to": "paschim_vihar_east",
+   "minutes": 1.7,
+   "km": 0.732,
+   "fare_km": 0.732,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREEN",
+   "from": "paschim_vihar_east",
+   "to": "paschim_vihar_west",
+   "minutes": 1.65,
+   "km": 1.053,
+   "fare_km": 1.053,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREEN",
+   "from": "paschim_vihar_west",
+   "to": "peeragarhi",
+   "minutes": 1.78,
+   "km": 0.831,
+   "fare_km": 0.831,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREEN",
+   "from": "peeragarhi",
+   "to": "udyog_nagar",
+   "minutes": 1.9,
+   "km": 1.202,
+   "fare_km": 1.202,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREEN",
+   "from": "udyog_nagar",
+   "to": "maharaja_surajmal_stadium",
+   "minutes": 1.52,
+   "km": 0.69,
+   "fare_km": 0.69,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREEN",
+   "from": "maharaja_surajmal_stadium",
+   "to": "nangloi",
+   "minutes": 1.78,
+   "km": 0.984,
+   "fare_km": 0.984,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREEN",
+   "from": "nangloi",
+   "to": "nangloi_railway_station",
+   "minutes": 1.7,
+   "km": 0.747,
+   "fare_km": 0.747,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREEN",
+   "from": "nangloi_railway_station",
+   "to": "rajdhani_park",
+   "minutes": 2.02,
+   "km": 1.192,
+   "fare_km": 1.192,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREEN",
+   "from": "rajdhani_park",
+   "to": "mundka",
+   "minutes": 2.12,
+   "km": 1.333,
+   "fare_km": 1.333,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREEN",
+   "from": "mundka",
+   "to": "mundka_industrial_area",
+   "minutes": 2.37,
+   "km": 1.317,
+   "fare_km": 1.317,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREEN",
+   "from": "mundka_industrial_area",
+   "to": "ghevra",
+   "minutes": 2.63,
+   "km": 1.949,
+   "fare_km": 2.01,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREEN",
+   "from": "ghevra",
+   "to": "tikri_kalan",
+   "minutes": 2.58,
+   "km": 1.949,
+   "fare_km": 1.949,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREEN",
+   "from": "tikri_kalan",
+   "to": "tikri_border",
+   "minutes": 2.17,
+   "km": 1.275,
+   "fare_km": 1.275,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREEN",
+   "from": "tikri_border",
+   "to": "pandit_shree_ram_sharma",
+   "minutes": 2.1,
+   "km": 1.287,
+   "fare_km": 1.287,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREEN",
+   "from": "pandit_shree_ram_sharma",
+   "to": "bahadurgarh_city",
+   "minutes": 2.43,
+   "km": 1.35,
+   "fare_km": 1.35,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREEN",
+   "from": "bahadurgarh_city",
+   "to": "brig_hoshiar_singh",
+   "minutes": 2.8,
+   "km": 1.771,
+   "fare_km": 1.771,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "kashmere_gate",
+   "to": "lal_quila",
+   "minutes": 2.8,
+   "km": 1.257,
+   "fare_km": 1.257,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "lal_quila",
+   "to": "jama_masjid",
+   "minutes": 1.57,
+   "km": 0.824,
+   "fare_km": 0.824,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "jama_masjid",
+   "to": "delhi_gate",
+   "minutes": 2.32,
+   "km": 1.181,
+   "fare_km": 1.181,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "delhi_gate",
+   "to": "ito",
+   "minutes": 1.97,
+   "km": 1.368,
+   "fare_km": 1.368,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "ito",
+   "to": "mandi_house",
+   "minutes": 1.72,
+   "km": 0.616,
+   "fare_km": 0.616,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "mandi_house",
+   "to": "janpath",
+   "minutes": 3.33,
+   "km": 1.692,
+   "fare_km": 1.692,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "janpath",
+   "to": "central_secretariat",
+   "minutes": 1.37,
+   "km": 1.188,
+   "fare_km": 1.188,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "central_secretariat",
+   "to": "khan_market",
+   "minutes": 3.57,
+   "km": 2.024,
+   "fare_km": 2.024,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "khan_market",
+   "to": "jln_stadium",
+   "minutes": 2.55,
+   "km": 1.637,
+   "fare_km": 1.637,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "jln_stadium",
+   "to": "jangpura",
+   "minutes": 2.0,
+   "km": 0.639,
+   "fare_km": 0.639,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "jangpura",
+   "to": "lajpat_nagar",
+   "minutes": 2.58,
+   "km": 1.467,
+   "fare_km": 1.467,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "lajpat_nagar",
+   "to": "moolchand",
+   "minutes": 1.98,
+   "km": 0.724,
+   "fare_km": 0.724,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "moolchand",
+   "to": "kailash_colony",
+   "minutes": 2.33,
+   "km": 1.32,
+   "fare_km": 1.32,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "kailash_colony",
+   "to": "nehru_place",
+   "minutes": 2.17,
+   "km": 1.186,
+   "fare_km": 1.186,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "nehru_place",
+   "to": "kalkaji_mandir",
+   "minutes": 1.92,
+   "km": 0.66,
+   "fare_km": 0.66,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "kalkaji_mandir",
+   "to": "govind_puri",
+   "minutes": 1.9,
+   "km": 0.724,
+   "fare_km": 0.724,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "govind_puri",
+   "to": "harkesh_nagar_okhla",
+   "minutes": 2.62,
+   "km": 1.1,
+   "fare_km": 1.1,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "harkesh_nagar_okhla",
+   "to": "jasola_apollo",
+   "minutes": 2.22,
+   "km": 0.945,
+   "fare_km": 0.945,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "jasola_apollo",
+   "to": "sarita_vihar",
+   "minutes": 2.2,
+   "km": 1.094,
+   "fare_km": 1.094,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "sarita_vihar",
+   "to": "mohan_estate",
+   "minutes": 2.18,
+   "km": 1.712,
+   "fare_km": 1.712,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "mohan_estate",
+   "to": "tughlakabad_station",
+   "minutes": 3.1,
+   "km": 1.39,
+   "fare_km": 2.01,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "tughlakabad_station",
+   "to": "badarpur_border",
+   "minutes": 2.28,
+   "km": 1.186,
+   "fare_km": 1.186,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "badarpur_border",
+   "to": "sarai",
+   "minutes": 2.68,
+   "km": 1.702,
+   "fare_km": 1.702,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "sarai",
+   "to": "nhpc_chowk",
+   "minutes": 3.02,
+   "km": 2.274,
+   "fare_km": 2.274,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "nhpc_chowk",
+   "to": "mewala_maharajpur",
+   "minutes": 1.92,
+   "km": 1.023,
+   "fare_km": 1.023,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "mewala_maharajpur",
+   "to": "sector_28_faridabad",
+   "minutes": 2.03,
+   "km": 1.132,
+   "fare_km": 1.132,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "sector_28_faridabad",
+   "to": "badkal_mor",
+   "minutes": 2.4,
+   "km": 1.735,
+   "fare_km": 1.735,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "badkal_mor",
+   "to": "old_faridabad",
+   "minutes": 2.23,
+   "km": 1.404,
+   "fare_km": 1.404,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "old_faridabad",
+   "to": "neelam_chowk_ajronda",
+   "minutes": 2.23,
+   "km": 1.403,
+   "fare_km": 1.403,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "neelam_chowk_ajronda",
+   "to": "bata_chowk",
+   "minutes": 2.17,
+   "km": 1.4,
+   "fare_km": 1.4,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "bata_chowk",
+   "to": "escorts_mujesar",
+   "minutes": 2.33,
+   "km": 1.699,
+   "fare_km": 1.699,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "escorts_mujesar",
+   "to": "sant_surdas_sihi",
+   "minutes": 3.17,
+   "km": 1.724,
+   "fare_km": 1.724,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_VIOLET",
+   "from": "sant_surdas_sihi",
+   "to": "raja_nahar_singh_ballabhgarh",
+   "minutes": 3.5,
+   "km": 1.675,
+   "fare_km": 1.675,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "yamuna_vihar",
+   "to": "bhajanpura",
+   "minutes": 2.1,
+   "km": 1.47,
+   "fare_km": 1.47,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "bhajanpura",
+   "to": "khajuri_khas",
+   "minutes": 2.1,
+   "km": 0.788,
+   "fare_km": 0.788,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "khajuri_khas",
+   "to": "sonia_vihar",
+   "minutes": 2.1,
+   "km": 1.256,
+   "fare_km": 1.256,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "sonia_vihar",
+   "to": "soorghat",
+   "minutes": 2.1,
+   "km": 1.164,
+   "fare_km": 1.164,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "soorghat",
+   "to": "jagatpur_wazirabad",
+   "minutes": 2.1,
+   "km": 1.354,
+   "fare_km": 1.354,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "jagatpur_wazirabad",
+   "to": "jharoda_majra",
+   "minutes": 2.1,
+   "km": 0.888,
+   "fare_km": 0.888,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "jharoda_majra",
+   "to": "burari",
+   "minutes": 2.1,
+   "km": 1.682,
+   "fare_km": 1.682,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "burari",
+   "to": "majlis_park",
+   "minutes": 3.45,
+   "km": 1.954,
+   "fare_km": 2.01,
+   "directed": false,
+   "source": "dmrc_api",
+   "flag": "estimated (planner gave 0.03333333333333333 min)"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "majlis_park",
+   "to": "azadpur",
+   "minutes": 3.83,
+   "km": 1.909,
+   "fare_km": 2.01,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "azadpur",
+   "to": "shalimar_bagh",
+   "minutes": 2.68,
+   "km": 1.852,
+   "fare_km": 1.852,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "shalimar_bagh",
+   "to": "netaji_subhash_place",
+   "minutes": 2.52,
+   "km": 1.181,
+   "fare_km": 1.181,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "netaji_subhash_place",
+   "to": "shakurpur",
+   "minutes": 2.63,
+   "km": 1.244,
+   "fare_km": 1.244,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "shakurpur",
+   "to": "punjabi_bagh_west",
+   "minutes": 3.27,
+   "km": 1.801,
+   "fare_km": 1.801,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "punjabi_bagh_west",
+   "to": "esi_basaidarapur",
+   "minutes": 2.92,
+   "km": 1.949,
+   "fare_km": 2.01,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "esi_basaidarapur",
+   "to": "rajouri_garden",
+   "minutes": 1.93,
+   "km": 1.059,
+   "fare_km": 1.059,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "rajouri_garden",
+   "to": "mayapuri",
+   "minutes": 2.88,
+   "km": 1.406,
+   "fare_km": 1.406,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "mayapuri",
+   "to": "naraina_vihar",
+   "minutes": 3.0,
+   "km": 1.586,
+   "fare_km": 1.586,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "naraina_vihar",
+   "to": "delhi_cantt",
+   "minutes": 3.03,
+   "km": 1.759,
+   "fare_km": 1.759,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "delhi_cantt",
+   "to": "durgabai_deshmukh_south_campus",
+   "minutes": 4.92,
+   "km": 3.561,
+   "fare_km": 3.561,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "durgabai_deshmukh_south_campus",
+   "to": "sir_m_vishweshwaraiah_moti_bagh",
+   "minutes": 2.55,
+   "km": 1.353,
+   "fare_km": 1.353,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "sir_m_vishweshwaraiah_moti_bagh",
+   "to": "bhikaji_cama_place",
+   "minutes": 2.6,
+   "km": 1.392,
+   "fare_km": 1.392,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "bhikaji_cama_place",
+   "to": "sarojini_nagar",
+   "minutes": 2.22,
+   "km": 1.244,
+   "fare_km": 1.244,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "sarojini_nagar",
+   "to": "dilli_haat_ina",
+   "minutes": 2.0,
+   "km": 1.377,
+   "fare_km": 1.377,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "dilli_haat_ina",
+   "to": "south_extension",
+   "minutes": 2.3,
+   "km": 1.041,
+   "fare_km": 1.041,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "south_extension",
+   "to": "lajpat_nagar",
+   "minutes": 2.78,
+   "km": 1.602,
+   "fare_km": 1.602,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "lajpat_nagar",
+   "to": "vinobapuri",
+   "minutes": 2.9,
+   "km": 1.511,
+   "fare_km": 1.511,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "vinobapuri",
+   "to": "ashram",
+   "minutes": 2.98,
+   "km": 1.257,
+   "fare_km": 1.257,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "ashram",
+   "to": "sarai_kale_khan_nizamuddin",
+   "minutes": 2.85,
+   "km": 1.878,
+   "fare_km": 2.01,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "sarai_kale_khan_nizamuddin",
+   "to": "mayur_vihar_i",
+   "minutes": 4.88,
+   "km": 3.765,
+   "fare_km": 3.765,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "mayur_vihar_i",
+   "to": "shree_ram_mayur_vihar_mandir",
+   "minutes": 1.63,
+   "km": 0.698,
+   "fare_km": 0.698,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "shree_ram_mayur_vihar_mandir",
+   "to": "trilokpuri_sanjay_lake",
+   "minutes": 6.0,
+   "km": 1.391,
+   "fare_km": 1.391,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "trilokpuri_sanjay_lake",
+   "to": "east_vinod_nagar_mayur_vihar_ii",
+   "minutes": 2.2,
+   "km": 0.937,
+   "fare_km": 0.937,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "east_vinod_nagar_mayur_vihar_ii",
+   "to": "mandawali_west_vinod_nagar",
+   "minutes": 2.33,
+   "km": 0.502,
+   "fare_km": 0.502,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "mandawali_west_vinod_nagar",
+   "to": "i_p_extension",
+   "minutes": 2.9,
+   "km": 1.002,
+   "fare_km": 1.002,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "i_p_extension",
+   "to": "anand_vihar_isbt",
+   "minutes": 3.95,
+   "km": 1.822,
+   "fare_km": 2.01,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "anand_vihar_isbt",
+   "to": "karkarduma",
+   "minutes": 2.25,
+   "km": 1.019,
+   "fare_km": 1.019,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "karkarduma",
+   "to": "karkarduma_court",
+   "minutes": 2.3,
+   "km": 0.406,
+   "fare_km": 0.406,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "karkarduma_court",
+   "to": "krishna_nagar",
+   "minutes": 1.78,
+   "km": 2.071,
+   "fare_km": 2.0,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "krishna_nagar",
+   "to": "east_azad_nagar",
+   "minutes": 1.67,
+   "km": 0.992,
+   "fare_km": 0.992,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "east_azad_nagar",
+   "to": "welcome",
+   "minutes": 2.42,
+   "km": 0.915,
+   "fare_km": 0.915,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "welcome",
+   "to": "jafrabad",
+   "minutes": 3.1,
+   "km": 1.318,
+   "fare_km": 1.318,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK",
+   "from": "jafrabad",
+   "to": "maujpur_babarpur",
+   "minutes": 2.28,
+   "km": 1.142,
+   "fare_km": 1.142,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK_EXT",
+   "from": "maujpur_babarpur",
+   "to": "gokulpuri",
+   "minutes": 2.27,
+   "km": 1.438,
+   "fare_km": 1.438,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK_EXT",
+   "from": "gokulpuri",
+   "to": "johri_enclave",
+   "minutes": 2.27,
+   "km": 1.347,
+   "fare_km": 1.347,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_PINK_EXT",
+   "from": "johri_enclave",
+   "to": "shiv_vihar",
+   "minutes": 1.82,
+   "km": 0.787,
+   "fare_km": 0.787,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "krishna_park_extension",
+   "to": "janakpuri_west",
+   "minutes": 12.0,
+   "km": 2.132,
+   "fare_km": 2.132,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "janakpuri_west",
+   "to": "dabri_mor_janakpuri_south",
+   "minutes": 5.0,
+   "km": 1.619,
+   "fare_km": 1.619,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "dabri_mor_janakpuri_south",
+   "to": "dashrathpuri",
+   "minutes": 5.0,
+   "km": 1.472,
+   "fare_km": 1.472,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "dashrathpuri",
+   "to": "palam",
+   "minutes": 2.38,
+   "km": 1.5,
+   "fare_km": 1.5,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "palam",
+   "to": "sadar_bazar_cantonment",
+   "minutes": 3.97,
+   "km": 3.316,
+   "fare_km": 3.316,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "sadar_bazar_cantonment",
+   "to": "terminal_1_igi_airport",
+   "minutes": 3.02,
+   "km": 1.667,
+   "fare_km": 2.01,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "terminal_1_igi_airport",
+   "to": "shankar_vihar",
+   "minutes": 3.23,
+   "km": 1.624,
+   "fare_km": 2.01,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "shankar_vihar",
+   "to": "vasant_vihar",
+   "minutes": 2.78,
+   "km": 2.184,
+   "fare_km": 2.184,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "vasant_vihar",
+   "to": "munirka",
+   "minutes": 2.72,
+   "km": 1.15,
+   "fare_km": 1.15,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "munirka",
+   "to": "r_k_puram",
+   "minutes": 2.18,
+   "km": 1.47,
+   "fare_km": 1.47,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "r_k_puram",
+   "to": "iit",
+   "minutes": 1.87,
+   "km": 0.723,
+   "fare_km": 0.723,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "iit",
+   "to": "hauz_khas",
+   "minutes": 2.05,
+   "km": 1.467,
+   "fare_km": 1.467,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "hauz_khas",
+   "to": "panchsheel_park",
+   "minutes": 2.72,
+   "km": 1.217,
+   "fare_km": 1.217,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "panchsheel_park",
+   "to": "chirag_delhi",
+   "minutes": 2.12,
+   "km": 1.179,
+   "fare_km": 1.179,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "chirag_delhi",
+   "to": "greater_kailash",
+   "minutes": 1.8,
+   "km": 1.06,
+   "fare_km": 1.06,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "greater_kailash",
+   "to": "nehru_enclave",
+   "minutes": 2.33,
+   "km": 1.033,
+   "fare_km": 1.033,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "nehru_enclave",
+   "to": "kalkaji_mandir",
+   "minutes": 1.65,
+   "km": 0.699,
+   "fare_km": 0.699,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "kalkaji_mandir",
+   "to": "okhla_nsic",
+   "minutes": 1.97,
+   "km": 0.944,
+   "fare_km": 0.944,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "okhla_nsic",
+   "to": "sukhdev_vihar",
+   "minutes": 2.13,
+   "km": 1.013,
+   "fare_km": 1.013,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "sukhdev_vihar",
+   "to": "jamia_millia_islamia",
+   "minutes": 2.43,
+   "km": 1.26,
+   "fare_km": 1.26,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "jamia_millia_islamia",
+   "to": "okhla_vihar",
+   "minutes": 2.35,
+   "km": 0.621,
+   "fare_km": 0.621,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "okhla_vihar",
+   "to": "jasola_vihar_shaheen_bagh",
+   "minutes": 5.0,
+   "km": 1.709,
+   "fare_km": 1.709,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "jasola_vihar_shaheen_bagh",
+   "to": "kalindi_kunj",
+   "minutes": 5.0,
+   "km": 1.543,
+   "fare_km": 2.01,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "kalindi_kunj",
+   "to": "okhla_bird_sanctuary",
+   "minutes": 2.4,
+   "km": 1.515,
+   "fare_km": 1.515,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA",
+   "from": "okhla_bird_sanctuary",
+   "to": "botanical_garden",
+   "minutes": 3.43,
+   "km": 1.841,
+   "fare_km": 2.01,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA_EXT",
+   "from": "majlis_park",
+   "to": "bhalaswa",
+   "minutes": 1.8,
+   "km": 1.872,
+   "fare_km": 2.01,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA_EXT",
+   "from": "bhalaswa",
+   "to": "haiderpur_badli_mor",
+   "minutes": 1.8,
+   "km": 1.99,
+   "fare_km": 2.01,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA_EXT",
+   "from": "haiderpur_badli_mor",
+   "to": "north_pitampura",
+   "minutes": 1.8,
+   "km": 0.877,
+   "fare_km": 0.877,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA_EXT",
+   "from": "north_pitampura",
+   "to": "prashant_vihar",
+   "minutes": 1.8,
+   "km": 1.268,
+   "fare_km": 1.268,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_MAGENTA_EXT",
+   "from": "prashant_vihar",
+   "to": "madhuban_chowk",
+   "minutes": 2.26,
+   "km": 1.278,
+   "fare_km": 1.278,
+   "directed": false,
+   "source": "dmrc_api",
+   "flag": "estimated (planner gave 0.03333333333333333 min)"
+  },
+  {
+   "line": "DMRC_MAGENTA_EXT",
+   "from": "madhuban_chowk",
+   "to": "deepali_chowk",
+   "minutes": 1.8,
+   "km": 1.514,
+   "fare_km": 1.514,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREY",
+   "from": "dwarka_kakrola",
+   "to": "nangli",
+   "minutes": 2.27,
+   "km": 1.426,
+   "fare_km": 1.426,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREY",
+   "from": "nangli",
+   "to": "najafgarh",
+   "minutes": 4.07,
+   "km": 2.403,
+   "fare_km": 2.403,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREY",
+   "from": "najafgarh",
+   "to": "dhansa_bus_stand",
+   "minutes": 4.6,
+   "km": 0.876,
+   "fare_km": 0.876,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_AIRPORT",
+   "from": "new_delhi",
+   "to": "shivaji_stadium",
+   "minutes": 2.77,
+   "km": 1.757,
+   "fare_km": 1.757,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_AIRPORT",
+   "from": "shivaji_stadium",
+   "to": "dhaula_kuan",
+   "minutes": 4.98,
+   "km": 6.35,
+   "fare_km": 6.35,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_AIRPORT",
+   "from": "dhaula_kuan",
+   "to": "delhi_aerocity",
+   "minutes": 5.02,
+   "km": 6.474,
+   "fare_km": 6.474,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_AIRPORT",
+   "from": "delhi_aerocity",
+   "to": "airport_t3",
+   "minutes": 3.53,
+   "km": 3.228,
+   "fare_km": 3.228,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_AIRPORT",
+   "from": "airport_t3",
+   "to": "dwarka_sector_21",
+   "minutes": 3.07,
+   "km": 2.852,
+   "fare_km": 2.852,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_AIRPORT",
+   "from": "dwarka_sector_21",
+   "to": "yashobhoomi_dwarka_sector_25",
+   "minutes": 2.07,
+   "km": 1.284,
+   "fare_km": 1.284,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "RAPID",
+   "from": "sector_55_56",
+   "to": "sector_54_chowk",
+   "minutes": 1.82,
+   "km": 0.877,
+   "fare_km": 0.877,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "RAPID",
+   "from": "sector_54_chowk",
+   "to": "sector_53_54",
+   "minutes": 2.3,
+   "km": 1.77,
+   "fare_km": 1.77,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "RAPID",
+   "from": "sector_53_54",
+   "to": "sector_42_43",
+   "minutes": 2.03,
+   "km": 1.27,
+   "fare_km": 1.27,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "RAPID",
+   "from": "sector_42_43",
+   "to": "phase_1",
+   "minutes": 2.33,
+   "km": 1.475,
+   "fare_km": 1.475,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "RAPID",
+   "from": "phase_1",
+   "to": "sikanderpur",
+   "minutes": 2.2,
+   "km": 1.19,
+   "fare_km": 1.19,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "RAPID",
+   "from": "sikanderpur",
+   "to": "phase_2",
+   "minutes": 1.78,
+   "km": 0.667,
+   "fare_km": 0.667,
+   "directed": false,
+   "source": "dmrc_api"
+  },
+  {
+   "line": "DMRC_GREEN",
+   "from": "satguru_ram_singh_marg",
+   "to": "ashok_park_main",
+   "minutes": 3.08,
+   "km": 1.051,
+   "fare_km": 1.051,
+   "directed": false,
+   "source": "manual"
+  },
+  {
+   "line": "RAPID",
+   "from": "phase_2",
+   "to": "belvedere_towers",
+   "minutes": 1.52,
+   "km": 0.721,
+   "fare_km": 0.721,
+   "directed": true,
+   "source": "manual"
+  },
+  {
+   "line": "RAPID",
+   "from": "belvedere_towers",
+   "to": "cyber_city",
+   "minutes": 1.87,
+   "km": 0.608,
+   "fare_km": 0.608,
+   "directed": true,
+   "source": "manual"
+  },
+  {
+   "line": "RAPID",
+   "from": "cyber_city",
+   "to": "moulsari_avenue",
+   "minutes": 1.68,
+   "km": 0.493,
+   "fare_km": 0.493,
+   "directed": true,
+   "source": "manual"
+  },
+  {
+   "line": "RAPID",
+   "from": "moulsari_avenue",
+   "to": "phase_3",
+   "minutes": 1.98,
+   "km": 0.824,
+   "fare_km": 0.824,
+   "directed": true,
+   "source": "manual"
+  },
+  {
+   "line": "RAPID",
+   "from": "phase_3",
+   "to": "phase_2",
+   "minutes": 1.67,
+   "km": 0.59,
+   "fare_km": 0.59,
+   "directed": true,
+   "source": "manual"
+  },
+  {
+   "line": "NMRC_AQUA",
+   "from": "noida_sector_51",
+   "to": "noida_sector_50",
+   "minutes": 2.0,
+   "km": 1.27,
+   "directed": false,
+   "source": "manual (nmrc planner)"
+  },
+  {
+   "line": "NMRC_AQUA",
+   "from": "noida_sector_50",
+   "to": "noida_sector_76",
+   "minutes": 2.0,
+   "km": 1.0,
+   "directed": false,
+   "source": "manual (nmrc planner)"
+  },
+  {
+   "line": "NMRC_AQUA",
+   "from": "noida_sector_76",
+   "to": "noida_sector_101",
+   "minutes": 2.0,
+   "km": 1.16,
+   "directed": false,
+   "source": "manual (nmrc planner)"
+  },
+  {
+   "line": "NMRC_AQUA",
+   "from": "noida_sector_101",
+   "to": "noida_sector_81",
+   "minutes": 2.0,
+   "km": 0.91,
+   "directed": false,
+   "source": "manual (nmrc planner)"
+  },
+  {
+   "line": "NMRC_AQUA",
+   "from": "noida_sector_81",
+   "to": "nsez",
+   "minutes": 2.0,
+   "km": 1.19,
+   "directed": false,
+   "source": "manual (nmrc planner)"
+  },
+  {
+   "line": "NMRC_AQUA",
+   "from": "nsez",
+   "to": "noida_sector_83",
+   "minutes": 2.0,
+   "km": 1.139,
+   "directed": false,
+   "source": "manual (nmrc planner)"
+  },
+  {
+   "line": "NMRC_AQUA",
+   "from": "noida_sector_83",
+   "to": "noida_sector_137",
+   "minutes": 2.0,
+   "km": 1.46,
+   "directed": false,
+   "source": "manual (nmrc planner)"
+  },
+  {
+   "line": "NMRC_AQUA",
+   "from": "noida_sector_137",
+   "to": "noida_sector_142",
+   "minutes": 2.0,
+   "km": 1.68,
+   "directed": false,
+   "source": "manual (nmrc planner)"
+  },
+  {
+   "line": "NMRC_AQUA",
+   "from": "noida_sector_142",
+   "to": "noida_sector_143",
+   "minutes": 2.0,
+   "km": 1.1,
+   "directed": false,
+   "source": "manual (nmrc planner)"
+  },
+  {
+   "line": "NMRC_AQUA",
+   "from": "noida_sector_143",
+   "to": "noida_sector_144",
+   "minutes": 2.0,
+   "km": 1.39,
+   "directed": false,
+   "source": "manual (nmrc planner)"
+  },
+  {
+   "line": "NMRC_AQUA",
+   "from": "noida_sector_144",
+   "to": "noida_sector_145",
+   "minutes": 2.0,
+   "km": 1.21,
+   "directed": false,
+   "source": "manual (nmrc planner)"
+  },
+  {
+   "line": "NMRC_AQUA",
+   "from": "noida_sector_145",
+   "to": "noida_sector_146",
+   "minutes": 2.0,
+   "km": 1.73,
+   "directed": false,
+   "source": "manual (nmrc planner)"
+  },
+  {
+   "line": "NMRC_AQUA",
+   "from": "noida_sector_146",
+   "to": "noida_sector_147",
+   "minutes": 2.0,
+   "km": 1.5,
+   "directed": false,
+   "source": "manual (nmrc planner)"
+  },
+  {
+   "line": "NMRC_AQUA",
+   "from": "noida_sector_147",
+   "to": "noida_sector_148",
+   "minutes": 2.0,
+   "km": 1.62,
+   "directed": false,
+   "source": "manual (nmrc planner)"
+  },
+  {
+   "line": "NMRC_AQUA",
+   "from": "noida_sector_148",
+   "to": "knowledge_park_ii",
+   "minutes": 2.0,
+   "km": 2.97,
+   "directed": false,
+   "source": "manual (nmrc planner)"
+  },
+  {
+   "line": "NMRC_AQUA",
+   "from": "knowledge_park_ii",
+   "to": "pari_chowk",
+   "minutes": 2.0,
+   "km": 1.1,
+   "directed": false,
+   "source": "manual (nmrc planner)"
+  },
+  {
+   "line": "NMRC_AQUA",
+   "from": "pari_chowk",
+   "to": "alpha_1",
+   "minutes": 2.0,
+   "km": 1.12,
+   "directed": false,
+   "source": "manual (nmrc planner)"
+  },
+  {
+   "line": "NMRC_AQUA",
+   "from": "alpha_1",
+   "to": "delta_1",
+   "minutes": 2.0,
+   "km": 1.52,
+   "directed": false,
+   "source": "manual (nmrc planner)"
+  },
+  {
+   "line": "NMRC_AQUA",
+   "from": "delta_1",
+   "to": "gnida_office",
+   "minutes": 2.0,
+   "km": 1.27,
+   "directed": false,
+   "source": "manual (nmrc planner)"
+  },
+  {
+   "line": "NMRC_AQUA",
+   "from": "gnida_office",
+   "to": "depot",
+   "minutes": 2.0,
+   "km": 0.86,
+   "directed": false,
+   "source": "manual (nmrc planner)"
+  }
+ ],
+ "walks": [
+  {
+   "from": "noida_sector_52",
+   "to": "noida_sector_51",
+   "minutes": 6.0,
+   "note": "Noida Sector 52 (Blue) <-> Noida Sector 51 (Aqua) skywalk; minutes estimated"
+  },
+  {
+   "from": "durgabai_deshmukh_south_campus",
+   "to": "dhaula_kuan",
+   "minutes": 15.0,
+   "note": "Durgabai Deshmukh South Campus (Pink) <-> Dhaula Kuan (Airport) FOB; DMRC lists it as LN12 at 0:15:00"
+  }
+ ]
+}

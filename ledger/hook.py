@@ -39,6 +39,7 @@ SECRET_PATTERNS = [
     re.compile(r"\b[A-Fa-f0-9]{32,}\b"),                      # long hex
     # long base64-ish blobs: mixed case + digits, so paths and words survive
     re.compile(r"(?=[\w+\-]*\d)(?=[\w+\-]*[A-Z])(?=[\w+\-]*[a-z])\b[\w+\-]{40,}={0,2}"),
+    re.compile(r"\b[\w.+\-]+@[\w\-]+\.[\w.\-]+\b"),  # email addresses
     # UPI VPAs on common handles (the repo is public)
     re.compile(
         r"\b[\w.\-]+@(?:upi|ybl|ibl|axl|paytm|ptyes|ptaxis|pthdfc|ptsbi|apl|"

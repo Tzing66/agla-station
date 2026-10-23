@@ -1,0 +1,182 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-23T11:35:02Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 4849443433,
+  "lat": 28.4570728,
+  "lon": 77.5002978,
+  "tags": {
+    "name": "Knowledge Park II",
+    "name:hi": "नॉलेज पार्क II",
+    "network": "Noida Metro",
+    "operator": "Noida Metro Rail Corporation",
+    "public_transport": "stop_position",
+    "subway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5215706233,
+  "lat": 28.4988486,
+  "lon": 77.4127843,
+  "tags": {
+    "name": "Noida Sector the Noida Metro Rail Corporation (NMRC) has submitted a Detailed Project Report (DPR) to the Noida and Greater Noida authorities for approval.142",
+    "operator": "NMRC",
+    "public_transport": "stop_position",
+    "railway": "stop",
+    "subway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5777613618,
+  "lat": 28.4989702,
+  "lon": 77.4128457,
+  "tags": {
+    "name": "Noida Sector 142",
+    "operator": "NMRC",
+    "public_transport": "stop_position",
+    "railway": "stop",
+    "subway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5777613685,
+  "lat": 28.4570311,
+  "lon": 77.5003351,
+  "tags": {
+    "name": "Knowledge Park II",
+    "name:hi": "नॉलेज पार्क II",
+    "network": "Noida Metro",
+    "operator": "Noida Metro Rail Corporation",
+    "public_transport": "stop_position",
+    "subway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5777613688,
+  "lat": 28.4633782,
+  "lon": 77.5083695,
+  "tags": {
+    "name": "Pari Chowk",
+    "public_transport": "stop_position",
+    "railway": "stop",
+    "subway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10074914470,
+  "lat": 28.4634141,
+  "lon": 77.5083353,
+  "tags": {
+    "name": "Pari Chowk",
+    "public_transport": "stop_position",
+    "railway": "stop",
+    "subway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10074914477,
+  "lat": 28.4990137,
+  "lon": 77.4128680,
+  "tags": {
+    "name": "Noida Sector 142",
+    "operator": "NMRC",
+    "public_transport": "stop_position",
+    "railway": "stop",
+    "subway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13447021562,
+  "lat": 28.4991296,
+  "lon": 77.4129374,
+  "tags": {
+    "name": "Noida Sector 142",
+    "operator": "NMRC",
+    "public_transport": "stop_position",
+    "railway": "stop",
+    "subway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 696190204,
+  "center": {
+    "lat": 28.4570041,
+    "lon": 77.5002518
+  },
+  "tags": {
+    "building": "yes",
+    "layer": "2",
+    "name": "Knowledge Park II",
+    "name:fa": "پارک دانش ۲",
+    "name:hi": "नॉलेज पार्क II",
+    "network": "Noida Metro",
+    "public_transport": "station",
+    "railway": "station",
+    "station": "subway",
+    "subway": "yes",
+    "wikidata": "Q39049227",
+    "wikipedia": "en:Knowledge Park II metro station"
+  }
+},
+{
+  "type": "way",
+  "id": 696191675,
+  "center": {
+    "lat": 28.4631628,
+    "lon": 77.5081412
+  },
+  "tags": {
+    "building": "yes",
+    "layer": "1",
+    "name": "Pari Chowk",
+    "name:fa": "پاری چوک",
+    "name:hi": "परी चौक",
+    "network": "Noida Metro",
+    "public_transport": "station",
+    "railway": "station",
+    "station": "subway",
+    "subway": "yes",
+    "wikidata": "Q39049230",
+    "wikipedia": "en:Pari Chowk metro station"
+  }
+},
+{
+  "type": "way",
+  "id": 1008841199,
+  "center": {
+    "lat": 28.4990497,
+    "lon": 77.4127688
+  },
+  "tags": {
+    "building": "yes",
+    "layer": "1",
+    "name": "Noida Sector 142",
+    "name:fa": "نویدا - بخش ۱۴۲",
+    "name:hi": "नोएडा सेक्टर १४२",
+    "network": "Noida Metro",
+    "public_transport": "station",
+    "railway": "station",
+    "station": "subway",
+    "subway": "yes",
+    "wikidata": "Q39049215",
+    "wikipedia": "en:Noida Sector 142 metro station"
+  }
+}
+
+  ]
+}

@@ -20,3 +20,6 @@ ledger/.session_cost.json
 # os / editor
 .DS_Store
 .vscode/
+
+# playwright mcp output
+.playwright-mcp/

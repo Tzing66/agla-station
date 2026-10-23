@@ -1,0 +1,51 @@
+# Fare rules per operator. Never invent fares: every rule records where it came from.
+# A trip that uses several operators pays the sum of each operator's contiguous segment
+# (verified against the DMRC journey planner, e.g. Rajiv Chowk -> Cyber City = 54 DMRC + 20 Rapid Metro).
+# Fares are single-journey token/QR fares in INR. Smart-card discounts are not applied.
+
+# Sunday-and-national-holiday pricing applies on Sundays and these dates (MM-DD), per the NMRC fare page.
+national_holidays: ["01-26", "08-15", "10-02"]
+
+operators:
+  DMRC:
+    kind: distance_slabs
+    source_url: https://www.delhimetrorail.com/
+    distance: track km approximated by summing straight-line distances between consecutive stations
+    # upper bound (km, inclusive) -> fare. Last slab has no upper bound.
+    weekday: [[2, 11], [5, 21], [12, 32], [21, 43], [32, 54], [null, 64]]
+    sunday_holiday: [[2, 11], [5, 11], [12, 21], [21, 32], [32, 43], [null, 54]]
+    source: >-
+      Slab values: DMRC fare revision w.e.f. 2025-08-25 as reported by Business Standard
+      (https://www.business-standard.com/india-news/delhi-metro-travel-fares-revised-today-blue-red-yellow-airport-line-125082500111_1.html).
+      Verified against the official DMRC journey planner API
+      (https://backend.delhimetrorail.com/api/v2/en/station_route/...), see scripts/verify_fares.py.
+    fetched: 2026-10-23
+
+  DMRC_AIRPORT:
+    kind: od_table
+    source_url: https://www.delhimetrorail.com/
+    table: data/fares/airport_od.csv
+    source: Official DMRC journey planner API, every station pair, weekday + Sunday (no Sunday discount on this line).
+    fetched: 2026-10-23
+
+  RAPID:
+    kind: od_table
+    source_url: https://www.delhimetrorail.com/
+    table: data/fares/rapid_od.csv
+    source: >-
+      Official DMRC journey planner API (Rapid Metro is listed as RMGL), every station pair, weekday + Sunday.
+      Fares are direction-dependent on the one-way loop. No Sunday discount.
+    # When a trip changes between DMRC and Rapid Metro at Sikanderpur, the Rapid Metro part costs this flat
+    # amount instead of the standalone fare (which includes a Sikanderpur charge). Seen on every official sample:
+    # Rajiv Chowk -> Cyber City / Sector 55-56 / Moulsari Avenue / Phase 3 = 54 DMRC + 20 (weekday), 43 + 20 (Sunday).
+    through_fare: 20
+    fetched: 2026-10-23
+
+  NMRC:
+    kind: station_count_slabs
+    source_url: https://www.nmrcnoida.com/Passenger-Information/Metro-Rail/Fare-Table
+    # upper bound (stations travelled, inclusive) -> fare
+    weekday: [[1, 10], [2, 15], [6, 20], [9, 30], [16, 40], [null, 50]]
+    sunday_holiday: [[1, 10], [2, 10], [6, 15], [9, 20], [16, 30], [null, 40]]
+    source: https://www.nmrcnoida.com/Passenger-Information/Metro-Rail/Fare-Table
+    fetched: 2026-10-23

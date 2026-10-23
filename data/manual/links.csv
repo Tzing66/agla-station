@@ -1,0 +1,17 @@
+# MANUAL DATA. Topology fixes and walking interchanges on top of the DMRC API snapshot.
+# action: add_edge (ride edge on a line), remove_edge, walk (walking interchange between two different stations)
+# directed: 1 = only from -> to (Rapid Metro loop runs one way)
+action,line,from,to,minutes,directed,note
+remove_edge,LN5,SRSM,ILOK,,0,"station_by_line lists them adjacent; the branch actually joins at Ashok Park Main"
+add_edge,LN5,SRSM,APMN,3.08,0,"DMRC journey planner SRSM->APMN 0:03:05 (fetched 2026-10-23)"
+remove_edge,LN11,DL2,BEL,,0,"replaced by directed loop edge below"
+remove_edge,LN11,BEL,GAT,,0,"replaced by directed loop edge below"
+remove_edge,LN11,GAT,MAL,,0,"replaced by directed loop edge below"
+remove_edge,LN11,MAL,DL3,,0,"replaced by directed loop edge below"
+add_edge,LN11,DL2,BEL,1.52,1,"Rapid Metro loop is one-way: Sikanderpur->Phase 2->Belvedere->Cyber City->Moulsari->Phase 3->Phase 2 (DMRC journey planner)"
+add_edge,LN11,BEL,GAT,1.87,1,"loop"
+add_edge,LN11,GAT,MAL,1.68,1,"loop"
+add_edge,LN11,MAL,DL3,1.98,1,"loop"
+add_edge,LN11,DL3,DL2,1.67,1,"closes the loop; DMRC journey planner DL3->SKRP 0:03:27 minus SKRP-DL2 1:47"
+walk,,SFTN,AQ01,6,0,"Noida Sector 52 (Blue) <-> Noida Sector 51 (Aqua) skywalk; minutes estimated"
+walk,,DDSC,DKV,15,0,"Durgabai Deshmukh South Campus (Pink) <-> Dhaula Kuan (Airport) FOB; DMRC lists it as LN12 at 0:15:00"

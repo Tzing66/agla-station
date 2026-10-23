@@ -1,0 +1,76 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-23T11:43:06Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 2832938329,
+  "lat": 28.6289471,
+  "lon": 77.0779492,
+  "tags": {
+    "name": "Janakpuri West",
+    "name:fa": "جنکپوری غربی",
+    "name:hi": "जनकपुरी वेस्ट",
+    "network": "Delhi Metro",
+    "note": "Contributors are requested to not edit the \"network\" and the \"operator\" tags. (2023/06/22)",
+    "operator": "Delhi Metro Rail Corporation Limited",
+    "public_transport": "station",
+    "railway": "station",
+    "ref": "JPW",
+    "station": "subway",
+    "subway": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q6150737",
+    "wikipedia": "en:Janakpuri West metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 6541854249,
+  "lat": 28.6295839,
+  "lon": 77.0780850,
+  "tags": {
+    "name": "Janakpuri West",
+    "name:fa": "جنکپوری غربی",
+    "name:hi": "जनकपुरी वेस्ट",
+    "network": "Delhi Metro",
+    "note": "Contributors are requested to not edit the \"network\" and the \"operator\" tags. (2023/06/22)",
+    "operator": "Delhi Metro Rail Corporation Limited",
+    "public_transport": "station",
+    "railway": "station",
+    "ref": "JPW",
+    "station": "subway",
+    "subway": "yes",
+    "wikidata": "Q6150737",
+    "wikipedia": "en:Janakpuri West metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 12149316873,
+  "lat": 28.6477917,
+  "lon": 77.0843425,
+  "tags": {
+    "name": "Krishna Park Extension",
+    "name:fa": "پروژه الحاقی پارک کریشنا",
+    "name:hi": "कृष्णा पार्क एक्सटेंशन",
+    "network": "Delhi Metro",
+    "operator": "Delhi Metro Rail Corporation Limited",
+    "public_transport": "station",
+    "railway": "station",
+    "ref": "KPEN",
+    "station": "subway",
+    "subway": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q131309538",
+    "wikipedia": "en:Krishna Park Extension metro station"
+  }
+}
+
+  ]
+}

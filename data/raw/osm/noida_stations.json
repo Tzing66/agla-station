@@ -1,0 +1,634 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-23T11:34:01Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 2833058750,
+  "lat": 28.5639051,
+  "lon": 77.3338373,
+  "tags": {
+    "name": "Botanical Garden (Magenta Line)",
+    "name:fa": "باغ گیاه‌شناسی (خط سرخابی)",
+    "name:hi": "बोटैनिकल गार्डन",
+    "network": "Delhi Metro",
+    "note": "Contributors are requested to not edit the \"network\" and the \"operator\" tags. (2023/06/23)",
+    "operator": "Delhi Metro Rail Corporation Limited",
+    "public_transport": "station",
+    "railway": "station",
+    "ref": "BCGN",
+    "station": "subway",
+    "subway": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q4948436",
+    "wikipedia": "en:Botanical Garden metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 4165777365,
+  "lat": 28.4942558,
+  "lon": 77.4223772,
+  "tags": {
+    "name": "Noida Sector 143",
+    "name:fa": "نویدا - بخش ۱۴۳",
+    "name:hi": "नोएडा सेक्टर 1४३",
+    "network": "Noida Metro",
+    "operator": "NR",
+    "public_transport": "station",
+    "railway": "station",
+    "station": "subway",
+    "subway": "yes",
+    "wikidata": "Q39049217",
+    "wikipedia": "en:Noida Sector 143 metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 4165777372,
+  "lat": 28.4480552,
+  "lon": 77.4766042,
+  "tags": {
+    "name": "Noida Sector 148",
+    "name:fa": "نویدا - بخش ۱۴۸",
+    "name:hi": "नोएडा सेक्टर १४८",
+    "network": "Noida Metro",
+    "operator": "NR",
+    "public_transport": "station",
+    "railway": "station",
+    "station": "subway",
+    "subway": "yes",
+    "wikidata": "Q60685649",
+    "wikipedia": "en:Noida Sector 148 metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 4165778689,
+  "lat": 28.4710345,
+  "lon": 77.5127373,
+  "tags": {
+    "name": "Alpha 1",
+    "name:fa": "آلفا ۱",
+    "name:hi": "एल्फा १",
+    "network": "Noida Metro",
+    "operator": "NR",
+    "public_transport": "station",
+    "railway": "station",
+    "station": "subway",
+    "subway": "yes",
+    "wikidata": "Q60685657",
+    "wikipedia": "en:ALPHA 1 metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 4165778690,
+  "lat": 28.4784766,
+  "lon": 77.5257314,
+  "tags": {
+    "name": "Delta 1",
+    "name:fa": "دلتا ۱",
+    "name:hi": "डेल्टा १",
+    "network": "Noida Metro",
+    "operator": "NR",
+    "public_transport": "station",
+    "railway": "station",
+    "station": "subway",
+    "subway": "yes",
+    "wikidata": "Q39049232",
+    "wikipedia": "en:DELTA 1 metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 4165778691,
+  "lat": 28.4846826,
+  "lon": 77.5365039,
+  "tags": {
+    "name": "GNIDA Office",
+    "name:fa": "دفتر جی ان آیی دی ای",
+    "name:hi": "जी एन आई डी ए ऑफिस",
+    "network": "Noida Metro",
+    "operator": "Noida Metro Rail Corporation Limited (NMRC)",
+    "public_transport": "station",
+    "railway": "station",
+    "station": "subway",
+    "subway": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q60685663",
+    "wikipedia": "en:GNIDA Office metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 4165778709,
+  "lat": 28.4593549,
+  "lon": 77.4661150,
+  "tags": {
+    "name": "Noida Sector 147",
+    "name:fa": "نویدا - بخش ۱۴۷",
+    "name:hi": "नोएडा सेक्टर १४७",
+    "network": "Noida Metro",
+    "operator": "NR",
+    "public_transport": "station",
+    "railway": "station",
+    "station": "subway",
+    "subway": "yes",
+    "wikidata": "Q39049218",
+    "wikipedia": "en:Noida Sector 147 metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 4165778734,
+  "lat": 28.4862877,
+  "lon": 77.4330770,
+  "tags": {
+    "name": "Noida Sector 144",
+    "name:fa": "نویدا - بخش ۱۴۴",
+    "name:hi": "नोएडा सेक्टर १४४",
+    "network": "Noida Metro",
+    "operator": "NR",
+    "public_transport": "station",
+    "railway": "station",
+    "station": "subway",
+    "subway": "yes",
+    "wikidata": "Q39049222",
+    "wikipedia": "en:Noida Sector 144 metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 4267913896,
+  "lat": 28.5222688,
+  "lon": 77.3964456,
+  "tags": {
+    "name": "Noida Sector 83",
+    "name:fa": "نویدا - بخش ۸۳",
+    "name:hi": "नोएडा सेक्टर ८३",
+    "network": "Noida Metro",
+    "operator": "NR",
+    "public_transport": "station",
+    "railway": "station",
+    "station": "subway",
+    "subway": "yes",
+    "wikidata": "Q39049211",
+    "wikipedia": "en:Noida Sector 83 metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 4267913913,
+  "lat": 28.5107689,
+  "lon": 77.4036068,
+  "tags": {
+    "name": "Noida Sector 137",
+    "name:fa": "نویدا - بخش ۱۳۷",
+    "name:hi": "नोएडा सेक्टर १३७",
+    "network": "Noida Metro",
+    "operator": "NR",
+    "public_transport": "station",
+    "railway": "station",
+    "station": "subway",
+    "subway": "yes",
+    "wikidata": "Q39049212",
+    "wikipedia": "en:Noida Sector 137 metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 4678434989,
+  "lat": 28.4688192,
+  "lon": 77.4552077,
+  "tags": {
+    "name": "Noida Sector 146",
+    "name:fa": "نویدا - بخش ۱۴۶",
+    "name:hi": "नोएडा सेक्टर १५३",
+    "network": "Noida Metro",
+    "operator": "NR",
+    "public_transport": "station",
+    "railway": "station",
+    "station": "subway",
+    "subway": "yes",
+    "wikidata": "Q39049224",
+    "wikipedia": "en:Noida Sector 146 metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 4678434990,
+  "lat": 28.4789957,
+  "lon": 77.4424100,
+  "tags": {
+    "name": "Noida Sector 145",
+    "name:fa": "نویدا - بخش ۱۴۵",
+    "name:hi": "नोएडा सेक्टर १४५",
+    "network": "Noida Metro",
+    "operator": "NR",
+    "public_transport": "station",
+    "railway": "station",
+    "station": "subway",
+    "subway": "yes",
+    "wikidata": "Q60685643",
+    "wikipedia": "en:Noida Sector 145 metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 4849443432,
+  "lat": 28.5324041,
+  "lon": 77.3947544,
+  "tags": {
+    "name": "NSEZ",
+    "name:fa": "ان اس ای زی",
+    "name:hi": "एन॰एस॰ई॰ज़ेड॰",
+    "network": "Noida Metro",
+    "operator": "NR",
+    "public_transport": "station",
+    "railway": "station",
+    "station": "subway",
+    "subway": "yes",
+    "wikidata": "Q60685637",
+    "wikipedia": "en:NSEZ metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 4849447792,
+  "lat": 28.4890137,
+  "lon": 77.5440093,
+  "tags": {
+    "name": "Depot Station",
+    "name:fa": "دپو",
+    "name:hi": "डिपो",
+    "network": "Noida Metro",
+    "public_transport": "station",
+    "railway": "station",
+    "station": "subway",
+    "subway": "yes",
+    "wikidata": "Q39049233",
+    "wikipedia": "en:Depot metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 4950920120,
+  "lat": 28.5560481,
+  "lon": 77.3849489,
+  "tags": {
+    "name": "Noida Sector 101",
+    "name:fa": "نویدا - بخش ۱۰۱",
+    "name:hi": "नोएडा सेक्टर १०१",
+    "network": "Noida Metro",
+    "operator": "NR",
+    "platforms": "2",
+    "public_transport": "station",
+    "railway": "station",
+    "station": "subway",
+    "subway": "yes",
+    "wikidata": "Q39049206",
+    "wikipedia": "en:Noida Sector 101 metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 4950923222,
+  "lat": 28.5857189,
+  "lon": 77.3752593,
+  "tags": {
+    "name": "Noida Sector 51",
+    "name:fa": "نویدا - بخش ۵۱",
+    "name:hi": "नोएडा सेक्टर ५१",
+    "network": "Noida Metro",
+    "operator": "NR",
+    "platforms": "2",
+    "public_transport": "station",
+    "railway": "station",
+    "station": "subway",
+    "subway": "yes",
+    "wikidata": "Q61445024",
+    "wikipedia": "en:Noida Sector 51 metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 4950923223,
+  "lat": 28.5653305,
+  "lon": 77.3796581,
+  "tags": {
+    "name": "Noida Sector 76",
+    "name:fa": "نویدا - بخش ۷۶",
+    "name:hi": "नोएडा सेक्टर 76",
+    "network": "Noida Metro",
+    "operator": "NR",
+    "platforms": "2",
+    "public_transport": "station",
+    "railway": "station",
+    "station": "subway",
+    "subway": "yes",
+    "wikidata": "Q39049201",
+    "wikipedia": "en:Noida Sector 76 metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 4950923224,
+  "lat": 28.5492993,
+  "lon": 77.3899489,
+  "tags": {
+    "name": "Noida Sector 81",
+    "name:fa": "نویدا - بخش ۸۱",
+    "name:hi": "नोएडा सेक्टर ८१",
+    "network": "Noida Metro",
+    "operator": "NR",
+    "platforms": "2",
+    "public_transport": "station",
+    "railway": "station",
+    "station": "subway",
+    "subway": "yes",
+    "wikidata": "Q39049205",
+    "wikipedia": "en:Noida Sector 81 metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 5045260875,
+  "lat": 28.5875659,
+  "lon": 77.4959882,
+  "tags": {
+    "name": "Maripat",
+    "network": "IR",
+    "operator": "NR",
+    "railway": "station",
+    "ref": "MIU",
+    "wikidata": "Q63370783"
+  }
+},
+{
+  "type": "node",
+  "id": 6537260850,
+  "lat": 28.5747334,
+  "lon": 77.3561638,
+  "tags": {
+    "alt_name": "Wave City Center Noida;Noida Sector 32",
+    "name": "Noida City Centre",
+    "name:fa": "مرکز شهر نویدا",
+    "name:hi": "नोएडा सिटी सेंटर",
+    "network": "Delhi Metro",
+    "note": "Contributors are requested to not edit the \"network\" and the \"operator\" tags. (2023/06/23)",
+    "operator": "Delhi Metro Rail Corporation Limited",
+    "platforms": "2",
+    "public_transport": "station",
+    "railway": "station",
+    "ref": "NCC",
+    "station": "subway",
+    "subway": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q4207094",
+    "wikipedia": "en:Noida City Centre metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 6537268384,
+  "lat": 28.5673755,
+  "lon": 77.3463247,
+  "tags": {
+    "name": "Noida Golf Course",
+    "name:fa": "زمین گلف",
+    "name:hi": "नोएडा गोल्फ़ कोर्स",
+    "network": "Delhi Metro",
+    "note": "Contributors are requested to not edit the \"network\" and the \"operator\" tags. (2023/06/23)",
+    "operator": "Delhi Metro Rail Corporation Limited",
+    "public_transport": "station",
+    "railway": "station",
+    "ref": "GEC",
+    "station": "subway",
+    "subway": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q7047598",
+    "wikipedia": "en:Golf Course metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 6537285485,
+  "lat": 28.5639434,
+  "lon": 77.3343995,
+  "tags": {
+    "name": "Botanical Garden (Blue Line)",
+    "name:fa": "باغ گیاه‌شناسی (خط آبی)",
+    "name:hi": "बोटैनिकल गार्डन",
+    "network": "Delhi Metro",
+    "note": "Contributors are requested to not edit the \"network\" and the \"operator\" tags. (2023/06/23)",
+    "operator": "Delhi Metro Rail Corporation Limited",
+    "public_transport": "station",
+    "railway": "station",
+    "ref": "BCGN",
+    "station": "subway",
+    "subway": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q4948436",
+    "wikipedia": "en:Botanical Garden metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 6539894863,
+  "lat": 28.6169861,
+  "lon": 77.3735885,
+  "tags": {
+    "name": "Noida Sector 62",
+    "name:fa": "نویدا - بخش ۶۲",
+    "network": "Delhi Metro",
+    "note": "Contributors are requested to not edit the \"network\" and the \"operator\" tags. (2023/06/23)",
+    "operator": "Delhi Metro Rail Corporation Limited",
+    "platforms": "2",
+    "public_transport": "station",
+    "railway": "station",
+    "ref": "SSTN",
+    "station": "subway",
+    "subway": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q55625349",
+    "wikipedia": "en:Noida Sector 62 metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 6539894864,
+  "lat": 28.6065279,
+  "lon": 77.3726828,
+  "tags": {
+    "name": "Noida Sector 59",
+    "name:fa": "نویدا - بخش ۵۹",
+    "network": "Delhi Metro",
+    "note": "Contributors are requested to not edit the \"network\" and the \"operator\" tags. (2023/06/23)",
+    "operator": "Delhi Metro Rail Corporation Limited",
+    "platforms": "2",
+    "public_transport": "station",
+    "railway": "station",
+    "station": "subway",
+    "subway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6539894865,
+  "lat": 28.5975854,
+  "lon": 77.3722663,
+  "tags": {
+    "name": "Noida Sector 61",
+    "name:fa": "نویدا - بخش ۶۱",
+    "network": "Delhi Metro",
+    "note": "Contributors are requested to not edit the \"network\" and the \"operator\" tags. (2023/06/23)",
+    "operator": "Delhi Metro Rail Corporation Limited",
+    "platforms": "2",
+    "public_transport": "station",
+    "railway": "station",
+    "station": "subway",
+    "subway": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q28169401",
+    "wikipedia": "en:Noida Sector 61 metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 6539894866,
+  "lat": 28.5868739,
+  "lon": 77.3730237,
+  "tags": {
+    "name": "Noida Sector 52",
+    "name:fa": "نویدا - بخش ۵۲",
+    "network": "Delhi Metro",
+    "note": "Contributors are requested to not edit the \"network\" and the \"operator\" tags. (2023/06/23)",
+    "operator": "Delhi Metro Rail Corporation Limited",
+    "platforms": "2",
+    "public_transport": "station",
+    "railway": "station",
+    "station": "subway",
+    "subway": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q28169402",
+    "wikipedia": "en:Noida Sector 52 metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 6539894867,
+  "lat": 28.5802538,
+  "lon": 77.3634917,
+  "tags": {
+    "name": "Noida Sector 34",
+    "name:fa": "نویدا - بخش ۳۴",
+    "network": "Delhi Metro",
+    "note": "Contributors are requested to not edit the \"network\" and the \"operator\" tags. (2023/06/23)",
+    "operator": "Delhi Metro Rail Corporation Limited",
+    "platforms": "2",
+    "public_transport": "station",
+    "railway": "station",
+    "ref": "233",
+    "station": "subway",
+    "subway": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q28169403",
+    "wikipedia": "en:Noida Sector 34 metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 6539894868,
+  "lat": 28.6282627,
+  "lon": 77.3750033,
+  "tags": {
+    "name": "Noida Electronic City",
+    "name:fa": "شهر الکترونیکی نویدا",
+    "name:hi": "नोएडा इलेक्ट्रॉनिक सिटी",
+    "network": "Delhi Metro",
+    "note": "Contributors are requested to not edit the \"network\" and the \"operator\" tags. (2023/06/23)",
+    "operator": "Delhi Metro Rail Corporation Limited",
+    "platforms": "2",
+    "public_transport": "station",
+    "railway": "station",
+    "ref": "NECC",
+    "station": "subway",
+    "subway": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q39049185",
+    "wikipedia": "en:Noida Electronic City metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 7572622446,
+  "lat": 28.5387298,
+  "lon": 77.5372191,
+  "tags": {
+    "name": "Dadri",
+    "name:ar": "دادري",
+    "name:hi": "दादरी",
+    "name:ur": "دادری",
+    "network": "IR",
+    "operator": "NCR",
+    "railway": "station",
+    "ref": "DER",
+    "wikidata": "Q24949351"
+  }
+},
+{
+  "type": "node",
+  "id": 10074648933,
+  "lat": 28.5743583,
+  "lon": 77.3782348,
+  "tags": {
+    "alt_name": "Noida Sector 50",
+    "name": "Rainbow Metro Station",
+    "name:fa": "نویدا - بخش ۵۰",
+    "name:hi": "नोएडा सेक्टर ५०",
+    "network": "Noida Metro",
+    "operator": "NR",
+    "platforms": "2",
+    "public_transport": "station",
+    "railway": "station",
+    "station": "subway",
+    "subway": "yes",
+    "wheelchair": "limited",
+    "wikidata": "Q59155432",
+    "wikipedia": "en:Rainbow metro station"
+  }
+},
+{
+  "type": "node",
+  "id": 10314380322,
+  "lat": 28.6496701,
+  "lon": 77.3395750,
+  "tags": {
+    "alt_name": "Dainik Jagran Vaishali",
+    "name": "Vaishali",
+    "name:fa": "ویشالی",
+    "name:hi": "वैशाली",
+    "name:kn": "ಜಾಗ್ರಾಣ ವೈಶಾಲಿ",
+    "network": "Delhi Metro",
+    "note": "Contributors are requested to not edit the \"network\" and the \"operator\" tags. (2023/06/23)",
+    "operator": "Delhi Metro Rail Corporation Limited",
+    "public_transport": "station",
+    "public_transport:version": "2",
+    "railway": "station",
+    "ref": "VASI",
+    "station": "subway",
+    "subway": "yes",
+    "wikidata": "Q12523622",
+    "wikipedia": "en:Vaishali metro station"
+  }
+}
+
+  ]
+}
