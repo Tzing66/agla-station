@@ -1,0 +1,22 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# data / runtime
+data/raw/*.zip
+*.db
+*.sqlite3
+ledger/.session_cost.json
+
+# os / editor
+.DS_Store
+.vscode/
