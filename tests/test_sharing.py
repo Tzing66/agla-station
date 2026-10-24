@@ -136,7 +136,21 @@ def test_cannot_share_a_journey_that_is_over(conn, trip):
 
 
 # review finding: "I've reached" could be tapped straight away to farm miles
-def test_reached_only_after_half_the_trip(conn, trip):
-    with pytest.raises(tools.ToolError, match="still on the way"):
-        tools.confirm_arrival(conn, trip.trip_id, RIDER, at(30))  # 89-min trip: earliest is ~44.5 min
-    assert tools.confirm_arrival(conn, trip.trip_id, RIDER, at(45))["miles"] == 10
+def test_reached_after_half_the_trip_earns_miles(conn, trip):
+    assert tools.confirm_arrival(conn, trip.trip_id, RIDER, at(45))["miles"] == 10  # 89-min trip: half is ~44.5
+
+
+def test_early_reached_asks_are_you_sure_with_the_eta(conn, trip):
+    question = r"Are you sure you've reached Pari Chowk\? Your ETA is \d+:\d\d [AP]M\."
+    with pytest.raises(tools.ArrivalTooEarly, match=question) as e:
+        tools.confirm_arrival(conn, trip.trip_id, RIDER, at(30))
+    assert e.value.destination == "Pari Chowk"
+    assert isinstance(e.value, tools.ToolError)  # front ends that only know ToolError still show the question
+
+
+def test_confirmed_early_arrival_counts_but_earns_no_miles(conn, trip):
+    token = tools.create_share(conn, trip.trip_id, RIDER, at(5))
+    res = tools.confirm_arrival(conn, trip.trip_id, RIDER, at(10), confirmed_early=True)
+    assert not res["already"] and res["miles"] == 0 and "has reached" in res["message"]
+    assert tools.get_share_view(conn, token, at(11)).status == "arrived"
+    assert tools.confirm_arrival(conn, trip.trip_id, RIDER, at(60))["already"]  # no second chance at the bonus

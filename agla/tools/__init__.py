@@ -61,7 +61,7 @@ _DOMAIN = {
     "fresh_recap": _wrapped, "render_card": _wrapped, "wrapped_story": _wrapped,
     "WrappedStats": _wrapped, "Recap": _wrapped, "Slide": _wrapped,
     **{name: _sharing for name in (
-        "estimate_position", "create_share", "get_share_view", "share_message", "confirm_arrival",
+        "estimate_position", "create_share", "get_share_view", "share_message", "confirm_arrival", "ArrivalTooEarly",
         "Position", "ShareView",
     )},
 }

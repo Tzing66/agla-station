@@ -1,0 +1,46 @@
+# Every push and pull request: lint, the test suite (which includes both official-fare checks), and a secret scan
+# of the whole git history. Runs without .env: tests never need real keys.
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # actions pinned by commit; the tag is in the comment
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
+        with:
+          version: "0.12.15"
+          enable-cache: true
+      - run: uv sync --frozen
+      - name: Lint
+        run: uv run ruff check .
+      - name: Tests (incl. 384 official fares and the track-factor check)
+        run: uv run pytest -q
+
+  secrets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GITLEAKS_VERSION: "8.30.1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          fetch-depth: 0  # scan every commit, not just the latest
+      - name: Install gitleaks (release binary, checksum verified)
+        run: |
+          base=https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}
+          tarball=gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz
+          curl -sSfLO "$base/$tarball"
+          curl -sSfL "$base/gitleaks_${GITLEAKS_VERSION}_checksums.txt" | grep " $tarball\$" | sha256sum -c -
+          tar xzf "$tarball" gitleaks
+      - name: Scan history for secrets (default rules + UPI VPAs, see .gitleaks.toml)
+        run: ./gitleaks git . --config .gitleaks.toml --redact --no-banner --exit-code 1

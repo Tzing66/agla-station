@@ -23,7 +23,7 @@ from agla.tools.users import find_user_by_telegram_id, get_user
 SHARE_TTL_AFTER_ETA = timedelta(hours=2)
 SHARE_TTL_AFTER_ARRIVAL = timedelta(minutes=30)
 OVERDUE_AFTER = timedelta(minutes=15)
-REACHED_AFTER = 0.5  # "I've reached" only counts once this share of the trip time has passed
+REACHED_AFTER = 0.5  # before this share of the trip time, "I've reached" asks "are you sure?" and earns no miles
 
 PositionState = Literal["not_started", "riding", "changing", "walking", "arrived"]
 
@@ -164,9 +164,21 @@ def share_message(first_name: str, trip: Trip, url: str) -> str:
 # --- arrival -------------------------------------------------------------------------------------------------------
 
 
-def confirm_arrival(conn: sqlite3.Connection, trip_id: int, telegram_user_id: int, now: datetime) -> dict:
+class ArrivalTooEarly(ToolError):
+    """ "I've reached" well before the timetable ETA. We only estimate where the rider is, so the bot asks them to
+    confirm rather than refusing; confirm_arrival(..., confirmed_early=True) then records it."""
+
+    def __init__(self, destination: str, eta_hm: str) -> None:
+        super().__init__(f"Are you sure you've reached {destination}? Your ETA is {eta_hm}.")
+        self.destination, self.eta_hm = destination, eta_hm
+
+
+def confirm_arrival(conn: sqlite3.Connection, trip_id: int, telegram_user_id: int, now: datetime,
+                    confirmed_early: bool = False) -> dict:
     """The traveller taps "I've reached". Marks the trip arrived (once), flips any shared page to Arrived and lets
     its link expire 30 min later, and awards the arrival miles once.
+    Before half the trip time it raises ArrivalTooEarly unless the rider has confirmed; an early confirmed arrival
+    counts but earns no arrival miles (so tapping straight after booking can't farm them).
     Returns {"already": bool, "miles": int, "message": str} where message is ready to send to someone."""
     from agla.miles import award_arrival  # local: miles imports the tool layer
 
@@ -174,8 +186,9 @@ def confirm_arrival(conn: sqlite3.Connection, trip_id: int, telegram_user_id: in
     user = get_user(conn, trip.user_id)
     already = _arrived_at(conn, trip_id)
     earliest = datetime.fromisoformat(trip.depart_at) + timedelta(minutes=trip.route.minutes * REACHED_AFTER)
-    if not already and now < earliest:
-        raise ToolError(f"You're still on the way (ETA {_hm(trip.eta)}). Tap again once you've arrived.")
+    early = not already and now < earliest
+    if early and not confirmed_early:
+        raise ArrivalTooEarly(_name(trip.route.to_id), _hm(trip.eta))
     message = f"✅ {user.first_name} has reached {_name(trip.route.to_id)} ({_hm(already or now.isoformat())})."
     if already:
         return {"already": True, "miles": 0, "message": message}
@@ -185,7 +198,7 @@ def confirm_arrival(conn: sqlite3.Connection, trip_id: int, telegram_user_id: in
         expires = min(datetime.fromisoformat(share["expires_at"]), now + SHARE_TTL_AFTER_ARRIVAL)
         conn.execute("UPDATE shares SET arrived_at = ?, expires_at = ? WHERE trip_id = ?",
                      (now.isoformat(), expires.isoformat(), trip_id))
-    miles = award_arrival(conn, trip.user_id, trip_id, now)
+    miles = 0 if early else award_arrival(conn, trip.user_id, trip_id, now)
     return {"already": False, "miles": miles, "message": message}
 
 

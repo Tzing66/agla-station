@@ -1,0 +1,16 @@
+# gitleaks config: the default rules (API keys, tokens, private keys...) plus the one secret they don't know about.
+# The repo is public, so a real UPI payment address (VPA) must never be committed: the app reads it from .env.
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "upi-vpa"
+description = "UPI payment address (VPA): keep it in .env, the repo is public"
+regex = '''(?i)\b[\w.\-]{2,}@(?:upi|ybl|ibl|axl|paytm|ptyes|ptaxis|pthdfc|ptsbi|apl|okaxis|oksbi|okhdfcbank|okicici|kotak|icici|hdfcbank|sbi|axisbank)\b'''
+keywords = ["@upi", "@ybl", "@ibl", "@axl", "@paytm", "@pt", "@apl", "@ok", "@kotak", "@icici", "@hdfcbank", "@sbi", "@axisbank"]
+
+  [[rules.allowlists]]
+  description = "the fake VPA used by tests"
+  regexTarget = "match"
+  regexes = ['''(?i)^demo@upi$''']

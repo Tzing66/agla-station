@@ -112,3 +112,7 @@
 ## [CHECKPOINT] 2026-10-24 12:22 IST — Behavioural Fixes
 
 - **Session cost:** cost: n/a (session 456b20f1)
+
+## [CHECKPOINT] 2026-10-24 12:34 IST — CI (lint, tests, gitleaks + UPI rule) and 'Are you sure?' early arrival
+
+- **Session cost:** cost: n/a (session 456b20f1)

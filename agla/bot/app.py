@@ -44,6 +44,8 @@ LANG = "lang:"
 REDEEM = "redeem:"
 SHARE = "share:"
 REACHED = "reached:"
+REACHED_EARLY = "early:"  # "Yes, I've reached" after the are-you-sure question
+NOT_YET = "notyet:"
 
 
 
@@ -276,21 +278,48 @@ class Bot:
             reply_markup=send_to_button(url, text.replace(f" Track me: {url}", "")))
 
     async def reached(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-        """'I've reached': mark the trip arrived and hand back a message the traveller sends to whoever they want."""
+        """'I've reached': mark the trip arrived and hand back a message the traveller sends to whoever they want.
+        Well before the ETA we can't know (the position is only a timetable estimate), so we ask instead of refusing."""
         query = update.callback_query
         try:
             trip_id = int(query.data.removeprefix(REACHED))
             res = tools.confirm_arrival(self.conn, trip_id, query.from_user.id, now())
+        except tools.ArrivalTooEarly as early:
+            await query.answer()
+            await query.message.reply_text(str(early), reply_markup=InlineKeyboardMarkup([[
+                InlineKeyboardButton("Yes, I've reached", callback_data=f"{REACHED_EARLY}{trip_id}"),
+                InlineKeyboardButton("No, still travelling", callback_data=f"{NOT_YET}{trip_id}")]]))
+            return
         except (ValueError, tools.ToolError) as exc:
             await query.answer(str(exc)[:190], show_alert=True)
             return
         await query.answer("Already marked as reached ✅" if res["already"] else "Glad you made it! ✅")
+        await query.message.reply_html(**self._arrived(trip_id, res))
+
+    async def reached_early(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        """'Yes, I've reached' on the are-you-sure question: the rider's word is enough."""
+        query = update.callback_query
+        try:
+            trip_id = int(query.data.removeprefix(REACHED_EARLY))
+            res = tools.confirm_arrival(self.conn, trip_id, query.from_user.id, now(), confirmed_early=True)
+        except (ValueError, tools.ToolError) as exc:
+            await query.answer(str(exc)[:190], show_alert=True)
+            return
+        await query.answer("Glad you made it! ✅")
+        await query.edit_message_text(parse_mode=ParseMode.HTML, **self._arrived(trip_id, res))
+
+    async def not_yet(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        query = update.callback_query
+        await query.answer()
+        await query.edit_message_text("Okay, safe travels! Tap ✅ I've reached on your ticket when you get there.")
+
+    def _arrived(self, trip_id: int, res: dict) -> dict:
+        """The arrival message with Telegram's share sheet, ready to send to whoever is waiting."""
         miles = f"\n+{res['miles']} Metro Miles for letting someone know." if res["miles"] else ""
         share = self.conn.execute("SELECT token FROM shares WHERE trip_id = ?", (trip_id,)).fetchone()
         url = self.share_url(share["token"]) if share else None
-        await query.message.reply_text(
-            f"{res['message']}{miles}\n\n<i>Tap Send to… and pick who should know.</i>",
-            parse_mode=ParseMode.HTML, reply_markup=send_to_button(url or self.bot_link(), res["message"]))
+        return {"text": f"{res['message']}{miles}\n\n<i>Tap Send to… and pick who should know.</i>",
+                "reply_markup": send_to_button(url or self.bot_link(), res["message"])}
 
     async def on_error(self, update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
         log.error("update failed", exc_info=context.error)
@@ -327,6 +356,8 @@ def build_application(settings: Settings, conn: sqlite3.Connection, agent: Agent
     app.add_handler(CallbackQueryHandler(bot.redeem, pattern=f"^{REDEEM}"))
     app.add_handler(CallbackQueryHandler(bot.share, pattern=f"^{SHARE}"))
     app.add_handler(CallbackQueryHandler(bot.reached, pattern=f"^{REACHED}"))
+    app.add_handler(CallbackQueryHandler(bot.reached_early, pattern=f"^{REACHED_EARLY}"))
+    app.add_handler(CallbackQueryHandler(bot.not_yet, pattern=f"^{NOT_YET}"))
     new_messages = filters.UpdateType.MESSAGE  # edited messages have no update.message; ignore them
     app.add_handler(MessageHandler(new_messages & filters.Text([lbl for row in render.MENU_ROWS for lbl in row]),
                                    bot.menu_button))

@@ -1,5 +1,7 @@
 # Agla Station 🚇
 
+[![CI](https://github.com/Tzing66/agla-station/actions/workflows/ci.yml/badge.svg)](https://github.com/Tzing66/agla-station/actions/workflows/ci.yml)
+
 A Telegram bot for the whole Delhi NCR metro network (DMRC lines, Airport Express, Rapid Metro Gurugram and the Noida Aqua Line). The name comes from the train announcement *"agla station…"*. Ride more, ride safer, have fun doing it.
 
 Text it where you're going, the way you'd say it: *"rajiv chowk to hauz khas"*, *"RC se botanical garden, sasta wala"*, *"cyber hub to noida sec 18"*.
@@ -102,6 +104,8 @@ uv run python -m evals.run_eval --dry-run     # Sonnet vs Haiku station-parsing 
 uv run python -m scripts.e2e_dashboard        # headless browser check of the dashboard (server must be running)
 uv run python -m agla.network.build           # rebuild data/network.json from data/raw + data/manual
 ```
+
+CI (`.github/workflows/ci.yml`) runs lint, the tests (including both fare checks) and a gitleaks scan of the whole history on every push; `.gitleaks.toml` adds a rule for UPI payment addresses, which the default rules don't know.
 
 ## How it was built
 
