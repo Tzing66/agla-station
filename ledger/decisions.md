@@ -96,3 +96,15 @@
 ## [CHECKPOINT] 2026-10-24 11:53 IST — Log decision: Metro Wrapped as a three-stop metro ride
 
 - **Session cost:** cost: n/a (session 456b20f1)
+
+## [DECISION] 2026-10-24 12:12 IST — DMRC fares: shortest distance plus per-line track factors
+
+- **Question:** How should DMRC fares be calculated so they match the official fares, given that 8 of 384 were off by a slab, including the Kashmere Gate → Noida City Centre spot-check?
+- **Options:** (a) Leave it as a documented limitation (known xfail). (b) Fetch new official data, the fare from each line's terminal to every station (~255 requests), to bound real track distances. (c) Use the data we already have: charge DMRC on the shortest track distance between entry and exit, fit per-line track factors to all official fares, widen the "cheapest" search, and check fares on DMRC's own routes.
+- **Claude suggested:** Try (c) first because it costs nothing, and fall back to (b) only if one factor per line couldn't fit every official fare. It fit everything with two factors (Magenta ×1.12, Blue ×1.02), so (b) stays as an optional later step to firm up the knife-edge Blue factor.
+- **Chose:** Option (c): shortest-distance DMRC pricing, track factors Magenta ×1.12 and Blue ×1.02 in `fares.yaml` (re-checkable with `scripts/fit_track_factors.py`), a wider "cheapest" search, and the fare check on DMRC's own routes. Result: 384/384 official fares match.
+- **Why:** "Never invent fares" is the headline rule, so the known misses had to go. The fix uses only official data we already had, needed just two small, explainable corrections (curvy Magenta track; Blue pinned by the spot-check), moves only about 5% of trips by one slab in either direction, and is guarded by tests that run both fare checks. Fetching terminal fares stays available if the Blue factor ever proves wrong.
+
+## [CHECKPOINT] 2026-10-24 12:13 IST — Fares: shortest-distance DMRC pricing + track factors, 384/384 official fares match
+
+- **Session cost:** cost: n/a (session 456b20f1)

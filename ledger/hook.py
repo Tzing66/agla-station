@@ -76,11 +76,23 @@ def scrub(text: str) -> str:
     return text
 
 
+def scrub_all(value: object) -> object:
+    """Scrub every string inside a value. Never scrub JSON text itself: a pattern can swallow half of an escape
+    (the email pattern once matched the `n` of an encoded newline before `@pytest...`) and leave invalid JSON."""
+    if isinstance(value, str):
+        return scrub(value)
+    if isinstance(value, dict):
+        return {k: scrub_all(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [scrub_all(v) for v in value]
+    return value
+
+
 def clip(value: object, limit: int) -> str | None:
     if value is None:
         return None
-    text = value if isinstance(value, str) else json.dumps(value, ensure_ascii=False)
-    return scrub(text)[:limit]
+    text = scrub(value) if isinstance(value, str) else json.dumps(scrub_all(value), ensure_ascii=False)
+    return text[:limit]
 
 
 def tool_target(tool_input: dict) -> object:

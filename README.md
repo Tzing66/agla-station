@@ -93,7 +93,8 @@ Use the absolute path to `uv` (`which uv`) if Claude Desktop can't find it.
 uv run pytest                                 # unit, integration and MCP stdio tests
 uv run ruff check .
 uv run python -m agla.tools.cli "rc" "hkv"    # route + fare from the command line
-uv run python -m scripts.verify_fares         # our fares vs 384 official DMRC fares
+uv run python -m scripts.verify_fares         # our fares vs 384 official DMRC fares (all match)
+uv run python -m scripts.fit_track_factors    # check the per-line track-distance factors
 uv run python -m evals.resolver_baseline      # station resolver on the eval set (free)
 uv run python -m evals.run_eval --dry-run     # Sonnet vs Haiku station-parsing eval (paid; see evals/results.md)
 uv run python -m scripts.e2e_dashboard        # headless browser check of the dashboard (server must be running)
@@ -126,7 +127,8 @@ Don't install it inside this repo: `.claude/settings.json` already runs the same
 
 ## Known limitations
 
-- **DMRC fares near a slab boundary can be one slab off.** DMRC charges by track distance in slabs (2, 5, 12, 21, 32 km); we approximate track distance from straight lines between stations, which under-measures curvy lines. 376 of 384 official fares match. Known case: Kashmere Gate → Noida City Centre, we compute 20.7 km (₹43) but DMRC charges ₹54. Planned fix: fit a per-line track-distance factor from official terminal-to-station fares.
+- **DMRC track distances are approximated.** DMRC charges by track distance in slabs; we have straight-line distances between stations, stretched per line where the official fares show the track is longer (Magenta ×1.12, Blue ×1.02). All 384 official fares we hold match, but the Blue Line factor is pinned by two fares either side of a slab boundary, so an untested trip near a boundary could still be one slab off. Fetching each line's terminal-to-station fares would pin it down.
+- **"Fastest" can cost more than DMRC's own route** when it joins the Airport Express by the Dhaula Kuan footbridge (e.g. Maharaja Surajmal Stadium → Yashobhoomi: ₹107 fastest vs ₹75 cheapest, 10 minutes slower). Asking for the cheapest route finds it.
 - **The tunnel URL changes on every restart** (and when a sleeping laptop drops the tunnel, which the app detects and replaces within about 90 seconds). The dashboard button follows the new URL automatically, but share links from before stop working. A fixed deployment would fix this.
 - **Wrapped story lines are English only**; the chat narration follows the rider's language.
 - **Station search** handles typos, abbreviations and many landmarks, but a place that isn't a station or a known alias ("India Gate") isn't resolved yet. Sharing a location pin is in [docs/backlog.md](docs/backlog.md).

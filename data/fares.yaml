@@ -10,7 +10,14 @@ operators:
   DMRC:
     kind: distance_slabs
     source_url: https://www.delhimetrorail.com/
-    distance: track km approximated by summing straight-line distances between consecutive stations
+    distance: >-
+      Charged on the shortest track distance between entry and exit, whichever way you ride. Track km is
+      approximated by straight-line km between consecutive stations, times the line's track factor below.
+    # Fitted by scripts/fit_track_factors.py against every official DMRC fare we hold (fare samples priced on
+    # DMRC's own route, adjacent-station fares, and the human spot-check Kashmere Gate -> Noida City Centre = 54).
+    # Lines not listed fit at 1.0. Magenta's allowed range is 1.08-1.17 (middle taken); Blue is pinned at 1.02 by
+    # two fares on either side of a slab boundary, so it is the least certain: re-fit when new official fares arrive.
+    track_factors: {DMRC_MAGENTA: 1.12, DMRC_BLUE: 1.02}
     # upper bound (km, inclusive) -> fare. Last slab has no upper bound.
     weekday: [[2, 11], [5, 21], [12, 32], [21, 43], [32, 54], [null, 64]]
     sunday_holiday: [[2, 11], [5, 11], [12, 21], [21, 32], [32, 43], [null, 54]]

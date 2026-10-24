@@ -12,6 +12,9 @@ from agla.tools.types import Leg, Preference, Route, Stop, ToolError
 CHANGE_COST = 1000.0  # fewest_changes: one interchange outweighs any realistic ride time
 WALK = "WALK"
 PRICEY_LINES = frozenset({"DMRC_AIRPORT"})  # premium fares; tried with and without for "cheapest"
+# "cheapest" also tries routes without footbridge walks: a walk can join the Airport Express mid-line (Dhaula Kuan),
+# which is quick but charges a longer Airport Express hop than staying on DMRC to a later Airport Express station.
+NO_WALKS = "no_walks"
 
 
 def plan_route(from_id: str, to_id: str, preference: Preference = "fastest", on: date | None = None) -> Route:
@@ -37,7 +40,7 @@ def plan_route(from_id: str, to_id: str, preference: Preference = "fastest", on:
     day = on or date.today()
     candidates: dict[tuple, Route] = {}
     for pref in ("fastest", "fewest_changes"):
-        for avoid in (frozenset(), PRICEY_LINES):
+        for avoid in (frozenset(), PRICEY_LINES, frozenset({NO_WALKS}), PRICEY_LINES | {NO_WALKS}):
             path = _search(from_id, to_id, pref, avoid)
             if path is not None:
                 candidates.setdefault(tuple(path), _to_route(path, from_id, to_id, "cheapest"))
@@ -50,7 +53,7 @@ def _search(from_id: str, to_id: str, preference: str, avoid: frozenset[str]) ->
     """Node path between the two stations (without the src/dst endpoints), or None."""
 
     def weight(u: tuple[str, str], v: tuple[str, str], d: dict) -> float | None:
-        if u[1] in avoid or v[1] in avoid:
+        if u[1] in avoid or v[1] in avoid or (NO_WALKS in avoid and d["kind"] == "walk"):
             return None  # networkx treats None as "edge hidden"
         changes = d["kind"] in ("transfer", "walk")
         return d["minutes"] + (CHANGE_COST if preference == "fewest_changes" and changes else 0.0)

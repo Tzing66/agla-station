@@ -122,10 +122,41 @@ def test_fares_match_official(a, b, on, official):
     assert get_fare(plan_route(a, b), on).total == official
 
 
-@pytest.mark.xfail(strict=True, reason="known: straight-line km under-measures near slab boundaries (README)")
 def test_fare_near_21km_boundary_kashmere_gate_noida_city_centre():
-    # Human spot-check 2026-10-23: DMRC app shows Rs 54; we compute 20.7 km -> Rs 43.
+    # Human spot-check 2026-10-23: DMRC app shows Rs 54. Straight lines gave 20.7 km (Rs 43) until the Blue Line's
+    # track factor; it was the known xfail until then.
     assert get_fare(plan_route("kashmere_gate", "noida_city_centre"), MONDAY).total == 54
+
+
+def test_curvy_magenta_line_is_stretched_to_its_track_length():
+    # Official Rs 84 = 64 DMRC (over 32 km) + 20 Rapid Metro; straight lines measure 30.8 km
+    fare = get_fare(plan_route("botanical_garden", "cyber_city"), MONDAY)
+    assert fare.total == 84 and fare.components[0].amount == 64
+
+
+def test_dmrc_charges_shortest_distance_whichever_way_you_ride():
+    # Our route goes via Mandi House (32.4 km ridden); DMRC charges the 30 km shortest track: Rs 54, not 64.
+    route = plan_route("mewala_maharajpur", "rajendra_place")
+    assert get_fare(route, MONDAY).total == 54
+    assert get_fare(route, MONDAY).components[0].rule.startswith("30.0 km")
+
+
+def test_cheapest_finds_the_short_airport_express_hop():
+    # Fastest joins the Airport Express by the Dhaula Kuan footbridge (Rs 107). DMRC's own route stays on the Blue
+    # Line to Dwarka Sector 21 and takes a short Airport Express hop: Rs 75, which "cheapest" must find.
+    a, b = "maharaja_surajmal_stadium", "yashobhoomi_dwarka_sector_25"
+    assert get_fare(plan_route(a, b, "fastest"), MONDAY).total == 107
+    cheapest = plan_route(a, b, "cheapest", on=MONDAY)
+    assert get_fare(cheapest, MONDAY).total == 75
+    assert not any(leg.line_id == "WALK" for leg in cheapest.legs)
+
+
+def test_every_official_fare_matches_on_dmrcs_own_route(capsys):
+    from scripts import fit_track_factors, verify_fares
+
+    verify_fares.main()
+    assert "384/384 match" in capsys.readouterr().out
+    assert fit_track_factors.main() == 0  # every fare inside its official slab with the factors in fares.yaml
 
 
 def test_cross_operator_fare_lists_components():
