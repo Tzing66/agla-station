@@ -114,6 +114,15 @@ def _to_route(nodes: list[tuple[str, str]], from_id: str, to_id: str, preference
         leg_start, leg_t0 = i, t
     close_leg(len(nodes) - 1, nodes[-1][1])
 
+    # A route that starts or ends with a walk leaves a one-station "ride" leg at that end (you never board that
+    # line). Drop it, so fares don't charge for a train that isn't taken, and don't call the endpoints interchanges.
+    legs = [leg for leg in legs if leg.line_id == WALK or len(leg.station_ids) > 1]
+    if not any(leg.line_id != WALK for leg in legs):
+        raise ToolError(f"{name[from_id]} and {name[to_id]} are connected by a short walk, no metro needed.")
+    interchanges = [s for s in interchanges if s not in (from_id, to_id)]
+    stops[0] = Stop(stops[0].station_id, stops[0].name, legs[0].line_id, 0.0, False)
+    stops[-1] = Stop(stops[-1].station_id, stops[-1].name, stops[-1].line_id, stops[-1].cum_minutes, False)
+
     return Route(
         from_id=from_id,
         to_id=to_id,

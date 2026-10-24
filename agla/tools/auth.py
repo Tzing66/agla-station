@@ -21,6 +21,13 @@ from agla.tools.types import ToolError
 INIT_DATA_MAX_AGE = timedelta(hours=24)
 MAGIC_LINK_MAX_AGE = timedelta(days=7)
 _SALT = "agla-dashboard"
+MIN_SECRET_LEN = 32
+
+
+def _require_secret(secret: str) -> None:
+    """The salt and payload shape are public (open-source repo), so the secret is the only thing preventing forgery."""
+    if len(secret or "") < MIN_SECRET_LEN:
+        raise ToolError(f"DASHBOARD_SECRET must be set to at least {MIN_SECRET_LEN} random characters.")
 
 
 def verify_init_data(init_data: str, bot_token: str, now: datetime) -> dict:
@@ -45,13 +52,13 @@ def verify_init_data(init_data: str, bot_token: str, now: datetime) -> dict:
 
 
 def sign_dashboard_token(telegram_id: int, secret: str) -> str:
-    if not secret:
-        raise ToolError("DASHBOARD_SECRET is not set.")
+    _require_secret(secret)
     return URLSafeTimedSerializer(secret, salt=_SALT).dumps({"tid": telegram_id})
 
 
 def verify_dashboard_token(token: str, secret: str) -> int:
     """Telegram id from a magic link, if the signature is valid and the link is less than 7 days old."""
+    _require_secret(secret)
     try:
         data = URLSafeTimedSerializer(secret, salt=_SALT).loads(token, max_age=int(MAGIC_LINK_MAX_AGE.total_seconds()))
     except SignatureExpired as exc:

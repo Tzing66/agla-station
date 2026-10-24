@@ -64,6 +64,8 @@ All metro logic lives in one tool layer (`agla/tools/`). The Telegram bot, the w
 
 Ambiguous names ("dwarka") return an error listing the candidates so the agent can ask.
 
+**Trust boundary:** agla-mcp is meant for local stdio use by the person running it. It has no authentication, and its rider tools return data for any `telegram_id` in the local database. Don't expose it over a network transport as is.
+
 **Claude Code** (already registered for this repo in `.mcp.json`). Elsewhere:
 
 ```bash
@@ -106,6 +108,21 @@ Built in about a day with Claude Code, with the process logged as it happened:
 - `ledger/decisions.md`: decisions, overrides of Claude's suggestions, surprises and checkpoints.
 - `.claude/`: the project's hooks, slash commands (`/decision`, `/surprise`, `/checkpoint`), agents and skills.
 - `docs/architecture.md` §6 lists every change from the original `plan.md` and why.
+
+## The `agla-dev` Claude Code plugin
+
+The Claude Code setup this project was built with, packaged so anyone can reuse it in their own project:
+
+```
+/plugin install agla-dev --marketplace Tzing66/agla-station
+```
+
+- **Process ledger hooks:** every prompt and tool call appended to your project's `ledger/events.jsonl` (secrets, `.env` values and emails redacted; never blocks a session).
+- **Commands:** `/agla-dev:decision`, `/agla-dev:surprise`, `/agla-dev:checkpoint` (decisions log in `ledger/decisions.md`, checkpoint = log + commit).
+- **Agents:** `reviewer` (cold, read-only code audit), `eval-runner`, `gtfs-explorer`.
+- **Skill:** `metro-wrapped-voice`.
+
+Don't install it inside this repo: `.claude/settings.json` already runs the same hooks, so events would be logged twice.
 
 ## Known limitations
 

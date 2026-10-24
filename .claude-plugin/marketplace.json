@@ -1,0 +1,11 @@
+{
+  "name": "agla-station",
+  "owner": { "name": "Tzing66", "url": "https://github.com/Tzing66" },
+  "plugins": [
+    {
+      "name": "agla-dev",
+      "source": "./",
+      "description": "Process ledger hooks, /decision /surprise /checkpoint, reviewer and eval-runner agents, metro-wrapped-voice skill."
+    }
+  ]
+}

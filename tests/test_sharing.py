@@ -121,3 +121,22 @@ def test_safe_and_sound_badge_after_five_arrivals(conn, trip):
     q = tools.quote_trip(conn, uid, "hauz khas", "rajiv chowk", "fastest", T0 + timedelta(days=6))
     tools.log_trip(conn, q.quote_id, RIDER, T0 + timedelta(days=6))  # badges are evaluated after each trip
     assert {b.badge_id for b in tools.get_badges(conn, uid) if b.earned_at} >= {"safe_and_sound"}
+
+
+
+# review finding: sharing a finished journey handed out a dead link
+def test_cannot_share_a_journey_that_is_over(conn, trip):
+    with pytest.raises(tools.ToolError, match="journey is over"):
+        tools.create_share(conn, trip.trip_id, RIDER, at(89 + 121))
+    token = tools.create_share(conn, trip.trip_id, RIDER, at(10))
+    assert tools.create_share(conn, trip.trip_id, RIDER, at(20)) == token
+    with pytest.raises(tools.ToolError, match="journey is over"):
+        tools.create_share(conn, trip.trip_id, RIDER, at(89 + 121))
+
+
+
+# review finding: "I've reached" could be tapped straight away to farm miles
+def test_reached_only_after_half_the_trip(conn, trip):
+    with pytest.raises(tools.ToolError, match="still on the way"):
+        tools.confirm_arrival(conn, trip.trip_id, RIDER, at(30))  # 89-min trip: earliest is ~44.5 min
+    assert tools.confirm_arrival(conn, trip.trip_id, RIDER, at(45))["miles"] == 10

@@ -29,10 +29,12 @@ class RedeemBody(BaseModel):
 
 
 def create_app(conn: sqlite3.Connection, cfg: Settings | None = None) -> FastAPI:
+    """All handlers are `async def` on purpose: they then run on the event loop, the same thread as the bot, so the
+    shared SQLite connection is never used by two threads at once (sync handlers would run in a thread pool)."""
     cfg = cfg or settings()
     app = FastAPI(title="Agla Station", docs_url=None, redoc_url=None, openapi_url=None)
 
-    def rider(request: Request) -> tools.User:
+    async def rider(request: Request) -> tools.User:
         """Dashboard auth: Telegram Mini App initData, or a signed magic link for normal browsers."""
         try:
             if init := request.headers.get("X-Telegram-Init-Data"):
@@ -49,32 +51,32 @@ def create_app(conn: sqlite3.Connection, cfg: Settings | None = None) -> FastAPI
     Rider = Depends(rider)
 
     @app.get("/app", response_class=HTMLResponse)
-    def dashboard(request: Request) -> HTMLResponse:
+    async def dashboard(request: Request) -> HTMLResponse:
         return TEMPLATES.TemplateResponse(request, "app.html", {}, headers=PRIVATE_HEADERS)
 
     @app.get("/api/me")
-    def me(user: tools.User = Rider) -> dict:
+    async def me(user: tools.User = Rider) -> dict:
         s = tools.get_stats(conn, user.user_id)
         return {"first_name": user.first_name, "stats": s.to_dict(),
                 "miles": tools.get_miles(conn, user.user_id, recent=0).balance,
                 "badges_earned": sum(1 for b in tools.get_badges(conn, user.user_id) if b.earned_at)}
 
     @app.get("/api/map")
-    def map_(user: tools.User = Rider) -> dict:
+    async def map_(user: tools.User = Rider) -> dict:
         return tools.map_data(conn, user.user_id)
 
     @app.get("/api/badges")
-    def badges(user: tools.User = Rider) -> list[dict]:
+    async def badges(user: tools.User = Rider) -> list[dict]:
         return [b.to_dict() for b in tools.get_badges(conn, user.user_id)]
 
     @app.get("/api/miles")
-    def miles(user: tools.User = Rider) -> dict:
+    async def miles(user: tools.User = Rider) -> dict:
         return {**tools.get_miles(conn, user.user_id, recent=15).to_dict(),
                 "rewards": [r.to_dict() for r in tools.list_rewards()],
                 "vouchers": [v.to_dict() for v in tools.list_vouchers(conn, user.user_id)]}
 
     @app.post("/api/redeem")
-    def redeem(body: RedeemBody, user: tools.User = Rider) -> dict:
+    async def redeem(body: RedeemBody, user: tools.User = Rider) -> dict:
         try:
             voucher = tools.redeem_reward(conn, user.user_id, body.reward_id, now())
         except tools.ToolError as exc:
@@ -82,11 +84,11 @@ def create_app(conn: sqlite3.Connection, cfg: Settings | None = None) -> FastAPI
         return {"voucher": voucher.to_dict(), "balance": tools.get_miles(conn, user.user_id, recent=0).balance}
 
     @app.get("/api/insights")
-    def insights(user: tools.User = Rider) -> dict:
+    async def insights(user: tools.User = Rider) -> dict:
         return tools.insights(conn, user.user_id, now().date())
 
     @app.get("/api/wrapped")
-    def wrapped(user: tools.User = Rider) -> list[dict]:
+    async def wrapped(user: tools.User = Rider) -> list[dict]:
         """Every month with trips. Saved recap text if the rider ran /wrapped, else the plain template (no LLM)."""
         out = []
         for month in tools.trip_months(conn, user.user_id):
@@ -98,7 +100,7 @@ def create_app(conn: sqlite3.Connection, cfg: Settings | None = None) -> FastAPI
         return out
 
     @app.get("/api/wrapped/{month}/card.png")
-    def wrapped_card(month: str, user: tools.User = Rider) -> Response:
+    async def wrapped_card(month: str, user: tools.User = Rider) -> Response:
         try:
             stats = tools.wrapped_stats(conn, user.user_id, month)
         except tools.ToolError as exc:
@@ -106,22 +108,22 @@ def create_app(conn: sqlite3.Connection, cfg: Settings | None = None) -> FastAPI
         return Response(tools.render_card(stats), media_type="image/png", headers=PRIVATE_HEADERS)
 
     @app.get("/", response_class=HTMLResponse)
-    def home(request: Request) -> HTMLResponse:
+    async def home(request: Request) -> HTMLResponse:
         return TEMPLATES.TemplateResponse(request, "home.html", {})
 
     @app.get("/healthz", response_class=PlainTextResponse)
-    def healthz() -> str:
+    async def healthz() -> str:
         return "ok"
 
     @app.get("/s/{token}", response_class=HTMLResponse)
-    def share(request: Request, token: str) -> HTMLResponse:
+    async def share(request: Request, token: str) -> HTMLResponse:
         view = tools.get_share_view(conn, token, now())
         name = "share.html" if view else "ended.html"
         return TEMPLATES.TemplateResponse(request, name, {"v": view, "token": token},
                                           status_code=200 if view else 410, headers=PRIVATE_HEADERS)
 
     @app.get("/s/{token}/status", response_class=HTMLResponse)
-    def share_status(request: Request, token: str) -> HTMLResponse:
+    async def share_status(request: Request, token: str) -> HTMLResponse:
         """HTMX fragment polled every 30 s; when the link has expired, the page switches to 'journey ended'."""
         view = tools.get_share_view(conn, token, now())
         if view is None:

@@ -16,7 +16,7 @@ from pathlib import Path
 from playwright.sync_api import Page, sync_playwright
 
 from agla import tools
-from agla.config import now, settings
+from agla.config import settings
 
 SHOTS = Path(__file__).resolve().parents[1] / "docs" / "screenshots"
 TABS = ["map", "badges", "miles", "insights", "wrapped"]
@@ -53,10 +53,6 @@ def main() -> int:
     SHOTS.mkdir(parents=True, exist_ok=True)
 
     token = tools.sign_dashboard_token(tools.DEMO_TELEGRAM_ID, settings().dashboard_secret)
-    conn = tools.open_database()
-    demo = tools.find_user_by_telegram_id(conn, tools.DEMO_TELEGRAM_ID)
-    last_trip = conn.execute("SELECT id FROM trips WHERE user_id = ? ORDER BY id DESC LIMIT 1",
-                             (demo.user_id,)).fetchone()["id"]
 
     errors: list[str] = []
     with sync_playwright() as pw:
@@ -70,12 +66,11 @@ def main() -> int:
             check_tabs(page, scheme, errors, args.redeem)
             ctx.close()
 
-        # a share page for the demo rider's latest trip (past, so it shows the "journey ended" page)
-        share = tools.create_share(conn, last_trip, tools.DEMO_TELEGRAM_ID, now())
+        # an ended or unknown share link shows the "journey has ended" page (live pages are covered by tests)
         ctx = browser.new_context(viewport=PHONE, device_scale_factor=2)
         page = ctx.new_page()
         page.on("console", lambda m: errors.append(f"{m.type}: {m.text}") if m.type == "error" else None)
-        page.goto(f"{args.base}/s/{share}")
+        page.goto(f"{args.base}/s/ended-or-unknown-token")
         page.wait_for_load_state("networkidle")
         page.screenshot(path=str(SHOTS / "share-ended.png"), full_page=True)
         print("  share page:", page.locator("h1").inner_text())

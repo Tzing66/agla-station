@@ -5,7 +5,7 @@ from agla.tools.fares import get_fare
 from agla.tools.insights import insights, line_completion, map_data, trip_months
 from agla.tools.intent import is_metro_related
 from agla.tools.payments import make_payment_link
-from agla.tools.quotes import get_quote, quote_trip
+from agla.tools.quotes import get_quote, purge_expired_quotes, quote_trip
 from agla.tools.routing import plan_route
 from agla.tools.stations import get_station, list_stations, resolve_station, search_station
 from agla.tools.stats import get_stats, get_visited_stations
@@ -40,7 +40,7 @@ __all__ = [
     "get_trip", "get_user", "get_visited_stations", "list_stations", "log_trip", "make_payment_link",
     "plan_route", "quote_trip", "register_post_trip_hook", "resolve_station", "search_station", "set_language",
     "BadgeStatus", "MilesAward", "MilesSummary", "Reward", "Voucher",
-    "DEMO_TELEGRAM_ID", "open_database", "is_metro_related",
+    "DEMO_TELEGRAM_ID", "open_database", "is_metro_related", "purge_expired_quotes",
     "sign_dashboard_token", "verify_dashboard_token", "verify_init_data",
     "insights", "line_completion", "map_data", "trip_months",
     "award_arrival", "get_badges", "get_miles", "list_rewards", "list_vouchers", "redeem_reward",

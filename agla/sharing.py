@@ -23,6 +23,7 @@ from agla.tools.users import find_user_by_telegram_id, get_user
 SHARE_TTL_AFTER_ETA = timedelta(hours=2)
 SHARE_TTL_AFTER_ARRIVAL = timedelta(minutes=30)
 OVERDUE_AFTER = timedelta(minutes=15)
+REACHED_AFTER = 0.5  # "I've reached" only counts once this share of the trip time has passed
 
 PositionState = Literal["not_started", "riding", "changing", "walking", "arrived"]
 
@@ -106,13 +107,15 @@ def estimate_position(trip: Trip, now: datetime) -> Position:
 def create_share(conn: sqlite3.Connection, trip_id: int, telegram_user_id: int, now: datetime) -> str:
     """Return the trip's share token, creating it on first use. Only the trip's owner may share it."""
     trip = _own_trip(conn, trip_id, telegram_user_id)
-    row = conn.execute("SELECT token FROM shares WHERE trip_id = ?", (trip_id,)).fetchone()
-    if row:
-        return row["token"]
-    token = secrets.token_urlsafe(16)
     arrived = _arrived_at(conn, trip_id)
     expires = (datetime.fromisoformat(arrived) + SHARE_TTL_AFTER_ARRIVAL if arrived
                else datetime.fromisoformat(trip.eta) + SHARE_TTL_AFTER_ETA)
+    row = conn.execute("SELECT token, expires_at FROM shares WHERE trip_id = ?", (trip_id,)).fetchone()
+    if (row and now >= datetime.fromisoformat(row["expires_at"])) or (not row and now >= expires):
+        raise ToolError("That journey is over, so there's nothing live to share.")
+    if row:
+        return row["token"]
+    token = secrets.token_urlsafe(16)
     conn.execute(
         "INSERT INTO shares (token, user_id, trip_id, created_at, expires_at, arrived_at) VALUES (?, ?, ?, ?, ?, ?)",
         (token, trip.user_id, trip_id, now.isoformat(), expires.isoformat(), arrived),
@@ -170,6 +173,9 @@ def confirm_arrival(conn: sqlite3.Connection, trip_id: int, telegram_user_id: in
     trip = _own_trip(conn, trip_id, telegram_user_id)
     user = get_user(conn, trip.user_id)
     already = _arrived_at(conn, trip_id)
+    earliest = datetime.fromisoformat(trip.depart_at) + timedelta(minutes=trip.route.minutes * REACHED_AFTER)
+    if not already and now < earliest:
+        raise ToolError(f"You're still on the way (ETA {_hm(trip.eta)}). Tap again once you've arrived.")
     message = f"✅ {user.first_name} has reached {_name(trip.route.to_id)} ({_hm(already or now.isoformat())})."
     if already:
         return {"already": True, "miles": 0, "message": message}

@@ -78,7 +78,17 @@ Migrations run in `db.migrate()`: v2 adds `users.language`, v3 adds `trips.arriv
 - **Web (`agla/web/`):** `/s/{token}` public share page (HTMX refresh every 30 s, noindex/no-referrer/no-store); `/app` dashboard Mini App (map, badges, miles with redeem, insights, Wrapped archive) over `/api/*`, authenticated by Telegram `initData` or a signed magic link.
 - **MCP (`agla/mcp_server.py`):** stdio, `mcp` 2.x `MCPServer`, tools prefixed `agla_`; route/fare tools take names or ids; rider tools default to the seeded demo rider.
 
-## 6. Changes from the original plan
+## 6. Security and abuse notes
+
+From the Phase 10 independent review (all fixes have regression tests):
+
+- **Money and numbers:** the model never sees a trip's numbers or quote id, so it can't restate or swap them, and the number guard rejects any number in a trip reply. Amounts come only from stored quotes; trips, arrival and redemption are buttons.
+- **Dashboard auth:** Telegram `initData` HMAC (24 h, by Telegram's design) or a signed magic link; the signing secret must be at least 32 characters and the app refuses to start without it (the salt is public). The page strips the token from the URL after load. CDN scripts are pinned with Subresource Integrity (Telegram's own script can't be pinned).
+- **Abuse limits:** 10 LLM-backed messages a minute and 150 a day per rider (menu buttons and canned replies don't count); at most 4 tool rounds per message; expired unpaid quotes are purged at startup. "I've reached" only counts after half the trip time.
+- **Concurrency:** web handlers are `async def`, so they run on the bot's event loop and the single SQLite connection is never used by two threads.
+- **Accepted:** `initData` can be replayed within Telegram's 24 h window; agla-mcp has no auth (local stdio only, see README).
+
+## 7. Changes from the original plan
 
 | Area | plan.md | As built | Why (see ledger) |
 | --- | --- | --- | --- |

@@ -15,9 +15,12 @@ import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
-LEDGER_DIR = Path(__file__).resolve().parent
+# Write into the project being worked on, not next to this script: when installed as the agla-dev plugin, the
+# script lives in Claude Code's plugin cache, but the ledger belongs to the project ($CLAUDE_PROJECT_DIR).
+PROJECT_DIR = Path(os.environ.get("CLAUDE_PROJECT_DIR") or Path(__file__).resolve().parents[1])
+LEDGER_DIR = PROJECT_DIR / "ledger"
 EVENTS_FILE = LEDGER_DIR / "events.jsonl"
-ENV_FILE = LEDGER_DIR.parent / ".env"
+ENV_FILE = PROJECT_DIR / ".env"
 
 SUMMARY_LEN = 200
 TARGET_LEN = 300
@@ -130,6 +133,7 @@ def main() -> None:
     try:
         payload = json.loads(sys.stdin.read() or "{}")
         line = json.dumps(build_event(payload), ensure_ascii=False)
+        LEDGER_DIR.mkdir(exist_ok=True)
         with EVENTS_FILE.open("a", encoding="utf-8") as fh:
             fh.write(line + "\n")
     except Exception:  # noqa: BLE001 - the ledger must never break a session

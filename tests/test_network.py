@@ -195,3 +195,25 @@ def test_resolve_station_asks_when_several_stations_share_the_words(query):
 
     with pytest.raises(ToolError, match="ambiguous"):
         resolve_station(query)
+
+
+
+# review finding: routes that start or end with a walk used to charge for a train never boarded
+def test_walk_at_the_start_isnt_charged():
+    r = plan_route("noida_sector_52", "noida_sector_50")
+    assert lines_of(r) == ["WALK", "NMRC_AQUA"]
+    assert r.interchange_ids == [] and not r.stops[0].is_interchange
+    fare = get_fare(r, MONDAY)
+    assert [c.operator for c in fare.components] == ["NMRC"] and fare.total == 10  # one Aqua stop
+
+
+def test_walk_at_the_end_over_the_footbridge_can_be_priced():
+    r = plan_route("delhi_cantt", "dhaula_kuan")
+    assert lines_of(r)[-1] == "WALK"
+    fare = get_fare(r, MONDAY)
+    assert [c.operator for c in fare.components] == ["DMRC"]
+
+
+def test_walk_only_trip_is_not_a_metro_trip():
+    with pytest.raises(ToolError, match="short walk"):
+        plan_route("noida_sector_52", "noida_sector_51")

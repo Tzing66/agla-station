@@ -9,10 +9,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js" defer></script>
+  <!-- Pinned versions with Subresource Integrity: a tampered CDN file is refused, so it can't read the session.
+       telegram-web-app.js is served unversioned by Telegram and can't be pinned. -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js" integrity="sha384-Sse/HDqcypGpyTDpvZOJNnG0TT3feGQUkF9H+mnRvic+LjR+K1NhTt8f51KIQ3v3" crossorigin="anonymous" defer></script>
   <style>
     :root {
       --paper: #fbf7f0; --surface: #ffffff; --ink: #2b2d42; --muted: #7c7f96; --rule: #ece6dc; --track: #ede8df;
@@ -146,6 +148,7 @@
   const tg = window.Telegram && Telegram.WebApp;
   const initData = tg && tg.initData;
   const token = new URLSearchParams(location.search).get("t");
+  if (token) history.replaceState(null, "", location.pathname);  // keep the 7-day link out of history and screenshots
   const dark = tg && tg.initData ? tg.colorScheme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
   if (dark) document.documentElement.dataset.theme = "dark";
   if (tg && initData) { tg.ready(); tg.expand(); }

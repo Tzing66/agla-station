@@ -50,7 +50,19 @@ def test_magic_link_roundtrip_and_tamper():
     token = tools.sign_dashboard_token(42, SECRET)
     assert tools.verify_dashboard_token(token, SECRET) == 42
     with pytest.raises(tools.ToolError, match="isn't valid"):
-        tools.verify_dashboard_token(token, "another-secret")
+        tools.verify_dashboard_token(token, "another-secret-that-is-long-enough-123")
+
+
+def test_empty_or_short_secret_cannot_be_used_to_forge_links():
+    # review finding: the salt and payload are public, so with an empty secret anyone could mint a token
+    from itsdangerous import URLSafeTimedSerializer
+
+    forged = URLSafeTimedSerializer("", salt="agla-dashboard").dumps({"tid": 12345})
+    for weak in ("", "short-secret"):
+        with pytest.raises(tools.ToolError, match="DASHBOARD_SECRET"):
+            tools.verify_dashboard_token(forged, weak)
+        with pytest.raises(tools.ToolError, match="DASHBOARD_SECRET"):
+            tools.sign_dashboard_token(42, weak)
 
 
 @pytest.fixture

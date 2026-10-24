@@ -16,8 +16,9 @@ import re
 import anthropic
 import uvicorn
 
+from agla import tools
 from agla.bot.app import build_application, configure_bot
-from agla.config import settings
+from agla.config import now, settings
 from agla.db import connect
 from agla.llm import Agent
 from agla.web.app import create_app
@@ -55,6 +56,8 @@ async def start_tunnel(port: int) -> tuple[asyncio.subprocess.Process, str]:
 async def serve(port: int, tunnel: bool) -> None:
     s = settings()
     conn = connect(s.db_path)
+    if purged := tools.purge_expired_quotes(conn, now()):
+        log.info("purged %s expired, unpaid quotes", purged)
     proc, public_url = None, s.public_base_url
     if tunnel:
         proc, public_url = await start_tunnel(port)
@@ -97,9 +100,11 @@ def main() -> None:
 
     s = settings()
     missing = [k for k, v in {"TELEGRAM_BOT_TOKEN": s.telegram_bot_token, "ANTHROPIC_API_KEY": s.anthropic_api_key,
-                              "UPI_VPA": s.upi_vpa}.items() if not v]
+                              "UPI_VPA": s.upi_vpa, "DASHBOARD_SECRET": s.dashboard_secret}.items() if not v]
     if missing:
         raise SystemExit(f"Missing in .env: {', '.join(missing)}")
+    if len(s.dashboard_secret) < 32:
+        raise SystemExit('DASHBOARD_SECRET is too short: python3 -c "import secrets; print(secrets.token_urlsafe(32))"')
     try:
         asyncio.run(serve(args.port, args.tunnel))
     except KeyboardInterrupt:  # Ctrl-C: serve() has already shut the bot and tunnel down

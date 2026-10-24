@@ -45,6 +45,15 @@ def quote_trip(
     return quote
 
 
+def purge_expired_quotes(conn: sqlite3.Connection, now: datetime, keep: timedelta = timedelta(days=1)) -> int:
+    """Delete quotes that expired over `keep` ago and were never paid (paid ones are referenced by a trip)."""
+    cur = conn.execute(
+        "DELETE FROM quotes WHERE expires_at < ? AND id NOT IN (SELECT quote_id FROM trips WHERE quote_id IS NOT NULL)",
+        ((now - keep).isoformat(),),
+    )
+    return cur.rowcount
+
+
 def get_quote(conn: sqlite3.Connection, quote_id: str) -> Quote:
     row = conn.execute("SELECT * FROM quotes WHERE id = ?", (quote_id,)).fetchone()
     if row is None:

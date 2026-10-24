@@ -29,7 +29,7 @@ from agla.tools.types import User
 log = logging.getLogger(__name__)
 
 MAX_HISTORY = 6
-MAX_TOOL_ROUNDS = 6
+MAX_TOOL_ROUNDS = 4
 MAX_TOKENS = 4000
 FALLBACK_BETA = "server-side-fallback-2026-07-01"
 
@@ -45,8 +45,9 @@ resolves names, abbreviations and landmarks. Pick the preference from their word
 - If a tool says a station name is ambiguous, ask the rider which one they mean, listing the options it gave. \
 Never guess between them.
 - When quote_trip succeeds, the app automatically shows the rider a route card with the lines, changes, time, \
-fare, a UPI payment QR and an "I've paid" button. Don't repeat that card. Reply with one or two short, warm \
-sentences, for example a tip about where they change lines.
+fare, a UPI payment QR and an "I've paid" button. Don't repeat that card, and write no numbers at all in that \
+reply (no fare, minutes, km or counts): the card already has them. Reply with one or two short, warm sentences, \
+for example which station they change at.
 - For "my stats", "kitni trips", visited stations and similar, call get_stats or get_visited_stations.
 - For Metro Miles, badges and rewards, call get_miles, get_badges or list_rewards. Redeeming happens only through \
 the buttons under /miles; tell the rider to use them. Miles and rewards are a concept demo.
@@ -272,18 +273,16 @@ def quote_summary(q: tools.Quote) -> dict[str, Any]:
     """What the model sees of a quote: enough to talk about it, nothing it needs to restate."""
     name = lambda sid: tools.get_station(sid).name  # noqa: E731
     return {
-        "quote_id": q.quote_id,
+        # No numbers on purpose (review finding): the card shows them, so the model has nothing to restate or swap
+        # (fare vs minutes), and the number guard then rejects any number it writes about the trip. No quote id
+        # either: the bot tracks quotes itself, and random ids contain digits that would widen the guard.
         "from": name(q.route.from_id),
         "to": name(q.route.to_id),
         "preference": q.route.preference,
-        "minutes": q.route.minutes,
-        "distance_km": q.route.distance_km,
-        "changes": len(q.route.interchange_ids),
         "change_at": [name(s) for s in q.route.interchange_ids],
         "lines": [leg.line_name for leg in q.route.legs],
-        "fare_inr": q.fare.total,
         "fare_day_type": q.fare.day_type,
-        "shown_to_rider": "route card + UPI QR + I've paid button",
+        "shown_to_rider": "route card with lines, time and fare + UPI QR + I've paid button",
     }
 
 

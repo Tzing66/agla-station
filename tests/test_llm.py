@@ -54,7 +54,7 @@ def test_guard_numbers():
 def test_quote_flow_returns_quote_id_and_reply():
     client = FakeClient(
         ([tool_use("quote_trip", origin="RC", destination="hkv", preference="fastest")], "tool_use"),
-        ([text("Seedha Yellow Line, koi change nahi. 19 min!")], "end_turn"),
+        ([text("Seedha Yellow Line, koi change nahi!")], "end_turn"),
     )
     reply, conn = run(client, "RC se hkv")
     assert reply.text.startswith("Seedha") and not reply.guarded
@@ -63,7 +63,10 @@ def test_quote_flow_returns_quote_id_and_reply():
     # the tool result went back to the model, and the request carried caching + fallbacks + low effort
     second = client.requests[1]
     result = second["messages"][-1]["content"][0]
-    assert result["type"] == "tool_result" and not result["is_error"] and '"fare_inr": 32' in result["content"]
+    assert result["type"] == "tool_result" and not result["is_error"]
+    assert '"lines": ["Yellow Line"]' in result["content"]
+    # review finding: the model sees no numbers (or quote ids) for a trip, so it has nothing to restate or swap
+    assert not any(ch.isdigit() for ch in result["content"])
     assert second["system"][0]["cache_control"] == {"type": "ephemeral"}
     assert second["fallbacks"] == "default" and second["output_config"] == {"effort": "low"}
 
@@ -133,3 +136,14 @@ def test_history_text_notes_what_the_app_showed():
     assert reply.history_text == (
         "Seedha Yellow Line!\n[Shown to rider: route card and UPI payment QR for Rajiv Chowk to Hauz Khas, Rs 32]"
     )
+
+
+
+def test_any_number_in_a_trip_reply_is_rejected():
+    # even a true one: the card shows the numbers, and the model never sees them
+    client = FakeClient(
+        ([tool_use("quote_trip", origin="RC", destination="hkv", preference="fastest")], "tool_use"),
+        ([text("Seedha Yellow Line, 19 min!")], "end_turn"),
+    )
+    reply, _ = run(client, "RC se hkv")
+    assert reply.guarded and reply.text == GUARD_FALLBACK_WITH_CARD

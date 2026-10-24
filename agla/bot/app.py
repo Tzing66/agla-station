@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 import sqlite3
+from html import escape
 from urllib.parse import quote
 
 import anthropic
@@ -30,6 +31,7 @@ from telegram.ext import (
 from agla import tools
 from agla.bot import render
 from agla.bot.chatter import ChatterState
+from agla.bot.limits import DAILY_CAP, SLOW_DOWN, RateLimiter
 from agla.config import Settings, now
 from agla.llm import MAX_HISTORY, Agent, narrate_wrapped
 
@@ -49,6 +51,7 @@ class Bot:
         self.conn = conn
         self.agent = agent
         self.public_url = public_url.rstrip("/")
+        self.limiter = RateLimiter()
 
     def share_url(self, token: str) -> str | None:
         return f"{self.public_url}/s/{token}" if self.public_url else None
@@ -56,7 +59,7 @@ class Bot:
     def menu(self) -> ReplyKeyboardMarkup:
         """The persistent button menu. Dashboard opens the Mini App straight from the keyboard when we're public."""
         def button(label: str) -> KeyboardButton:
-            if label == render.BTN_DASHBOARD and self.public_url:
+            if label == render.BTN_DASHBOARD and self.public_url.startswith("https://"):  # Mini Apps need https
                 return KeyboardButton(label, web_app=WebAppInfo(url=f"{self.public_url}/app"))
             return KeyboardButton(label)
         return ReplyKeyboardMarkup([[button(lbl) for lbl in row] for row in render.MENU_ROWS], resize_keyboard=True,
@@ -81,7 +84,7 @@ class Bot:
 
     async def start(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         user = self.user(update)
-        await update.message.reply_html(render.WELCOME.format(name=user.first_name), reply_markup=self.menu())
+        await update.message.reply_html(render.WELCOME.format(name=escape(user.first_name)), reply_markup=self.menu())
         await update.message.reply_html(render.LANGUAGE_PROMPT, reply_markup=language_buttons(user.language))
 
     async def language(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -139,14 +142,17 @@ class Bot:
         recap = tools.fresh_recap(self.conn, user.user_id, stats)
         if recap is None:
             try:
-                text, _ = await narrate_wrapped(self.agent.client, self.agent.model, stats, user.language,
-                                                tools.template_text(stats))
+                text, guarded = await narrate_wrapped(self.agent.client, self.agent.model, stats, user.language,
+                                                      tools.template_text(stats))
             except anthropic.APIError:
                 log.exception("wrapped narration failed")
-                text = tools.template_text(stats)
-            recap = tools.save_recap(self.conn, user.user_id, stats, text, now())
+                text, guarded = tools.template_text(stats), True
+            if not guarded:  # only cache real narration; a fallback should be retried next time
+                tools.save_recap(self.conn, user.user_id, stats, text, now())
+        else:
+            text = recap.text
         await update.message.reply_photo(tools.render_card(stats),
-                                         caption=render.wrapped_caption(stats, recap.text), parse_mode=ParseMode.HTML)
+                                         caption=render.wrapped_caption(stats, text), parse_mode=ParseMode.HTML)
 
     async def retired(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         command = update.message.text.split()[0].lstrip("/").split("@")[0]
@@ -162,6 +168,10 @@ class Bot:
         metro_related = tools.is_metro_related(text)
         if chatter.should_skip_llm(metro_related):  # repeated off-topic chatter: no API call
             await update.message.reply_text(chatter.canned(user.language), reply_markup=self.menu())
+            return
+        if over := self.limiter.check(user.user_id, now()):  # only messages that would call Claude count
+            msgs = DAILY_CAP if over == "day" else SLOW_DOWN
+            await update.message.reply_text(msgs.get(user.language, msgs["en"]), reply_markup=self.menu())
             return
         await update.message.chat.send_action(ChatAction.TYPING)
         try:
@@ -183,9 +193,13 @@ class Bot:
         quote = tools.get_quote(self.conn, quote_id)
         pay = tools.make_payment_link(quote, self.settings.upi_vpa, self.settings.upi_payee_name)
         button = InlineKeyboardMarkup([[InlineKeyboardButton("✅ I've paid", callback_data=PAID + quote_id)]])
-        await update.message.reply_photo(
-            pay.qr_png, caption=render.quote_card(quote, pay), parse_mode=ParseMode.HTML, reply_markup=button
-        )
+        card = render.quote_card(quote, pay)
+        if len(card) <= render.CAPTION_LIMIT:
+            await update.message.reply_photo(pay.qr_png, caption=card, parse_mode=ParseMode.HTML, reply_markup=button)
+        else:  # Telegram rejects photo captions over 1024 chars: QR with a short caption, then the full card
+            await update.message.reply_photo(pay.qr_png, caption=render.quote_card_short(quote),
+                                             parse_mode=ParseMode.HTML)
+            await update.message.reply_html(card, reply_markup=button, disable_web_page_preview=True)
 
     # --- buttons ---
 
@@ -220,8 +234,8 @@ class Bot:
 
     async def dashboard(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         user = self.user(update)
-        if not self.public_url:
-            await update.message.reply_text("The dashboard needs a public web address (start with --tunnel).")
+        if not self.public_url.startswith("https://"):
+            await update.message.reply_text("The dashboard needs a public https address (start with --tunnel).")
             return
         token = tools.sign_dashboard_token(user.telegram_id, self.settings.dashboard_secret)
         buttons = InlineKeyboardMarkup([
@@ -305,8 +319,10 @@ def build_application(settings: Settings, conn: sqlite3.Connection, agent: Agent
     app.add_handler(CallbackQueryHandler(bot.redeem, pattern=f"^{REDEEM}"))
     app.add_handler(CallbackQueryHandler(bot.share, pattern=f"^{SHARE}"))
     app.add_handler(CallbackQueryHandler(bot.reached, pattern=f"^{REACHED}"))
-    app.add_handler(MessageHandler(filters.Text([lbl for row in render.MENU_ROWS for lbl in row]), bot.menu_button))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, bot.chat))
+    new_messages = filters.UpdateType.MESSAGE  # edited messages have no update.message; ignore them
+    app.add_handler(MessageHandler(new_messages & filters.Text([lbl for row in render.MENU_ROWS for lbl in row]),
+                                   bot.menu_button))
+    app.add_handler(MessageHandler(new_messages & filters.TEXT & ~filters.COMMAND, bot.chat))
     app.add_error_handler(bot.on_error)
     return app
 

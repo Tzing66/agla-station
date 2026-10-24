@@ -18,6 +18,14 @@ def _hm(iso: str) -> str:
     return datetime.fromisoformat(iso).strftime("%-I:%M %p")
 
 
+CAPTION_LIMIT = 1024  # Telegram's limit for photo captions
+
+
+def quote_card_short(quote: tools.Quote) -> str:
+    return (f"🚇 <b>{_name(quote.route.from_id)} → {_name(quote.route.to_id)}</b> · <b>₹{quote.fare.total}</b>\n"
+            "Scan to pay with any UPI app. Route and payment link below 👇")
+
+
 def quote_card(quote: tools.Quote, pay: tools.PaymentLink) -> str:
     r, f = quote.route, quote.fare
     lines = [f"🚇 <b>{_name(r.from_id)} → {_name(r.to_id)}</b>"]
@@ -164,4 +172,5 @@ RETIRED = {  # commands that were replaced; still answered so old menus and habi
 
 
 def wrapped_caption(stats: tools.WrappedStats, text: str) -> str:
-    return f"<b>{escape(stats.month_name)}</b>\n{escape(text)}"[:1024]
+    # cut the plain text before escaping, so the 1024-char caption limit can't split an HTML entity
+    return f"<b>{escape(stats.month_name)}</b>\n{escape(text[:900])}"

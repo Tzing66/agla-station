@@ -30,3 +30,20 @@ def test_dashboard_button_opens_mini_app_when_public():
 def test_keyboard_stays_and_hints_at_typing_a_trip():
     kb = bot("").menu()
     assert kb.is_persistent and kb.resize_keyboard and kb.input_field_placeholder == render.INPUT_HINT
+
+
+
+def test_dashboard_needs_https_for_the_mini_app():
+    plain_http = {b.text: b for row in bot("http://example.org").menu().keyboard for b in row}
+    assert plain_http[render.BTN_DASHBOARD].web_app is None
+
+
+def test_captions_are_escaped_and_cut_safely():
+    import html
+    import re
+    from types import SimpleNamespace as NS
+
+    caption = render.wrapped_caption(NS(month_name="October 2026"), "A & B " * 400)
+    visible = html.unescape(re.sub(r"<[^>]+>", "", caption))  # Telegram counts the limit after parsing entities
+    assert len(visible) <= render.CAPTION_LIMIT
+    assert "&amp;" in caption and not re.search(r"&(?!amp;|lt;|gt;|quot;|#x27;)", caption)  # no half entity
