@@ -108,3 +108,7 @@
 ## [CHECKPOINT] 2026-10-24 12:13 IST — Fares: shortest-distance DMRC pricing + track factors, 384/384 official fares match
 
 - **Session cost:** cost: n/a (session 456b20f1)
+
+## [CHECKPOINT] 2026-10-24 12:22 IST — Behavioural Fixes
+
+- **Session cost:** cost: n/a (session 456b20f1)

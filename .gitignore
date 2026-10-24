@@ -26,3 +26,6 @@ ledger/.session_cost.json
 
 # playwright mcp output
 .playwright-mcp/
+
+# runtime logs (scripts/run.sh)
+logs/
