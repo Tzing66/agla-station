@@ -18,7 +18,6 @@ data/raw/*.zip
 *.db-shm
 *.db-journal
 *.sqlite3
-ledger/.session_cost.json
 
 # os / editor
 .DS_Store

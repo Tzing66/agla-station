@@ -40,9 +40,10 @@ def quote_card(quote: tools.Quote, pay: tools.PaymentLink) -> str:
     change_txt = "no changes" if not changes else "change at " + ", ".join(_name(s) for s in r.interchange_ids)
     lines += [
         f"⏱ ~{r.minutes} min · {r.distance_km} km · {change_txt}",
-        f"💰 <b>₹{f.total}</b> ({f.day_type.replace('_', '/')} fare"
+        f"💰 <b>₹{f.total}</b> ({escape(tools.DAY_LABELS[f.day_type])}"
         + (", " + " + ".join(f"{c.operator} ₹{c.amount}" for c in f.components) if len(f.components) > 1 else "")
         + ")",
+        *(["<i>Sunday fares are lower on most lines.</i>"] if _is_saturday(quote.created_at) else []),
         "",
         f"Pay <b>{escape(pay.payee_name)}</b> with any UPI app: scan this QR (or save it and scan from your gallery), "
         "or copy the link:",
@@ -52,6 +53,10 @@ def quote_card(quote: tools.Quote, pay: tools.PaymentLink) -> str:
         DEMO_NOTE,
     ]
     return "\n".join(lines)
+
+
+def _is_saturday(iso: str) -> bool:
+    return datetime.fromisoformat(iso).weekday() == 5
 
 
 def ticket_caption(result: tools.TripResult) -> str:
@@ -162,13 +167,6 @@ HELP = (
     "🎁 monthly Wrapped · 🗺️ map and insights · 🌐 English, Hinglish or हिंदी\n\n"
     + DEMO_NOTE
 )
-
-RETIRED = {  # commands that were replaced; still answered so old menus and habits don't hit silence
-    "safety": "The safety check is now simpler: tap ✅ I've reached on your ticket and send the message to "
-              "whoever's waiting. 📤 Share journey sends them a live link while you travel.",
-    "trusted": "No contacts to set up any more: tap ✅ I've reached on your ticket and pick who to tell.",
-    "demo_fast": "Not needed any more: there are no timed safety messages.",
-}
 
 
 def wrapped_caption(stats: tools.WrappedStats, text: str) -> str:

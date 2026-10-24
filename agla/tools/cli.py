@@ -10,7 +10,7 @@ import sys
 from datetime import date
 
 from agla.config import today
-from agla.tools.fares import get_fare
+from agla.tools.fares import DAY_LABELS, get_fare
 from agla.tools.routing import plan_route
 from agla.tools.stations import get_station, resolve_station
 from agla.tools.types import ToolError
@@ -45,7 +45,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"  {leg.line_name}: {get_station(leg.from_id).name} -> {get_station(leg.to_id).name}, "
                   f"{stops} stop{'s' if stops != 1 else ''}, ~{leg.minutes:.0f} min")
     parts = " + ".join(f"{c.operator} Rs {c.amount}" for c in fare.components)
-    print(f"Fare: Rs {fare.total} ({fare.day_type.replace('_', '/')}) = {parts}")
+    print(f"Fare: Rs {fare.total} ({DAY_LABELS[fare.day_type]}) = {parts}")
     return 0
 
 

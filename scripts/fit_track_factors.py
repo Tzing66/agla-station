@@ -18,7 +18,7 @@ import sys
 
 from agla.network.graph import load_network
 from agla.tools.fares import _rules, get_fare
-from scripts.verify_fares import WEEKDAY, official_route, samples
+from scripts.verify_fares import KNOWN_QUIRKS, WEEKDAY, official_route, samples
 
 GRID = [round(0.95 + 0.01 * i, 2) for i in range(46)]  # 0.95 .. 1.40
 SPOT_CHECKS = [("kashmere_gate", "noida_city_centre", 54)]  # weekday, from the DMRC app
@@ -65,6 +65,8 @@ def constraints() -> list[tuple[dict[str, float], float, float, str]]:
 
     by_code = {s["code"]: sid for sid, s in net.stations.items()}
     for a, b, day, official, legs in samples():
+        if (a, b, day) in KNOWN_QUIRKS:  # official answers we deliberately don't follow (see verify_fares)
+            continue
         route = official_route(legs) if legs else None
         if route is None and a in by_code and b in by_code:  # adjacent-station fares: one DMRC hop
             hop = [ln for ln in net.stations[by_code[a]]["lines"]

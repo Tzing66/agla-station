@@ -29,6 +29,19 @@ def test_front_ends_only_import_tool_layer():
     assert offenders == {}
 
 
+def test_front_ends_run_no_sql():
+    """Imports aren't the only way in: a handler calling conn.execute() bypasses the tool layer too (the bot's
+    'I've reached' handler once looked up share links itself)."""
+    offenders = [
+        f"{p.relative_to(ROOT.parent)}:{node.lineno}"
+        for p in FRONT_ENDS if p.exists()
+        for node in ast.walk(ast.parse(p.read_text()))
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+        and node.func.attr in ("execute", "executemany")
+    ]
+    assert offenders == []
+
+
 def test_domain_modules_import_in_any_order():
     import subprocess
     import sys

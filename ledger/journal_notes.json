@@ -1,0 +1,38 @@
+{
+  "intro": "Agla Station, a Telegram bot for the Delhi NCR metro, was built in Claude Code over {elapsed_hours} hours, {active_hours} of them active, following a phased plan. The human typed {prompts} prompts and made every product call; Claude took {claude_actions} actions to build, test and check the work. Everything below comes straight from the project's ledger: the hooks recorded each prompt and tool call, and decisions were logged as they were made.",
+  "moments": [
+    {
+      "match": "Public GitHub repo",
+      "note": "Public from the first commit, so the ledger hook had to redact secrets reliably from the start. Later, CI scanned every commit for them too."
+    },
+    {
+      "match": "Manual spot-check caught a fare bug",
+      "note": "A human spot-check in the DMRC app caught a fare of ₹43 that should have been ₹54, which the 384-fare automated check hadn't flagged."
+    },
+    {
+      "match": "Runtime model stays Sonnet",
+      "note": "Both models scored 50/50 on station parsing. Claude suggested checking reply quality before moving to the cheaper Haiku; the human kept Sonnet, whose replies had already been tested on a phone."
+    },
+    {
+      "match": "Metro Miles recalibrated",
+      "note": "The plan's earning rules gave a demo commuter five free day passes a month, so miles were recalibrated before rewards went live."
+    },
+    {
+      "match": "Safety check simplified",
+      "note": "The planned safety check failed its first live test. Claude fixed the setup; the human cut it down to a traveller-sent \"I've reached\" instead."
+    },
+    {
+      "match": "Phase 10: independent review fixes",
+      "kind": "checkpoint",
+      "note": "A reviewer subagent that hadn't seen the build audited the code cold. Every finding was fixed or documented, each with a regression test."
+    },
+    {
+      "match": "Metro Wrapped as a three-stop metro ride",
+      "note": "Wrapped was redesigned twice. The second version was rejected for looking AI-made; the third turned it into a short metro ride built around the bot's name."
+    },
+    {
+      "match": "DMRC fares: shortest distance",
+      "note": "The remaining fare misses were fixed using only official data already on hand: all 384 official fares now match."
+    }
+  ]
+}

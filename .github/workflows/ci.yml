@@ -23,7 +23,7 @@ jobs:
       - run: uv sync --frozen
       - name: Lint
         run: uv run ruff check .
-      - name: Tests (incl. 384 official fares and the track-factor check)
+      - name: Tests (incl. 405 official fares and the track-factor check)
         run: uv run pytest -q
 
   secrets:

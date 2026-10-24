@@ -1,18 +1,30 @@
 {
   "name": "agla-dev",
   "version": "0.1.0",
-  "description": "The Claude Code setup Agla Station was built with: a process ledger that logs every prompt and tool call (secrets redacted), /decision /surprise /checkpoint commands, reviewer / eval-runner / gtfs-explorer agents, and the metro-wrapped-voice skill.",
-  "author": { "name": "Tzing66", "url": "https://github.com/Tzing66" },
+  "description": "The Claude Code setup Agla Station was built with: a process ledger that logs every prompt and tool call (secrets redacted), /decision /surprise /checkpoint commands, reviewer / eval-runner / gtfs-explorer agents, the metro-wrapped-voice skill, and the build-journal skill that turns the ledger into an HTML timeline.",
+  "author": {
+    "name": "Tzing66",
+    "url": "https://github.com/Tzing66"
+  },
   "homepage": "https://github.com/Tzing66/agla-station",
   "repository": "https://github.com/Tzing66/agla-station",
   "license": "MIT",
-  "keywords": ["process-ledger", "build-journal", "hooks", "telegram", "delhi-metro"],
+  "keywords": [
+    "process-ledger",
+    "build-journal",
+    "hooks",
+    "telegram",
+    "delhi-metro"
+  ],
   "commands": "./.claude/commands/",
   "agents": [
     "./.claude/agents/reviewer.md",
     "./.claude/agents/eval-runner.md",
     "./.claude/agents/gtfs-explorer.md"
   ],
-  "skills": "./.claude/skills/metro-wrapped-voice",
+  "skills": [
+    "./.claude/skills/metro-wrapped-voice",
+    "./.claude/skills/build-journal"
+  ],
   "hooks": "./.claude-plugin/hooks.json"
 }

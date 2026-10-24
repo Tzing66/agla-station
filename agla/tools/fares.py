@@ -20,6 +20,9 @@ from agla.network.graph import load_network
 from agla.tools.types import DayType, Fare, FareComponent, Route, ToolError
 
 ROOT = Path(__file__).resolve().parents[2]
+# How a day type reads to riders. "weekday" covers Saturday too (DMRC and NMRC discount only Sundays and national
+# holidays), so it is never shown as "weekday", which looked wrong on a Saturday.
+DAY_LABELS = {"weekday": "regular fare, Mon–Sat", "sunday_holiday": "Sunday & holiday fare"}
 FARES_FILE = ROOT / "data" / "fares.yaml"
 
 

@@ -2,8 +2,10 @@
 
 Run: uv run python -m scripts.verify_fares [--show-all]
 
-Samples: data/raw/dmrc_api/fare_samples.json (random pairs, weekday + Sunday, with the route DMRC's planner took)
-and segments_*.json (every adjacent pair, weekday). Pairs the planner returns 0 for are skipped.
+Samples: data/raw/dmrc_api/fare_samples.json (random pairs, weekday + Sunday, with the route DMRC's planner took),
+cross_operator_samples.json (trips that change operator: Rapid Metro, Airport Express) and segments_*.json (every
+adjacent pair, weekday). Pairs the planner returns 0 for are skipped; KNOWN_QUIRKS lists official answers we don't
+follow, with the reason.
 
 Each sample is priced on DMRC's own route, so this checks the fare engine. Where our planner picks a different
 route (say, joining the Airport Express by the Dhaula Kuan footbridge), that route's fare is listed separately:
@@ -26,6 +28,13 @@ RAW = Path(__file__).resolve().parents[1] / "data" / "raw" / "dmrc_api"
 WEEKDAY, SUNDAY = date(2026, 10, 26), date(2026, 10, 25)
 # Old names the planner still writes in routes. Not rider aliases: "dwarka" stays ambiguous for riders on purpose.
 PLANNER_NAMES = {"DWARKA": "dwarka_kakrola"}
+# The planner's line names that differ from ours.
+PLANNER_LINES = {"RMGL": "Rapid Metro", "Orange Line": "Airport Express"}
+# Official answers we deliberately don't match, and why. Reported, never counted as passes.
+KNOWN_QUIRKS = {
+    ("PH1", "RCK", SUNDAY): "the planner charges the weekday fare (Rs 74) here and returns Rs 0 for Rajiv Chowk -> "
+                            "Phase 1; every other Rapid Metro trip, both directions, gets the Sunday discount",
+}
 
 
 def load(path: Path) -> object:
@@ -37,6 +46,9 @@ def samples() -> list[tuple[str, str, date, int, list | None]]:
     """(from code, to code, day, official fare, DMRC's legs or None)."""
     out = []
     for r in load(RAW / "fare_samples.json")["fares"]:
+        out.append((r["from"], r["to"], SUNDAY if r["when"].startswith("2026-10-25") else WEEKDAY, r["fare"],
+                    r.get("legs")))
+    for r in load(RAW / "cross_operator_samples.json")["rows"]:
         out.append((r["from"], r["to"], SUNDAY if r["when"].startswith("2026-10-25") else WEEKDAY, r["fare"],
                     r.get("legs")))
     for f in sorted(RAW.glob("segments_*.json")):
@@ -51,8 +63,8 @@ def official_route(legs: list[dict]) -> Route | None:
     name_to_id = _name_to_id()
     out: list[Leg] = []
     for leg in legs:
-        ids = [name_to_id.get(n.strip()) for n in leg["path"]]
-        if None in ids or len(ids) < 2:
+        ids = [name_to_id.get(n.strip()) for n in leg["path"]] if "path" in leg else _leg_path(leg, name_to_id)
+        if not ids or None in ids or len(ids) < 2:
             return None
         lines = {_ride_line(a, b) for a, b in zip(ids, ids[1:], strict=False)}
         if None in lines:
@@ -69,6 +81,27 @@ def official_route(legs: list[dict]) -> Route | None:
     if not out:
         return None
     return Route(out[0].from_id, out[-1].to_id, "fastest", out, [], [], 0, 0.0)
+
+
+def _leg_path(leg: dict, name_to_id: dict[str, str]) -> list[str] | None:
+    """Stations along a leg given only its line and end stations (cross-operator samples)."""
+    import networkx as nx
+
+    net = load_network()
+    a, b = name_to_id.get(leg["from"].strip()), name_to_id.get(leg["to"].strip())
+    family = PLANNER_LINES.get(leg["line"], leg["line"])
+    lines = {lid for lid, m in net.lines.items() if m["name"].startswith(family)}
+    if not a or not b or not lines:
+        return None
+    rides = net.graph.edge_subgraph([(u, v) for u, v, d in net.graph.edges(data=True)
+                                     if d["kind"] in ("ride", "family") and u[1] in lines and v[1] in lines])
+    try:
+        path = min((nx.shortest_path(rides, (a, la), (b, lb), weight="minutes")
+                    for la in lines for lb in lines if rides.has_node((a, la)) and rides.has_node((b, lb))
+                    and nx.has_path(rides, (a, la), (b, lb))), key=len)
+    except ValueError:  # no path on that line
+        return None
+    return [sid for i, (sid, _) in enumerate(path) if i == 0 or sid != path[i - 1][0]]
 
 
 def _name_to_id() -> dict[str, str]:
@@ -96,9 +129,13 @@ def main() -> None:
     by_code = {s["code"]: sid for sid, s in load_network().stations.items()}
     ok = bad = skipped = 0
     other_routes: list[str] = []
+    quirks: list[str] = []
     for a, b, day, official, legs in samples():
         if a not in by_code or b not in by_code:
             skipped += 1
+            continue
+        if (a, b, day) in KNOWN_QUIRKS:
+            quirks.append(f"  {a}->{b} {day:%a}: {KNOWN_QUIRKS[a, b, day]}")
             continue
         try:
             planned = plan_route(by_code[a], by_code[b], on=day)
@@ -114,10 +151,16 @@ def main() -> None:
         if show_all or not match:
             parts = " + ".join(f"{c.operator} {c.amount} ({c.rule})" for c in fare.components)
             print(f"{'ok ' if match else 'BAD'} {a}->{b} {day:%a}: ours {fare.total} vs official {official} = {parts}")
+        line = None
         if route is not planned and (ours := get_fare(planned, day).total) != official:
-            other_routes.append(f"  {a}->{b} {day:%a}: official {official} on DMRC's route; our fastest route {ours}")
+            line = (f"  {a}->{b} {day:%a}: official {official} on DMRC's route; our fastest route {ours}")
+        if line and line not in other_routes:  # some trips are in two sample files
+            other_routes.append(line)
     total = ok + bad
     print(f"\n{ok}/{total} match on DMRC's own routes ({ok / total:.1%}), {skipped} skipped")
+    if quirks:
+        print(f"\nOfficial answers we don't follow ({len(quirks)}):")
+        print("\n".join(quirks))
     if other_routes:
         print(f"\nOur fastest route differs from DMRC's, so its fare differs too ({len(other_routes)}):")
         print("\n".join(other_routes))

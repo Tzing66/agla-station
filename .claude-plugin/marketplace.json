@@ -1,11 +1,15 @@
 {
   "name": "agla-station",
-  "owner": { "name": "Tzing66", "url": "https://github.com/Tzing66" },
+  "owner": {
+    "name": "Tzing66",
+    "url": "https://github.com/Tzing66"
+  },
   "plugins": [
     {
       "name": "agla-dev",
       "source": "./",
       "description": "Process ledger hooks, /decision /surprise /checkpoint, reviewer and eval-runner agents, metro-wrapped-voice skill."
     }
-  ]
+  ],
+  "description": "The Claude Code setup Agla Station was built with, as one installable plugin (agla-dev)."
 }

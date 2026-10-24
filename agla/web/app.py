@@ -1,4 +1,4 @@
-"""FastAPI front end: public journey-share pages (Phase 8); the dashboard Mini App joins in Phase 9.
+"""FastAPI front end: public journey-share pages and the dashboard Mini App with its JSON API.
 
 Thin: every route reads from agla.tools and renders a template. No business logic here.
 """

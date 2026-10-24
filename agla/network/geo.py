@@ -1,3 +1,5 @@
+"""Great-circle distance between stations: the straight-line km the network and fares start from."""
+
 from __future__ import annotations
 
 from math import asin, cos, radians, sin, sqrt

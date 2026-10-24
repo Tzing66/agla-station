@@ -179,7 +179,8 @@ def confirm_arrival(conn: sqlite3.Connection, trip_id: int, telegram_user_id: in
     its link expire 30 min later, and awards the arrival miles once.
     Before half the trip time it raises ArrivalTooEarly unless the rider has confirmed; an early confirmed arrival
     counts but earns no arrival miles (so tapping straight after booking can't farm them).
-    Returns {"already": bool, "miles": int, "message": str} where message is ready to send to someone."""
+    Returns {"already": bool, "miles": int, "message": str, "share_token": str | None}: message is ready to send to
+    someone, share_token is the trip's share link (if the rider made one) to send along with it."""
     from agla.miles import award_arrival  # local: miles imports the tool layer
 
     trip = _own_trip(conn, trip_id, telegram_user_id)
@@ -190,16 +191,17 @@ def confirm_arrival(conn: sqlite3.Connection, trip_id: int, telegram_user_id: in
     if early and not confirmed_early:
         raise ArrivalTooEarly(_name(trip.route.to_id), _hm(trip.eta))
     message = f"✅ {user.first_name} has reached {_name(trip.route.to_id)} ({_hm(already or now.isoformat())})."
+    share = conn.execute("SELECT token, expires_at FROM shares WHERE trip_id = ?", (trip_id,)).fetchone()
+    token = share["token"] if share else None
     if already:
-        return {"already": True, "miles": 0, "message": message}
+        return {"already": True, "miles": 0, "message": message, "share_token": token}
     conn.execute("UPDATE trips SET arrived_at = ? WHERE id = ?", (now.isoformat(), trip_id))
-    share = conn.execute("SELECT expires_at FROM shares WHERE trip_id = ?", (trip_id,)).fetchone()
     if share:
         expires = min(datetime.fromisoformat(share["expires_at"]), now + SHARE_TTL_AFTER_ARRIVAL)
         conn.execute("UPDATE shares SET arrived_at = ?, expires_at = ? WHERE trip_id = ?",
                      (now.isoformat(), expires.isoformat(), trip_id))
     miles = 0 if early else award_arrival(conn, trip.user_id, trip_id, now)
-    return {"already": False, "miles": miles, "message": message}
+    return {"already": False, "miles": miles, "message": message, "share_token": token}
 
 
 def _arrived_at(conn: sqlite3.Connection, trip_id: int) -> str | None:

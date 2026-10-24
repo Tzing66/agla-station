@@ -163,10 +163,6 @@ class Bot:
                                          caption=render.wrapped_caption(stats, text), parse_mode=ParseMode.HTML,
                                          reply_markup=play)
 
-    async def retired(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-        command = update.message.text.split()[0].lstrip("/").split("@")[0]
-        await update.message.reply_text(render.RETIRED[command], reply_markup=self.menu())
-
     # --- chat ---
 
     async def chat(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -294,7 +290,7 @@ class Bot:
             await query.answer(str(exc)[:190], show_alert=True)
             return
         await query.answer("Already marked as reached ✅" if res["already"] else "Glad you made it! ✅")
-        await query.message.reply_html(**self._arrived(trip_id, res))
+        await query.message.reply_html(**self._arrived(res))
 
     async def reached_early(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         """'Yes, I've reached' on the are-you-sure question: the rider's word is enough."""
@@ -306,18 +302,17 @@ class Bot:
             await query.answer(str(exc)[:190], show_alert=True)
             return
         await query.answer("Glad you made it! ✅")
-        await query.edit_message_text(parse_mode=ParseMode.HTML, **self._arrived(trip_id, res))
+        await query.edit_message_text(parse_mode=ParseMode.HTML, **self._arrived(res))
 
     async def not_yet(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         query = update.callback_query
         await query.answer()
         await query.edit_message_text("Okay, safe travels! Tap ✅ I've reached on your ticket when you get there.")
 
-    def _arrived(self, trip_id: int, res: dict) -> dict:
+    def _arrived(self, res: dict) -> dict:
         """The arrival message with Telegram's share sheet, ready to send to whoever is waiting."""
         miles = f"\n+{res['miles']} Metro Miles for letting someone know." if res["miles"] else ""
-        share = self.conn.execute("SELECT token FROM shares WHERE trip_id = ?", (trip_id,)).fetchone()
-        url = self.share_url(share["token"]) if share else None
+        url = self.share_url(res["share_token"]) if res["share_token"] else None
         return {"text": f"{res['message']}{miles}\n\n<i>Tap Send to… and pick who should know.</i>",
                 "reply_markup": send_to_button(url or self.bot_link(), res["message"])}
 
@@ -350,7 +345,6 @@ def build_application(settings: Settings, conn: sqlite3.Connection, agent: Agent
     app.add_handler(CommandHandler("badges", bot.badges))
     app.add_handler(CommandHandler("wrapped", bot.wrapped))
     app.add_handler(CommandHandler("dashboard", bot.dashboard))
-    app.add_handler(CommandHandler(list(render.RETIRED), bot.retired))
     app.add_handler(CallbackQueryHandler(bot.paid, pattern=f"^{PAID}"))
     app.add_handler(CallbackQueryHandler(bot.set_language, pattern=f"^{LANG}"))
     app.add_handler(CallbackQueryHandler(bot.redeem, pattern=f"^{REDEEM}"))

@@ -1,7 +1,7 @@
 """The tool layer: the only API front ends (bot, MCP server, web) may call. All numbers come from here."""
 
 from agla.tools.auth import sign_dashboard_token, verify_dashboard_token, verify_init_data
-from agla.tools.fares import get_fare
+from agla.tools.fares import DAY_LABELS, get_fare
 from agla.tools.insights import insights, line_completion, map_data, trip_months
 from agla.tools.intent import is_metro_related
 from agla.tools.payments import make_payment_link
@@ -34,8 +34,8 @@ from agla.tools.types import (
 from agla.tools.users import find_user_by_telegram_id, get_or_create_user, get_user, set_language
 
 __all__ = [
-    "LANGUAGES", "Fare", "PaymentLink", "Quote", "Route", "Station", "StationMatch", "Stats", "ToolError", "Trip",
-    "TripResult", "User", "Visit",
+    "DAY_LABELS", "LANGUAGES", "Fare", "PaymentLink", "Quote", "Route", "Station", "StationMatch", "Stats", "ToolError",
+    "Trip", "TripResult", "User", "Visit",
     "find_user_by_telegram_id", "get_fare", "get_or_create_user", "get_quote", "get_station", "get_stats",
     "get_trip", "get_user", "get_visited_stations", "list_stations", "log_trip", "make_payment_link",
     "plan_route", "quote_trip", "register_post_trip_hook", "resolve_station", "search_station", "set_language",

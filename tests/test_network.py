@@ -152,10 +152,13 @@ def test_cheapest_finds_the_short_airport_express_hop():
 
 
 def test_every_official_fare_matches_on_dmrcs_own_route(capsys):
+    import re
+
     from scripts import fit_track_factors, verify_fares
 
     verify_fares.main()
-    assert "384/384 match" in capsys.readouterr().out
+    ok, total = map(int, re.search(r"(\d+)/(\d+) match", capsys.readouterr().out).groups())
+    assert ok == total >= 404  # fare samples, cross-operator samples and adjacent pairs
     assert fit_track_factors.main() == 0  # every fare inside its official slab with the factors in fares.yaml
 
 

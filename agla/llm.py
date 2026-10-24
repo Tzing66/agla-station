@@ -281,7 +281,7 @@ def quote_summary(q: tools.Quote) -> dict[str, Any]:
         "preference": q.route.preference,
         "change_at": [name(s) for s in q.route.interchange_ids],
         "lines": [leg.line_name for leg in q.route.legs],
-        "fare_day_type": q.fare.day_type,
+        "fare_type": tools.DAY_LABELS[q.fare.day_type],  # never "weekday": Saturday is a regular-fare day
         "shown_to_rider": "route card with lines, time and fare + UPI QR + I've paid button",
     }
 

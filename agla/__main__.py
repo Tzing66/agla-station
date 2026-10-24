@@ -1,4 +1,4 @@
-"""Run Agla Station: the Telegram bot and the web app (share pages, later the Mini App) in one process.
+"""Run Agla Station: the Telegram bot and the web app (share pages, dashboard Mini App) in one process.
 
     uv run python -m agla              # bot + web on http://127.0.0.1:8000, links use PUBLIC_BASE_URL
     uv run python -m agla --tunnel     # also start a cloudflared quick tunnel and use its https URL for links

@@ -66,3 +66,24 @@ def test_captions_are_escaped_and_cut_safely():
     visible = html.unescape(re.sub(r"<[^>]+>", "", caption))  # Telegram counts the limit after parsing entities
     assert len(visible) <= render.CAPTION_LIMIT
     assert "&amp;" in caption and not re.search(r"&(?!amp;|lt;|gt;|quot;|#x27;)", caption)  # no half entity
+
+
+def test_fare_label_never_says_weekday_on_a_saturday():
+    """Rider report: a Saturday quote said "weekday fare". The amount was right (DMRC discounts Sundays and national
+    holidays only); the label wasn't."""
+    from datetime import datetime
+
+    from agla import tools
+    from agla.config import IST
+    from agla.db import connect
+
+    conn = connect(":memory:")
+    uid = tools.get_or_create_user(conn, 5, "Asha", datetime(2026, 10, 24, 10, tzinfo=IST)).user_id
+    cards = {}
+    for day in (24, 25):  # Saturday, Sunday
+        q = tools.quote_trip(conn, uid, "rajiv chowk", "hauz khas", "fastest", datetime(2026, 10, day, 10, tzinfo=IST))
+        cards[day] = (q.fare.total, render.quote_card(q, tools.make_payment_link(q, "demo@upi", "Demo")))
+    (sat_fare, sat), (sun_fare, sun) = cards[24], cards[25]
+    assert "weekday" not in sat and "regular fare, Mon–Sat" in sat and "Sunday fares are lower" in sat
+    assert "Sunday &amp; holiday fare" in sun and "Sunday fares are lower" not in sun  # & escaped for Telegram HTML
+    assert (sat_fare, sun_fare) == (32, 21)

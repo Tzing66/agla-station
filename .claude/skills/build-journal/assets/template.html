@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<style>
+  :root {
+    --paper: #fff6ee; --surface: #ffffff; --ink: #3b1f1a; --muted: #8a5f52; --rule: #f0dccd; --band: #fbe9da;
+    --human: #8c3b5e; --decision: #e0607a; --claude: #d98e2b; --mark-ring: #fff6ee;
+    --g-shell: #d98e2b; --g-edit: #b4482c; --g-read: #c9a27a; --g-browser: #2f7f8c; --g-mcp: #3b76c0;
+    --g-ask: #8c3b5e; --g-agent: #6b4c9a; --g-web: #5a8f4e; --g-skill: #c46a9a; --g-plan: #3b1f1a; --g-other: #a89488;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #1d1411; --surface: #291d19; --ink: #fbeee4; --muted: #c6a293; --rule: #3e2c25; --band: #2f211c;
+      --human: #f2a0bd; --decision: #ff8fa3; --claude: #f6b04b; --mark-ring: #1d1411;
+      --g-shell: #f6b04b; --g-edit: #f08a64; --g-read: #d8b48c; --g-browser: #6cc3cf; --g-mcp: #7fb0f0;
+      --g-ask: #f2a0bd; --g-agent: #b9a2e6; --g-web: #9ccc8a; --g-skill: #ee9cc8; --g-plan: #fbeee4; --g-other: #b9a69b;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--paper); color: var(--ink); }
+  body { font: 16px/1.55 ui-rounded, "SF Pro Rounded", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 1080px; margin: 0 auto; padding: 40px 16px 64px; }
+  h1 { font-size: clamp(30px, 6vw, 46px); line-height: 1.05; margin: 0 0 14px; letter-spacing: -0.015em; }
+  h2 { font-size: 22px; margin: 48px 0 6px; }
+  .explain { color: var(--muted); margin: 0 0 14px; max-width: 70ch; font-size: 15px; }
+  .intro { font-size: 19px; max-width: 62ch; margin: 0 0 22px; }
+  .meta { color: var(--muted); font-size: 15px; }
+  .tally { display: flex; flex-wrap: wrap; gap: 10px 28px; margin: 26px 0 0; padding: 18px 0; border-block: 1.5px solid var(--rule); }
+  .tally div { min-width: 130px; }
+  .tally b { display: block; font-size: 30px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .tally span { color: var(--muted); font-size: 14px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--muted); margin: 10px 0 0; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+  .scroller { overflow-x: auto; border-radius: 16px; background: var(--surface); border: 1px solid var(--rule); }
+  .scroller svg { display: block; }
+  svg text { fill: var(--muted); font: 12px ui-rounded, system-ui, sans-serif; }
+  svg .lane-label { fill: var(--ink); font-weight: 600; }
+  svg .mark { cursor: pointer; }
+  svg .mark:hover, svg .mark.sel { stroke: var(--ink); stroke-width: 2; }
+  svg .mark text { stroke: none; }
+  .detail { margin-top: 12px; background: var(--surface); border: 1px solid var(--rule); border-radius: 16px; padding: 14px 16px; min-height: 64px; }
+  .detail .when { color: var(--muted); font-size: 14px; }
+  .detail .what { font-weight: 600; margin: 2px 0; overflow-wrap: anywhere; }
+  .detail .more { font-size: 14px; overflow-wrap: anywhere; white-space: pre-wrap; }
+  .moments { list-style: none; padding: 0; margin: 0; }
+  .moments li { display: grid; grid-template-columns: 30px 1fr; gap: 4px 12px; padding: 12px 0; border-top: 1px solid var(--rule); }
+  .moments li:first-child { border-top: 0; }
+  .num { width: 26px; height: 26px; border-radius: 50%; background: var(--decision); color: #fff; display: grid; place-items: center; font-size: 13px; font-weight: 700; }
+  .moments .when { color: var(--muted); font-size: 14px; }
+  .moments button { all: unset; cursor: pointer; font-weight: 600; text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 3px; }
+  .decisions { display: grid; gap: 14px; }
+  .card { background: var(--surface); border: 1px solid var(--rule); border-radius: 16px; padding: 16px 18px; }
+  .card.override { border-color: var(--decision); box-shadow: inset 4px 0 0 var(--decision); }
+  .card h3 { margin: 4px 0 10px; font-size: 18px; line-height: 1.3; }
+  .tag { font-size: 13px; color: var(--muted); }
+  .card.override .tag { color: var(--decision); font-weight: 600; }
+  .card dl { margin: 0; display: grid; grid-template-columns: minmax(0, 9.5em) 1fr; gap: 6px 14px; font-size: 15px; }
+  .card dt { color: var(--muted); }
+  .card dd { margin: 0; overflow-wrap: anywhere; }
+  table { border-collapse: collapse; width: 100%; font-size: 15px; font-variant-numeric: tabular-nums; }
+  th { text-align: left; color: var(--muted); font-weight: 500; font-size: 13px; padding: 6px 10px 6px 0; }
+  td { padding: 8px 10px 8px 0; border-top: 1px solid var(--rule); vertical-align: top; }
+  td.n { text-align: right; white-space: nowrap; }
+  .table-wrap { overflow-x: auto; }
+  .bars { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+  .bars li { display: grid; grid-template-columns: 8.5em 1fr 3.5em; align-items: center; gap: 10px; font-size: 15px; }
+  .bars .bar { height: 12px; border-radius: 6px; min-width: 3px; }
+  .bars .n { text-align: right; font-variant-numeric: tabular-nums; }
+  details { margin-top: 10px; }
+  summary { cursor: pointer; font-weight: 600; }
+  ol.prompts { padding-left: 1.4em; font-size: 15px; }
+  ol.prompts li { margin: 6px 0; overflow-wrap: anywhere; }
+  ol.prompts .when { color: var(--muted); font-size: 13px; margin-right: 8px; }
+  footer { margin-top: 56px; color: var(--muted); font-size: 14px; max-width: 70ch; }
+  footer a, .meta a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--human); outline-offset: 2px; border-radius: 4px; }
+  @media (max-width: 560px) { .card dl { grid-template-columns: 1fr; gap: 0 0; } .card dt { margin-top: 6px; } }
+</style>
+</head>
+<body>
+<main>
+  <h1 id="title"></h1>
+  <p class="intro" id="intro"></p>
+  <p class="meta" id="meta"></p>
+  <div class="tally" id="tally"></div>
+
+  <h2>The build, minute by minute</h2>
+  <p class="explain">Each row is one kind of activity. Long breaks (over 30 minutes) are folded so the working time is readable. Tap any mark to see what it was.</p>
+  <div class="scroller" id="scroller"></div>
+  <div class="legend" id="legend"></div>
+  <div class="detail" id="detail" aria-live="polite"><div class="when">Tap a mark on the timeline.</div></div>
+
+  <section id="moments-section" hidden>
+    <h2>Key moments</h2>
+    <p class="explain">Notes on the turning points, written from the ledger. The numbers on the timeline match these.</p>
+    <ol class="moments" id="moments"></ol>
+  </section>
+
+  <h2>Decisions</h2>
+  <p class="explain">Logged with /decision as they happened. An override is where the human went against Claude's suggestion.</p>
+  <div class="decisions" id="decisions"></div>
+
+  <h2>Phases</h2>
+  <p class="explain">Each phase ends at a checkpoint (a ledger entry plus a commit). Active time counts only stretches without a 30-minute silence.</p>
+  <div class="table-wrap"><table id="phases"></table></div>
+
+  <h2>What Claude did</h2>
+  <p class="explain">Every tool call Claude made, grouped. Asking the human counts too.</p>
+  <ul class="bars" id="bars"></ul>
+
+  <h2>Every prompt</h2>
+  <p class="explain">What the human typed, in order (secrets redacted by the ledger hook).</p>
+  <details><summary id="prompts-summary"></summary><ol class="prompts" id="prompts"></ol></details>
+
+  <footer id="footer"></footer>
+</main>
+<noscript><p style="text-align:center">This page draws its timeline with JavaScript.</p></noscript>
+<script>
+(() => {
+  const D = /*__DATA__*/null;
+  const N = /*__NOTES__*/null;
+  const $ = (id) => document.getElementById(id);
+  const el = (tag, attrs = {}, ...kids) => {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) k === "class" ? n.className = v : n.setAttribute(k, v);
+    for (const kid of kids) if (kid != null) n.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
+    return n;
+  };
+  const S = D.stats;
+  const fmt = (n) => Number(n).toLocaleString("en-IN");
+  const ist = (t, withDay) => new Date(t).toLocaleString("en-GB", {timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit",
+    ...(withDay ? {weekday: "short", day: "numeric", month: "short"} : {})});
+  const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  const GROUPS = [["Shell", "--g-shell"], ["Edit files", "--g-edit"], ["Read files", "--g-read"], ["Browser", "--g-browser"],
+                  ["agla-mcp", "--g-mcp"], ["Ask the human", "--g-ask"], ["Subagents", "--g-agent"], ["Web", "--g-web"],
+                  ["Skills", "--g-skill"], ["Plan mode", "--g-plan"], ["Other", "--g-other"]]
+                 .filter(([g]) => S.actions_by_group[g]);
+  const groupColour = Object.fromEntries(GROUPS.map(([g, v]) => [g, `var(${v})`]));
+  const items = D.items.map((it, i) => ({...it, i, t: Date.parse(it.ts)}));
+
+  // header
+  $("title").textContent = document.title;
+  $("intro").textContent = (N && N.intro) || "";
+  if (!$("intro").textContent) $("intro").remove();
+  $("meta").append(`${ist(S.start, true)} to ${ist(S.end, true)} (IST): ${S.elapsed_hours} hours elapsed, ${S.active_hours} active. `,
+                   D.repo ? el("a", {href: D.repo}, D.repo.replace("https://", "")) : "");
+  const tally = [
+    [fmt(S.prompts), `prompts from the human (${S.one_word_replies} were one or two words)`],
+    [fmt(S.claude_actions), "actions by Claude"],
+    [S.decisions + S.overrides, `decisions logged, ${S.overrides} against Claude's suggestion`],
+    [S.surprises, S.surprises === 1 ? "surprise" : "surprises"],
+    [S.checkpoints, "checkpoints"],
+    [S.commits, "commits"],
+  ];
+  $("tally").append(...tally.map(([n, l]) => el("div", {}, el("b", {}, n), el("span", {}, l))));
+
+  // time axis: active stretches drawn to scale, long breaks folded to a fixed width
+  const GAP = 30 * 60e3, PX_MIN = 5, FOLD = 46, PAD = 92, END_PAD = 40;
+  const times = items.map((i) => i.t).sort((a, b) => a - b);
+  const segs = [];
+  for (const t of times) {
+    const s = segs[segs.length - 1];
+    if (s && t - s.end <= GAP) s.end = t; else segs.push({start: t, end: t});
+  }
+  let x0 = PAD;
+  for (const [k, s] of segs.entries()) { s.x = x0; x0 += Math.max(4, (s.end - s.start) / 60e3 * PX_MIN) + (k < segs.length - 1 ? FOLD : 0); }
+  const W = x0 + END_PAD;
+  const X = (t) => {
+    for (const s of segs) if (t <= s.end) return t < s.start ? s.x - FOLD / 2 : s.x + (t - s.start) / 60e3 * PX_MIN;
+    const s = segs[segs.length - 1]; return s.x + (s.end - s.start) / 60e3 * PX_MIN;
+  };
+
+  // lanes
+  const notes = ((N && N.moments) || []).map((m, k) => {
+    const hit = items.find((it) => it.title && it.title.toLowerCase().includes((m.match || "").toLowerCase()) && (!m.kind || it.kind === m.kind));
+    return hit ? {...m, n: k + 1, item: hit} : null;
+  }).filter(Boolean);
+  const ROW = {notes: 24, phases: 56, human: 104, claude: 140, decision: 140 + GROUPS.length * 9 + 34, axis: 0};
+  ROW.axis = ROW.decision + 40;
+  const H = ROW.axis + 30;
+  const svg = [];
+  const lab = (y, text) => svg.push(`<text class="lane-label" x="12" y="${y + 4}">${text}</text>`);
+
+  // phase bands between checkpoints
+  const cps = items.filter((i) => i.kind === "checkpoint");
+  let from = times[0];
+  cps.forEach((c, k) => {
+    const a = X(from), b = X(c.t);
+    svg.push(`<rect x="${a}" y="${ROW.phases - 14}" width="${Math.max(2, b - a)}" height="28" rx="6" fill="var(--band)" opacity="${k % 2 ? 0.55 : 1}"/>`);
+    c.phaseLabel = c.title.match(/^Phases? [\d+\-– ]+/)?.[0].trim() || c.title.split(/[:(]/)[0].split(" ").slice(0, 3).join(" ");
+    if (b - a > 54) svg.push(`<text x="${a + 8}" y="${ROW.phases + 4}" style="fill:var(--ink)">${esc(c.phaseLabel)}</text>`);
+    from = c.t;
+  });
+  lab(ROW.phases, "Phases");
+
+  // checkpoint rules across the lanes, commit ticks on the axis
+  for (const c of cps) svg.push(`<line x1="${X(c.t)}" x2="${X(c.t)}" y1="${ROW.phases - 14}" y2="${ROW.axis}" stroke="var(--rule)" stroke-width="1.5"/>`);
+  lab(ROW.human, "Human");
+  lab(ROW.claude + (GROUPS.length * 9) / 2 - 4, "Claude");
+  lab(ROW.decision, "Decisions");
+
+  // folded breaks
+  segs.slice(0, -1).forEach((s, k) => {
+    const gx = X(s.end) + FOLD / 2, hrs = (segs[k + 1].start - s.end) / 3600e3;
+    svg.push(`<path d="M${gx - 4} ${ROW.phases - 14} l8 6 l-8 6 l8 6 l-8 6" fill="none" stroke="var(--muted)" stroke-width="1.2"/>`);
+    svg.push(`<text x="${gx}" y="${ROW.notes + 4}" text-anchor="middle">${hrs >= 1 ? `${Math.round(hrs)} h` : `${Math.round(hrs * 60)} m`} break</text>`);
+  });
+
+  // marks (data-i points back at the item)
+  for (const it of items) {
+    const x = X(it.t).toFixed(1);
+    if (it.kind === "prompt" || it.kind === "ideation") {
+      const short = it.kind === "prompt" && (it.detail || "").split(/\s+/).length <= 2;
+      svg.push(`<circle class="mark" data-i="${it.i}" cx="${x}" cy="${ROW.human}" r="${short ? 3.5 : 6}" fill="var(--human)" opacity="${short ? 0.55 : 0.9}" stroke="var(--mark-ring)"/>`);
+    } else if (it.kind === "tool" || it.kind === "subagent") {
+      const g = it.kind === "subagent" ? "Subagents" : it.group;
+      const row = Math.max(0, GROUPS.findIndex(([n]) => n === g));
+      svg.push(`<rect class="mark" data-i="${it.i}" x="${x - 1}" y="${ROW.claude + row * 9}" width="2.5" height="7" rx="1" fill="${groupColour[g] || "var(--g-other)"}"/>`);
+    } else if (it.lane === "decision") {
+      const y = ROW.decision, r = 8;
+      const shape = it.kind === "surprise"
+        ? `<polygon class="mark" data-i="${it.i}" points="${x},${y - r} ${+x + r},${y + r - 2} ${x - r},${y + r - 2}"`
+        : `<rect class="mark" data-i="${it.i}" x="${x - r / 1.4}" y="${y - r / 1.4}" width="${r * 1.41}" height="${r * 1.41}" transform="rotate(45 ${x} ${y})"`;
+      svg.push(`${shape} fill="${it.kind === "override" ? "var(--decision)" : "var(--surface)"}" stroke="var(--decision)" stroke-width="2.5"/>`);
+    } else if (it.kind === "commit") {
+      svg.push(`<rect class="mark" data-i="${it.i}" x="${x - 1}" y="${ROW.axis - 8}" width="2.5" height="8" fill="var(--ink)" opacity="0.6"/>`);
+    } else if (it.kind === "checkpoint") {
+      svg.push(`<circle class="mark" data-i="${it.i}" cx="${x}" cy="${ROW.phases - 14}" r="4" fill="var(--ink)"/>`);
+    }
+  }
+  // annotated moments
+  for (const m of notes) {
+    const x = X(m.item.t);
+    svg.push(`<g class="mark" data-i="${m.item.i}"><circle cx="${x}" cy="${ROW.notes}" r="10" fill="var(--decision)"/><text x="${x}" y="${ROW.notes + 4}" text-anchor="middle" style="fill:#fff;font-weight:700">${m.n}</text></g>`);
+  }
+  // hour ticks inside active stretches
+  const folds = segs.slice(0, -1).map((s) => X(s.end) + FOLD / 2);
+  for (const s of segs) {
+    const step = 30 * 60e3;
+    for (let t = Math.ceil(s.start / step) * step; t <= s.end; t += step) {
+      if (folds.some((f) => Math.abs(f - X(t)) < 34)) continue;  // keep time labels clear of the break marks
+      svg.push(`<line x1="${X(t)}" x2="${X(t)}" y1="${ROW.axis}" y2="${ROW.axis + 4}" stroke="var(--muted)"/><text x="${X(t)}" y="${ROW.axis + 18}" text-anchor="middle">${ist(t)}</text>`);
+    }
+  }
+  svg.push(`<line x1="${PAD}" x2="${W - END_PAD}" y1="${ROW.axis}" y2="${ROW.axis}" stroke="var(--rule)"/>`);
+  $("scroller").innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Timeline of the build: human prompts, Claude's actions and decisions over time">${svg.join("")}</svg>`;
+
+  function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"})[c]); }
+
+  // legend
+  $("legend").append(
+    el("span", {}, el("i", {style: "background:var(--human);border-radius:50%"}), "human prompt (small: a one- or two-word reply)"),
+    ...GROUPS.map(([g, v]) => el("span", {}, el("i", {style: `background:var(${v})`}), g)),
+    el("span", {}, el("i", {style: "background:var(--surface);border:2px solid var(--decision);transform:rotate(45deg)"}), "decision"),
+    el("span", {}, el("i", {style: "background:var(--decision);transform:rotate(45deg)"}), "override"));
+
+  // selection
+  let selected = null;
+  const NAMES = {prompt: "Human prompt", ideation: "Before the ledger: kickoff", tool: "Claude", subagent: "Subagent finished",
+                 decision: "Decision", override: "Override", surprise: "Surprise", checkpoint: "Checkpoint", commit: "Commit",
+                 session: "Session", compaction: "Context compacted"};
+  function select(i, scroll) {
+    const it = items[i];
+    if (selected) selected.forEach((n) => n.classList.remove("sel"));
+    selected = [...document.querySelectorAll(`.mark[data-i="${i}"]`)];
+    selected.forEach((n) => n.classList.add("sel"));
+    const head = it.kind === "tool" ? `Claude: ${it.tool}` : NAMES[it.kind] || it.kind;
+    const box = $("detail");
+    box.replaceChildren(el("div", {class: "when"}, `${head}, ${ist(it.t, true)}${it.sha ? `, ${it.sha}` : ""}`),
+                        el("div", {class: "what"}, it.title || ""));
+    const more = it.fields ? Object.entries(it.fields).map(([k, v]) => `${k}: ${v}`).join("\n") : it.detail !== it.title ? it.detail : "";
+    if (more) box.append(el("div", {class: "more"}, more));
+    if (scroll) {
+      const sc = $("scroller"); sc.scrollTo({left: X(it.t) - sc.clientWidth / 2, behavior: "smooth"});
+      sc.scrollIntoView({behavior: "smooth", block: "center"});
+    }
+  }
+  $("scroller").addEventListener("click", (e) => { const m = e.target.closest(".mark"); if (m) select(+m.dataset.i); });
+
+  // key moments
+  if (notes.length) {
+    $("moments-section").hidden = false;
+    $("moments").append(...notes.map((m) => {
+      const b = el("button", {type: "button"}, m.item.title);
+      b.addEventListener("click", () => select(m.item.i, true));
+      return el("li", {}, el("span", {class: "num"}, m.n), el("div", {}, el("div", {class: "when"}, ist(m.item.t, true)), b, el("p", {}, m.note)));
+    }));
+  }
+
+  // decisions
+  const LABEL = {decision: "Decision", override: "Override: the human went against Claude's suggestion", surprise: "Surprise"};
+  $("decisions").append(...items.filter((i) => i.lane === "decision").map((d) => el("article", {class: `card ${d.kind}`},
+    el("div", {class: "tag"}, `${LABEL[d.kind]}, ${ist(d.t, true)}`), el("h3", {}, d.title),
+    el("dl", {}, ...Object.entries(d.fields || {}).flatMap(([k, v]) => [el("dt", {}, k), el("dd", {}, v)])))));
+
+  // phases table
+  const active = (a, b) => { let ms = 0, prev = null; for (const t of times) { if (t <= a || t > b) continue; if (prev && t - prev <= GAP) ms += t - prev; prev = t; } return ms; };
+  const rows = []; from = times[0];
+  for (const c of cps) {
+    const inSpan = items.filter((i) => i.t > from && i.t <= c.t);
+    rows.push([c.title, ist(c.t, true), Math.round(active(from, c.t) / 60e3), inSpan.filter((i) => i.kind === "prompt").length,
+               inSpan.filter((i) => i.kind === "tool").length]);
+    from = c.t;
+  }
+  $("phases").append(el("thead", {}, el("tr", {}, ...["Checkpoint", "Ended", "Active min", "Prompts", "Claude actions"].map((h) => el("th", {}, h)))),
+    el("tbody", {}, ...rows.map(([t, w, m, p, a]) => el("tr", {}, el("td", {}, t), el("td", {}, w), el("td", {class: "n"}, m), el("td", {class: "n"}, p), el("td", {class: "n"}, a)))));
+
+  // tool bars
+  const max = Math.max(...Object.values(S.actions_by_group));
+  $("bars").append(...GROUPS.map(([g, v]) => el("li", {}, el("span", {}, g),
+    el("span", {class: "bar", style: `width:${(S.actions_by_group[g] / max) * 100}%;background:var(${v})`}),
+    el("span", {class: "n"}, fmt(S.actions_by_group[g])))));
+
+  // prompts
+  const prompts = items.filter((i) => i.kind === "prompt");
+  $("prompts-summary").textContent = `Show all ${prompts.length} prompts`;
+  $("prompts").append(...prompts.map((p) => el("li", {}, el("span", {class: "when"}, ist(p.t, true)), p.detail)));
+
+  // footer
+  $("footer").append(`Generated from the project's process ledger (${D.items.length} items: hook events, the decisions log, git history and the kickoff chat) by the build-journal skill. `,
+    "Not recorded: rewinds (hooks can't see them) and cost. ", `Timeline built ${ist(Date.parse(D.generated), true)} IST.`);
+})();
+</script>
+</body>
+</html>

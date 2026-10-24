@@ -78,7 +78,7 @@ def test_only_the_owner_can_share(conn, trip):
 def test_arrival_marks_share_and_shortens_expiry(conn, trip):
     token = tools.create_share(conn, trip.trip_id, RIDER, T0)
     result = tools.confirm_arrival(conn, trip.trip_id, RIDER, at(85))
-    assert result["miles"] == 10 and not result["already"]
+    assert result["miles"] == 10 and not result["already"] and result["share_token"] == token
     view = tools.get_share_view(conn, token, at(90))
     assert view.status == "arrived" and all(reached for _, reached, _ in view.stations)
     assert tools.get_share_view(conn, token, at(85 + 31)) is None  # 30 min after arrival
@@ -93,7 +93,7 @@ def test_reached_marks_trip_awards_miles_once_and_returns_a_message(conn, trip):
     assert res["miles"] == 10 and not res["already"]
     assert res["message"] == "✅ Meera has reached Pari Chowk (2:25 PM)."
     again = tools.confirm_arrival(conn, trip.trip_id, RIDER, at(90))
-    assert again == {"already": True, "miles": 0, "message": res["message"]}  # same time, no double miles
+    assert again == {**res, "already": True, "miles": 0}  # same time and message, no double miles
 
 
 def test_reached_works_without_a_share_and_a_later_share_shows_arrived(conn, trip):
