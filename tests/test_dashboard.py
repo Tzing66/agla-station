@@ -99,6 +99,7 @@ def test_api_with_magic_link(client):
     assert ins["totals"]["trips"] == 3 and len(ins["trips_per_week"]) == 8
     wrapped = client.get("/api/wrapped", headers=auth()).json()
     assert wrapped[0]["month"] == "2026-10" and wrapped[0]["trips"] == 3
+    assert wrapped[0]["slides"][0]["key"] == "trips" and wrapped[0]["narration"] is None  # no LLM recap saved yet
     card = client.get("/api/wrapped/2026-10/card.png", headers=auth())
     assert card.headers["content-type"] == "image/png"
 

@@ -7,12 +7,12 @@ Text it where you're going, the way you'd say it: *"rajiv chowk to hauz khas"*, 
 - **Routes and official fares** across all four operators: fastest, fewest changes or cheapest, with Sunday and holiday pricing.
 - **UPI payment link and QR** that opens GPay, PhonePe or Paytm, then a **demo QR ticket**.
 - **📤 Share journey:** a live link showing where you should be, from the timetable. **✅ I've reached:** a ready-made message you send to whoever's waiting.
-- **Metro Miles, badges and rewards**, a **monthly Metro Wrapped** card, and a **dashboard Mini App** with your map, badges, miles and insights.
+- **Metro Miles, badges and rewards**, a **dashboard Mini App** with your map, badges, miles and insights, and a monthly **Metro Wrapped**: a three-stop ride through your month (how much, where, what you earned) and a card to share.
 - Replies in **English, Hinglish or हिंदी**. Menu buttons instead of slash commands.
 
-| Dashboard map | Miles | Insights |
-| --- | --- | --- |
-| ![Map](docs/screenshots/dashboard-map-light.png) | ![Miles](docs/screenshots/dashboard-miles-light.png) | ![Insights](docs/screenshots/dashboard-insights-dark.png) |
+| Dashboard | Metro Wrapped: ride | Metro Wrapped: rewards | Insights (dark) |
+| --- | --- | --- | --- |
+| ![Map](docs/screenshots/dashboard-map-light.png) | ![Wrapped, first stop](docs/screenshots/wrapped-stop-1.png) | ![Wrapped, last stop](docs/screenshots/wrapped-stop-3.png) | ![Insights](docs/screenshots/dashboard-insights-dark.png) |
 
 ## Honest constraints
 
@@ -127,5 +127,6 @@ Don't install it inside this repo: `.claude/settings.json` already runs the same
 ## Known limitations
 
 - **DMRC fares near a slab boundary can be one slab off.** DMRC charges by track distance in slabs (2, 5, 12, 21, 32 km); we approximate track distance from straight lines between stations, which under-measures curvy lines. 376 of 384 official fares match. Known case: Kashmere Gate → Noida City Centre, we compute 20.7 km (₹43) but DMRC charges ₹54. Planned fix: fit a per-line track-distance factor from official terminal-to-station fares.
-- **The tunnel URL changes on every restart**, so share links from an earlier run stop working. A fixed deployment would fix this.
+- **The tunnel URL changes on every restart** (and when a sleeping laptop drops the tunnel, which the app detects and replaces within about 90 seconds). The dashboard button follows the new URL automatically, but share links from before stop working. A fixed deployment would fix this.
+- **Wrapped story lines are English only**; the chat narration follows the rider's language.
 - **Station search** handles typos, abbreviations and many landmarks, but a place that isn't a station or a known alias ("India Gate") isn't resolved yet. Sharing a location pin is in [docs/backlog.md](docs/backlog.md).

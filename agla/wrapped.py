@@ -10,9 +10,11 @@ import json
 import sqlite3
 from collections import Counter
 from dataclasses import dataclass
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
+from functools import cache
+from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageColor, ImageDraw, ImageFont
 
 from agla.network.graph import load_network
 from agla.tools.stations import get_station
@@ -156,52 +158,182 @@ def _recap(row: sqlite3.Row) -> Recap:
     return Recap(row["month"], stats, row["text"], row["created_at"])
 
 
+# --- story --------------------------------------------------------------------------------------------------------
+# The tap-through Wrapped: one idea per slide, a big figure and one short line saying what it means. Every figure and
+# comparison is computed here from the stats and the network (code decides); the page only displays them.
+
+
+@dataclass(frozen=True)
+class Slide(_Base):
+    key: str  # stable id: trips, distance, time, busiest, line, station, explorer, miles
+    big: str  # the hero figure or name
+    label: str  # what the figure is, in a few words
+    line: str  # what it means
+    colour: str | None = None  # a metro line's own colour, for the line slide
+
+
+def _line_lengths_km() -> dict[str, float]:
+    """End-to-end length of each line: every ride segment counted once, whichever direction it runs."""
+    net = load_network()
+    seen: set[tuple[str, frozenset[str]]] = set()
+    km: Counter[str] = Counter()
+    for (a, la), (b, lb), d in net.graph.edges(data=True):
+        if d["kind"] == "ride" and la == lb and (key := (la, frozenset((a, b)))) not in seen:
+            seen.add(key)
+            km[la] += d["km"]
+    return dict(km)
+
+
+def _days_covered(month: str, today: date) -> int:
+    start_s, end_s = _month_bounds(month)
+    start, end = date.fromisoformat(start_s), date.fromisoformat(end_s)
+    return max(1, ((min(today, end - timedelta(days=1)) - start).days + 1) if today >= start else (end - start).days)
+
+
+def _times(n: int) -> str:
+    return {1: "once", 2: "twice"}.get(n, f"{n} times")
+
+
+def wrapped_story(s: WrappedStats, today: date) -> list[Slide]:
+    """The slides for one month, skipping any that would be empty. `today` trims the current month to the days so
+    far, so "a week" averages stay honest mid-month."""
+    if not s.trips:
+        return []
+    net = load_network()
+    plural = "s" if s.trips != 1 else ""
+    slides = []
+
+    weeks = _days_covered(s.month, today) / 7
+    per_week = s.trips / weeks
+    slides.append(Slide("trips", str(s.trips), f"trip{plural}",
+                        f"About {round(per_week)} a week." if weeks >= 1 and per_week >= 1.5
+                        else "Every one of them counted on your map."))
+
+    km = round(s.total_km)
+    fav_id = next((lid for lid, m in net.lines.items() if m["name"] == s.favourite_line), None)
+    length = _line_lengths_km().get(fav_id or "", 0)
+    if length and s.total_km >= 0.9 * length:
+        n = round(s.total_km / length)
+        meaning = f"Like riding the {s.favourite_line} end to end {_times(n)}."
+    else:
+        meaning = f"{s.total_km / s.trips:.1f} km a trip on average."
+    slides.append(Slide("distance", f"{km:,} km", "travelled", meaning))
+
+    h, m = divmod(s.total_minutes, 60)
+    avg = round(s.total_minutes / s.trips)
+    days = round(s.total_minutes / 1440)
+    time_line = f"{avg} minutes a trip on average."
+    if days >= 1:
+        time_line = f"About {days} full day{'s' if days > 1 else ''} in all, {avg} minutes a trip."
+    slides.append(Slide("time", f"{h}h {m}m" if h else f"{m} min", "on the metro", time_line))
+
+    if s.busiest_day and s.busiest_day_trips >= 2:
+        slides.append(Slide("busiest", s.busiest_day, "your busiest day", f"{s.busiest_day_trips} trips in one day."))
+
+    if s.favourite_line:
+        slides.append(Slide("line", s.favourite_line, "your line",
+                            f"{s.favourite_line_trips} of your {s.trips} trips rode it.",
+                            colour=net.lines[fav_id]["colour"] if fav_id else None))
+    if s.top_stations:
+        name, visits = s.top_stations[0]
+        slides.append(Slide("station", name, "your station",
+                            f"You started, changed or finished here {_times(visits)}."))
+
+    total = len(net.stations)
+    explorer = (f"{s.new_stations} of them new to you. The network has {total}."
+                if s.new_stations else f"All familiar ones. The network has {total} to explore.")
+    slides.append(Slide("explorer", str(s.unique_stations), "stations", explorer))
+
+    if s.miles_earned:
+        badges = s.badges_earned
+        miles_line = ("Spend them in the Miles tab." if not badges else
+                      f"And a new badge: {badges[0]}." if len(badges) == 1 else
+                      f"And {len(badges)} new badges, including {badges[0]}.")
+        slides.append(Slide("miles", f"+{s.miles_earned:,}", "Metro Miles", miles_line))
+    return slides
+
+
 # --- card --------------------------------------------------------------------------------------------------------
 
 W, H = 1080, 1920
-BG, INK, MUTED = "#fbf7f0", "#2b2d42", "#8d8fa3"
-PASTELS = ["#cdeac0", "#ffd6a5", "#d7c8f3", "#bde0fe", "#fdffb6", "#ffc8dd"]  # mint, peach, lilac, sky, butter, pink
+INK, SOFT, PANEL = "#3b1f1a", "#7a4a3c", (255, 250, 244)
+SKY = ("#ffd08a", "#f6a6a0")  # marigold to gulabi, top to bottom
+FONTS = Path(__file__).resolve().parents[1] / "data" / "fonts"
 
 
-def _font(size: int) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
-    return ImageFont.load_default(size=size)
+@cache
+def _font(size: int, weight: str = "Bold") -> ImageFont.FreeTypeFont:
+    """Baloo 2 (variable weight) for figures and headings; both fonts are OFL and cover Devanagari."""
+    f = ImageFont.truetype(str(FONTS / "Baloo2.ttf"), size)
+    f.set_variation_by_name(weight)
+    return f
 
 
-def render_card(stats: WrappedStats, text: str = "") -> bytes:
-    """Vertical 9:16 share card: big numbers, one-word labels, no prose (the narration goes in the caption)."""
-    img = Image.new("RGB", (W, H), BG)
-    d = ImageDraw.Draw(img)
-    d.text((90, 120), "metro wrapped", font=_font(40), fill=MUTED)
-    d.text((90, 175), stats.month_name.split()[0], font=_font(120), fill=INK)
-    d.text((90, 320), f"{stats.first_name} · {stats.month_name.split()[1]}", font=_font(40), fill=MUTED)
+@cache
+def _body(size: int) -> ImageFont.FreeTypeFont:
+    return ImageFont.truetype(str(FONTS / "Mukta-Medium.ttf"), size)
 
-    h, m = divmod(stats.total_minutes, 60)
-    tiles = [
-        (str(stats.trips), "trips"),
-        (str(stats.unique_stations), "stations"),
-        (f"{round(stats.total_km)}", "km"),
-        (f"{h}h {m}m", "riding"),
-        (str(stats.new_stations), "new"),
-        (f"{stats.miles_earned}", "miles"),
-    ]
-    tw, th, gap, top = 435, 250, 30, 440
-    for i, (big, label) in enumerate(tiles):
-        x, y = 90 + (i % 2) * (tw + gap), top + (i // 2) * (th + gap)
-        d.rounded_rectangle([x, y, x + tw, y + th], radius=40, fill=PASTELS[i])
-        d.text((x + 40, y + 45), big, font=_font(92 if len(big) <= 5 else 72), fill=INK)
-        d.text((x + 40, y + 170), label, font=_font(38), fill=INK)
 
-    y = top + 3 * (th + gap) + 40
-    rows = [("line", stats.favourite_line), ("station", stats.top_stations[0][0] if stats.top_stations else None),
-            ("busiest", stats.busiest_day)]
-    for label, value in rows:
-        if value:
-            d.text((90, y), label, font=_font(34), fill=MUTED)
-            d.text((300, y - 6), value, font=_font(46), fill=INK)
-            y += 90
-    d.text((90, H - 120), "agla station", font=_font(34), fill=MUTED)
-    d.text((W - 90, H - 120), "concept demo", font=_font(30), fill=MUTED, anchor="ra")
+def _fit(d: ImageDraw.ImageDraw, text: str, size: int, width: int, weight: str = "Bold") -> ImageFont.FreeTypeFont:
+    while size > 30 and d.textlength(text, font=_font(size, weight)) > width:
+        size -= 4
+    return _font(size, weight)
 
+
+def render_card(stats: WrappedStats, text: str = "", today: date | None = None) -> bytes:
+    """Vertical 9:16 share card in warm tones: the month, its biggest figure with what it means, then three panels.
+    No narration on the card (that goes in the chat caption); every line comes from wrapped_story()."""
+    story = {sl.key: sl for sl in wrapped_story(stats, today or date.max)}  # no date: the whole month
+    img = Image.new("RGB", (1, 2))
+    img.putpixel((0, 0), ImageColor.getrgb(SKY[0]))
+    img.putpixel((0, 1), ImageColor.getrgb(SKY[1]))
+    img = img.resize((W, H), Image.Resampling.BILINEAR)
+    d = ImageDraw.Draw(img, "RGBA")
+    x, inner = 96, W - 2 * 96
+
+    d.text((x, 110), "metro wrapped", font=_body(40), fill=SOFT)
+    month, year = stats.month_name.split()
+    d.text((x, 150), month, font=_fit(d, month, 170, inner, "ExtraBold"), fill=INK)
+    d.text((x, 345), f"{stats.first_name}, {year}", font=_body(44), fill=SOFT)
+
+    if not story:
+        d.text((x, 520), "No trips this month yet.", font=_font(64, "SemiBold"), fill=INK)
+    else:
+        hero = story["distance"]
+        d.text((x, 470), hero.big, font=_fit(d, hero.big, 210, inner, "ExtraBold"), fill=INK)
+        _wrap(d, (x, 710), hero.line, _body(46), inner, SOFT)
+
+        y = 880
+        for key in ("trips", "time", "line" if "line" in story else "explorer"):
+            sl = story[key]
+            d.rounded_rectangle([x - 24, y, W - x + 24, y + 250], radius=44, fill=(*PANEL, 205))
+            big_font = _fit(d, sl.big, 96, inner - 40, "Bold")
+            d.text((x + 16, y + 26), sl.big, font=big_font, fill=sl.colour or INK)
+            label_x = x + 16 + d.textlength(sl.big, font=big_font) + 18
+            if label_x < W - x - 200:
+                d.text((label_x, y + 70), sl.label, font=_body(40), fill=SOFT)
+            _wrap(d, (x + 16, y + 150), sl.line, _body(38), inner - 40, SOFT, max_lines=2)
+            y += 280
+
+    d.text((x, H - 120), "agla station", font=_font(40, "Bold"), fill=INK)
+    d.text((W - x, H - 112), "concept demo", font=_body(32), fill=SOFT, anchor="ra")
     buf = io.BytesIO()
-    img.save(buf, format="PNG")
+    img.save(buf, format="PNG", optimize=True)
     return buf.getvalue()
+
+
+def _wrap(d: ImageDraw.ImageDraw, xy: tuple[int, int], text: str, font: ImageFont.FreeTypeFont, width: int,
+          fill: str, max_lines: int = 3) -> None:
+    words, lines, cur = text.split(), [], ""
+    for w in words:
+        trial = f"{cur} {w}".strip()
+        if d.textlength(trial, font=font) <= width:
+            cur = trial
+        else:
+            lines.append(cur)
+            cur = w
+    lines.append(cur)
+    x, y = xy
+    for ln in lines[:max_lines]:
+        d.text((x, y), ln, font=font, fill=fill)
+        y += int(font.size * 1.25)

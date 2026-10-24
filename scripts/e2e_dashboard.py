@@ -3,8 +3,8 @@
     uv run python -m scripts.e2e_dashboard [--base http://127.0.0.1:8000] [--redeem] [--light-only]
 
 Needs the server running (`uv run python -m agla`) and the demo rider seeded (`scripts.seed_demo`).
-Clicks every tab at phone size in light and dark mode, optionally redeems the cheapest affordable reward,
-opens a share page, fails on any console error, and saves screenshots to docs/screenshots/.
+Clicks every tab at phone size in light and dark mode, plays the Wrapped story, optionally redeems the cheapest
+affordable reward, opens a share page, fails on any console error, and saves screenshots to docs/screenshots/.
 """
 
 from __future__ import annotations
@@ -42,6 +42,21 @@ def check_tabs(page: Page, scheme: str, errors: list[str], redeem: bool) -> None
                 print("  redeemed:", page.locator(".voucher").inner_text().replace("\n", " | "))
         page.screenshot(path=str(SHOTS / f"dashboard-{tab}-{scheme}.png"), full_page=True)
         print(f"  {scheme:5} {tab:9} ok")
+    play_story(page, scheme)
+
+
+def play_story(page: Page, scheme: str) -> None:
+    """Open the newest Wrapped from the header, ride through its stops, and close it at the end of the line."""
+    page.click("#play")
+    page.wait_for_selector("#story:not([hidden]) .stage h2")
+    stops = page.locator("#route .stop").count()
+    for i in range(stops):
+        page.wait_for_timeout(800)  # route marker settles
+        if scheme == "light":  # the story keeps its warm colours in dark mode too
+            page.screenshot(path=str(SHOTS / f"wrapped-stop-{i + 1}.png"), full_page=True)
+        page.click("#story-bottom .next")
+    assert page.locator("#story").is_hidden(), "the last stop's button should close the story"
+    print(f"  {scheme:5} story     ok ({stops} stops)")
 
 
 def main() -> int:

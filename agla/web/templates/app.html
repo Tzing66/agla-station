@@ -8,7 +8,8 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚇</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Baloo 2 + Mukta: Ek Type's families, warm and rounded, with Devanagari for Hindi riders -->
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Mukta:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <!-- Pinned versions with Subresource Integrity: a tampered CDN file is refused, so it can't read the session.
@@ -16,43 +17,56 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js" integrity="sha384-Sse/HDqcypGpyTDpvZOJNnG0TT3feGQUkF9H+mnRvic+LjR+K1NhTt8f51KIQ3v3" crossorigin="anonymous" defer></script>
   <style>
+    /* Marigold & gulabi: warm Delhi tones. Tints carry the tiles; plum is the one action colour. */
     :root {
-      --paper: #fbf7f0; --surface: #ffffff; --ink: #2b2d42; --muted: #7c7f96; --rule: #ece6dc; --track: #ede8df;
-      --mint: #cdeac0; --peach: #ffd6a5; --lilac: #d7c8f3; --sky: #bde0fe; --butter: #fdffb6; --pink: #ffc8dd;
-      --focus: #5a4fcf;
+      --paper: #fff6ee; --surface: #ffffff; --ink: #3b1f1a; --muted: #8a5f52; --rule: #f2e1d4; --track: #f6e7dc;
+      --marigold: #f6b04b; --gulabi: #ee7d8e; --plum: #8c3b5e; --on-plum: #fff6ee;
+      --t1: #fde3c3; --t2: #fbd7dc; --t3: #fcebc0; --t4: #f9dccd; --t5: #f3d6e4;
+      --plus: #2f7a46; --minus: #b4482c;
+      --display: "Baloo 2", "Mukta", system-ui, sans-serif;
     }
     :root[data-theme="dark"] {
-      --paper: #16171d; --surface: #1f2028; --ink: #ecebf3; --muted: #9a9cb2; --rule: #2c2e3a; --track: #2a2c37;
-      --mint: #3b5a37; --peach: #6a4a2a; --lilac: #4a4069; --sky: #2c4a66; --butter: #5b5c2e; --pink: #66394c;
-      --focus: #b1a8ff;
+      --paper: #1d1411; --surface: #291d19; --ink: #fbeee4; --muted: #c6a293; --rule: #3a2a24; --track: #36271f;
+      --marigold: #f6b04b; --gulabi: #ee7d8e; --plum: #f2a0bd; --on-plum: #2a1219;
+      --t1: #5b3b1d; --t2: #5a2c36; --t3: #54461d; --t4: #5a3829; --t5: #4a2c3d;
+      --plus: #8fd19e; --minus: #f2a37a;
     }
     * { box-sizing: border-box; }
     html, body { margin: 0; background: var(--paper); color: var(--ink); }
-    body { font: 400 15px/1.5 "Figtree", system-ui, sans-serif; font-variant-numeric: tabular-nums;
-           padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
-    main { max-width: 560px; margin: 0 auto; padding: 20px 16px 8px; }
-    h1 { font-size: 26px; line-height: 1.15; font-weight: 700; margin: 0 0 6px; letter-spacing: -0.01em; }
-    h2 { font-size: 17px; font-weight: 600; margin: 26px 0 10px; }
+    body { font: 400 16px/1.5 "Mukta", system-ui, sans-serif; font-variant-numeric: tabular-nums;
+           padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+    main { max-width: 560px; margin: 0 auto; padding: 0 16px 16px; }
+    h1, h2, .figure { font-family: var(--display); }
+    h1 { font-size: 30px; line-height: 1.1; font-weight: 800; margin: 0; }
+    h2 { font-size: 20px; line-height: 1.2; font-weight: 700; margin: 28px 0 2px; }
+    .explain { color: var(--muted); font-size: 14px; margin: 0 0 10px; }
     p { margin: 0; }
-    .lede { color: var(--muted); font-size: 15px; }
     .muted { color: var(--muted); }
-    .small { font-size: 13px; }
+    .small { font-size: 14px; }
     section[hidden] { display: none; }
     button { font: inherit; color: inherit; }
-    :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+    :focus-visible { outline: 2px solid var(--plum); outline-offset: 2px; border-radius: 6px; }
+
+    /* header: the warm greeting, and the doorway into Wrapped */
+    header { background: linear-gradient(160deg, var(--marigold), var(--gulabi)); color: #3b1f1a;
+             border-radius: 0 0 28px 28px; padding: 22px 20px 20px; margin: 0 -16px 8px; }
+    header .lede { font-size: 16px; margin-top: 4px; opacity: .85; }
+    .play { display: none; margin-top: 14px; border: 0; border-radius: 999px; padding: 9px 16px 8px; cursor: pointer;
+            background: #3b1f1a; color: #fff6ee; font-weight: 600; }
+    .play.ready { display: inline-flex; gap: 8px; align-items: center; }
+    @media (min-width: 592px) { header { margin: 0 0 8px; border-radius: 0 0 28px 28px; } }
 
     /* map */
-    #map { height: 46vh; min-height: 280px; border-radius: 18px; margin-top: 16px; background: var(--track); }
+    #map { height: 44vh; min-height: 280px; border-radius: 20px; background: var(--track); }
     .leaflet-container { font: inherit; }
-    .osm-tiles { filter: saturate(0.35) contrast(0.9) brightness(1.04); }  /* soften OSM so line colours lead */
-    :root[data-theme="dark"] .osm-tiles { filter: invert(1) hue-rotate(180deg) saturate(0.3) brightness(0.8); }
-    .legend-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; vertical-align: -1px; margin-right: 6px; }
+    .osm-tiles { filter: sepia(0.25) saturate(0.45) contrast(0.9) brightness(1.04); }  /* warm, quiet base map */
+    :root[data-theme="dark"] .osm-tiles { filter: invert(1) hue-rotate(180deg) sepia(0.3) saturate(0.35) brightness(0.75); }
 
-    /* line progress: the signature element */
+    /* line progress */
     .lines { list-style: none; padding: 0; margin: 0; }
     .lines li { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; padding: 9px 0; }
     .lines .name { font-weight: 500; }
-    .lines .count { color: var(--muted); font-size: 13px; align-self: end; }
+    .lines .count { color: var(--muted); font-size: 14px; align-self: end; }
     .rail { grid-column: 1 / -1; position: relative; height: 8px; border-radius: 999px; background: var(--track); }
     .rail > span { position: absolute; inset: 0 auto 0 0; border-radius: 999px; min-width: 8px; }
     .rail.empty > span { display: none; }
@@ -61,79 +75,154 @@
     .rows { list-style: none; padding: 0; margin: 0; }
     .rows li { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-top: 1px solid var(--rule); }
     .rows li:first-child { border-top: 0; }
-    .token { flex: none; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-size: 18px; }
+    .token { flex: none; width: 40px; height: 40px; border-radius: 14px; display: grid; place-items: center; font-size: 20px; }
     .rows .grow { flex: 1; min-width: 0; }
     .rows .title { font-weight: 600; }
     .rows .right { flex: none; text-align: right; }
     .locked .title { color: var(--muted); }
 
     /* miles */
-    .balance { display: flex; align-items: baseline; gap: 10px; margin: 8px 0 2px; }
-    .balance strong { font-size: 44px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
-    .btn { border: 0; border-radius: 999px; padding: 7px 14px; font-weight: 600; background: var(--lilac); color: var(--ink); cursor: pointer; }
+    .balance { display: flex; align-items: baseline; gap: 10px; margin: 18px 0 0; }
+    .balance strong { font-family: var(--display); font-size: 52px; font-weight: 800; line-height: 1; }
+    .btn { border: 0; border-radius: 999px; padding: 7px 14px 6px; font-weight: 600; background: var(--plum); color: var(--on-plum); cursor: pointer; }
     .btn[disabled] { background: var(--track); color: var(--muted); cursor: default; }
-    .voucher { background: var(--butter); border-radius: 16px; padding: 14px 16px; margin: 12px 0; }
+    .voucher { background: var(--t3); border-radius: 18px; padding: 14px 16px; margin: 12px 0; }
     .voucher code { font-size: 18px; font-weight: 700; letter-spacing: 0.04em; }
-    .delta-plus { color: #3a7d44; } :root[data-theme="dark"] .delta-plus { color: #8fd19e; }
-    .delta-minus { color: #b5541c; } :root[data-theme="dark"] .delta-minus { color: #f2a37a; }
+    .delta-plus { color: var(--plus); } .delta-minus { color: var(--minus); }
 
     /* insights */
-    .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
-    .fact { border-radius: 16px; padding: 12px 14px; }
-    .fact b { display: block; font-size: 22px; font-weight: 700; }
+    .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+    .fact { border-radius: 18px; padding: 12px 14px; }
+    .fact .figure { display: block; font-size: 26px; font-weight: 800; line-height: 1.15; }
+    .fact span { font-size: 14px; }
     .chart { position: relative; height: 200px; }
 
-    /* wrapped */
-    .wrapped img { width: 100%; max-width: 360px; border-radius: 18px; display: block; margin: 8px 0 10px; background: var(--track); aspect-ratio: 9 / 16; }
+    /* wrapped archive: each month is a cover you tap to play */
+    .covers { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; }
+    .cover { border: 0; border-radius: 22px; padding: 16px; min-height: 190px; text-align: left; cursor: pointer;
+             display: flex; flex-direction: column; justify-content: space-between; color: #3b1f1a; }
+    .cover .figure { font-size: 26px; font-weight: 800; line-height: 1.05; }
+    .cover .meta { font-size: 14px; opacity: .85; }
+    .cover .go { font-weight: 600; font-size: 15px; }
+
+    /* Wrapped as a short metro ride: three stops on a route strip, like the route map above a metro door. */
+    .story { position: fixed; inset: 0; z-index: 2000; color: #3b1f1a; display: flex; flex-direction: column; overflow-y: auto;
+             padding: calc(14px + env(safe-area-inset-top)) 20px calc(18px + env(safe-area-inset-bottom)); }
+    .story[hidden] { display: none; }
+    .story .top { display: flex; justify-content: space-between; align-items: center; font-size: 15px; }
+    .story .close { border: 0; background: rgba(255, 255, 255, .45); width: 36px; height: 36px; border-radius: 50%;
+                    font-size: 18px; cursor: pointer; flex: none; }
+    .route { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); margin: 18px 0 8px; }
+    .route::before, .route .run { content: ""; position: absolute; top: 9px; left: 16.66%; height: 6px; border-radius: 6px; }
+    .route::before { right: 16.66%; background: rgba(59, 31, 26, .18); }
+    .route .run { width: 0; background: var(--route, #3b1f1a); }
+    .route .stop { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px;
+                   border: 0; background: none; padding: 0; cursor: pointer; font-size: 13px; color: rgba(59, 31, 26, .7); }
+    .route .stop i { width: 24px; height: 24px; border-radius: 50%; background: #fff6ee; border: 5px solid rgba(59, 31, 26, .25); }
+    .route .stop.past i { border-color: var(--route, #3b1f1a); }
+    .route .stop.here i { border-color: var(--route, #3b1f1a); background: var(--route, #3b1f1a); box-shadow: 0 0 0 5px rgba(255, 246, 238, .7); }
+    .route .stop.here { color: #3b1f1a; font-weight: 600; }
+    .stage { flex: 1; max-width: 520px; width: 100%; margin: 0 auto; padding-top: 18px; }
+    .stage h2 { font-size: 30px; font-weight: 800; margin: 0 0 18px; }
+    .hero .figure { font-size: clamp(54px, 16vw, 92px); font-weight: 800; line-height: .95; overflow-wrap: anywhere; }
+    .hero .figure.name { font-size: clamp(38px, 11vw, 60px); line-height: 1.05; display: flex; align-items: center; gap: 14px; }
+    .hero .figure.name::before { content: ""; flex: none; width: 14px; align-self: stretch; border-radius: 7px; background: var(--route, #3b1f1a); }
+    .hero p { font-size: 19px; line-height: 1.4; margin-top: 10px; max-width: 32ch; }
+    .facts-list { list-style: none; padding: 0; margin: 24px 0 0; }
+    .facts-list li { padding: 14px 0; border-top: 1.5px solid rgba(59, 31, 26, .14); }
+    .facts-list .figure { font-size: 30px; font-weight: 700; line-height: 1.1; }
+    .facts-list .figure small { display: inline-block; white-space: nowrap; font-family: "Mukta", system-ui, sans-serif; font-size: 17px; font-weight: 500; }
+    .facts-list p { font-size: 16px; opacity: .85; }
+    .narration { font-size: 18px; line-height: 1.5; margin-top: 22px; max-width: 34ch; }
+    .keepsake { display: flex; gap: 16px; align-items: flex-end; margin-top: 22px; }
+    .keepsake img { width: 42%; max-width: 190px; border-radius: 14px; box-shadow: 0 8px 24px rgba(59, 31, 26, .22); }
+    .keepsake p { font-size: 14px; opacity: .8; }
+    .story .bottom { display: flex; gap: 10px; align-items: center; max-width: 520px; width: 100%; margin: 20px auto 0; }
+    .story .bottom button { border: 0; border-radius: 18px; cursor: pointer; font-weight: 600; }
+    .story .back { background: rgba(255, 255, 255, .45); padding: 14px 16px; }
+    .story .next { flex: 1; background: #3b1f1a; color: #fff6ee; padding: 9px 18px 10px; text-align: left; }
+    .story .next small { display: block; font-weight: 400; font-size: 13px; opacity: .75; }
+    .story .next span { font-family: var(--display); font-size: 20px; }
+    @media (prefers-reduced-motion: no-preference) {
+      .rail > span { transition: width .6s ease-out; }
+      .route .run { transition: width .7s cubic-bezier(.4, 0, .2, 1); }  /* the train pulls in to the next stop */
+    }
 
     /* tabs */
     nav { position: fixed; inset: auto 0 0 0; background: var(--surface); border-top: 1px solid var(--rule);
           display: grid; grid-template-columns: repeat(5, 1fr); padding-bottom: env(safe-area-inset-bottom); z-index: 1000; }
-    nav button { border: 0; background: none; padding: 10px 2px 12px; font-size: 12px; color: var(--muted); cursor: pointer; }
-    nav button span { display: block; font-size: 20px; line-height: 1.2; }
-    nav button[aria-selected="true"] { color: var(--ink); font-weight: 600; }
+    nav button { border: 0; background: none; padding: 9px 2px 11px; font-size: 13px; color: var(--muted); cursor: pointer; }
+    nav button span { display: block; font-size: 20px; line-height: 1.25; }
+    nav button[aria-selected="true"] { color: var(--plum); font-weight: 600; }
     .state { padding: 40px 0; color: var(--muted); }
-    @media (prefers-reduced-motion: no-preference) { .rail > span { transition: width .6s ease-out; } }
   </style>
 </head>
 <body>
 <main>
-  <h1 id="hello">Your metro</h1>
-  <p class="lede" id="summary">Loading your trips…</p>
+  <header>
+    <h1 id="hello">Your metro</h1>
+    <p class="lede" id="summary">Loading your trips…</p>
+    <button class="play" id="play" type="button"></button>
+  </header>
 
   <section id="tab-map" aria-labelledby="t-map">
+    <h2>Your map</h2>
+    <p class="explain">Filled dots are stations you've been to: where you start, change lines or finish.</p>
     <div id="map" role="img" aria-label="Map of Delhi NCR metro stations; filled dots are stations you've visited"></div>
-    <p class="small muted" style="margin-top:8px">Filled dots are stations you've visited. Visits count where you start, change lines and finish.</p>
     <h2>Line progress</h2>
+    <p class="explain">How much of each line you've explored. Finish one to earn its Line Collector badge.</p>
     <ul class="lines" id="lines"></ul>
   </section>
 
   <section id="tab-badges" aria-labelledby="t-badges" hidden>
-    <h2>Earned</h2><ul class="rows" id="earned"></ul>
-    <h2>Still to unlock</h2><ul class="rows" id="locked"></ul>
+    <h2>Earned</h2>
+    <p class="explain">Badges come from riding: new stations, streaks, lines and milestones.</p>
+    <ul class="rows" id="earned"></ul>
+    <h2>Still to unlock</h2>
+    <p class="explain">Each one says what it takes.</p>
+    <ul class="rows" id="locked"></ul>
   </section>
 
   <section id="tab-miles" aria-labelledby="t-miles" hidden>
     <div class="balance"><strong id="balance">0</strong><span class="muted">Metro Miles</span></div>
     <p class="small muted" id="earned-total"></p>
+    <p class="explain" style="margin-top:6px">You earn miles for every km you ride, more off-peak, plus bonuses for new stations and streaks.</p>
     <div id="new-voucher"></div>
-    <h2>Rewards</h2><ul class="rows" id="rewards"></ul>
+    <h2>Rewards</h2>
+    <p class="explain">Swap miles for a reward. Demo only: vouchers aren't redeemable.</p>
+    <ul class="rows" id="rewards"></ul>
     <h2>Your vouchers</h2><ul class="rows" id="vouchers"></ul>
-    <h2>Recent miles</h2><ul class="rows" id="ledger"></ul>
-    <p class="small muted" style="margin-top:16px">Metro Miles are a concept demo. Vouchers aren't redeemable.</p>
+    <h2>Recent miles</h2>
+    <p class="explain">What you earned, and what for.</p>
+    <ul class="rows" id="ledger"></ul>
   </section>
 
   <section id="tab-insights" aria-labelledby="t-insights" hidden>
     <div class="facts" id="facts"></div>
-    <h2>Trips per week</h2><div class="chart"><canvas id="weekly" aria-label="Trips per week"></canvas></div>
-    <h2>Lines you ride</h2><div class="chart"><canvas id="split" aria-label="Trips by line"></canvas></div>
-    <h2>Top stations</h2><ul class="rows" id="top"></ul>
+    <h2>Trips per week</h2>
+    <p class="explain">The last eight weeks, Monday to Sunday.</p>
+    <div class="chart"><canvas id="weekly" aria-label="Trips per week"></canvas></div>
+    <h2>Lines you ride</h2>
+    <p class="explain">Trips that used each line. A trip with a change counts for both.</p>
+    <div class="chart"><canvas id="split" aria-label="Trips by line"></canvas></div>
+    <h2>Top stations</h2>
+    <p class="explain">Where you start, change or finish most.</p>
+    <ul class="rows" id="top"></ul>
   </section>
 
   <section id="tab-wrapped" aria-labelledby="t-wrapped" hidden>
+    <h2>Metro Wrapped</h2>
+    <p class="explain">Your month on the metro, told one tap at a time. Pick a month to play it.</p>
     <div id="wrapped"></div>
   </section>
 </main>
+
+<div class="story" id="story" hidden role="dialog" aria-modal="true" aria-label="Metro Wrapped">
+  <div class="top"><span id="story-month"></span><button class="close" id="story-close" type="button" aria-label="Close">✕</button></div>
+  <div class="route" id="route" role="group" aria-label="Wrapped stops"><span class="run" id="run"></span></div>
+  <div class="stage" id="stage" aria-live="polite"></div>
+  <div class="bottom" id="story-bottom"></div>
+</div>
 
 <nav role="tablist" aria-label="Dashboard">
   <button role="tab" id="t-map" aria-controls="tab-map" aria-selected="true" data-tab="map"><span>🗺️</span>Map</button>
@@ -147,11 +236,14 @@
 (() => {
   const tg = window.Telegram && Telegram.WebApp;
   const initData = tg && tg.initData;
-  const token = new URLSearchParams(location.search).get("t");
-  if (token) history.replaceState(null, "", location.pathname);  // keep the 7-day link out of history and screenshots
+  const params = new URLSearchParams(location.search);
+  const token = params.get("t");
+  const playMonth = params.get("play");  // "▶️ Play your Wrapped" in the chat opens straight into the story
+  if (token || playMonth) history.replaceState(null, "", location.pathname);  // keep the 7-day link out of history
   const dark = tg && tg.initData ? tg.colorScheme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
   if (dark) document.documentElement.dataset.theme = "dark";
   if (tg && initData) { tg.ready(); tg.expand(); }
+  const haptic = (kind) => { if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred(kind); };
 
   const headers = initData ? {"X-Telegram-Init-Data": initData} : token ? {"X-Dashboard-Token": token} : {};
   async function api(path, opts = {}) {
@@ -168,7 +260,7 @@
   };
   const fmt = (n) => Number(n).toLocaleString("en-IN");
   const date = (iso) => new Date(iso).toLocaleDateString("en-IN", {day: "numeric", month: "short"});
-  const pastel = ["var(--mint)", "var(--peach)", "var(--lilac)", "var(--sky)", "var(--butter)", "var(--pink)"];
+  const tint = ["var(--t1)", "var(--t2)", "var(--t3)", "var(--t4)", "var(--t5)"];
   const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
   const fail = (box, err) => { box.replaceChildren(el("p", {class: "state"}, err.message)); };
 
@@ -184,13 +276,120 @@
   document.querySelectorAll("nav button").forEach((b) => b.addEventListener("click", () => show(b.dataset.tab)));
 
   // header
-  api("/api/me").then((me) => {
-    $("hello").textContent = `${me.first_name}'s metro`;
-    const s = me.stats;
-    $("summary").textContent = s.trips
-      ? `${fmt(s.trips)} trips and ${fmt(s.unique_stations)} stations so far, ${fmt(Math.round(s.total_km))} km in all.`
-      : "No trips yet. Plan one in the chat and it will show up here.";
-  }).catch((e) => { $("summary").textContent = e.message; });
+  function loadHeader() {
+    api("/api/me").then((me) => {
+      $("hello").textContent = `Hi ${me.first_name}`;
+      const s = me.stats;
+      $("summary").textContent = s.trips
+        ? `${fmt(s.trips)} trips, ${fmt(s.unique_stations)} stations and ${fmt(Math.round(s.total_km))} km with Agla Station.`
+        : "No trips yet. Plan one in the chat and it will show up here.";
+    }).catch((e) => { $("summary").textContent = e.message; });
+  }
+
+  // wrapped: fetched once, used by the header button, the archive and the story
+  let wrappedMonths = null;
+  const wrappedData = () => wrappedMonths ??= api("/api/wrapped");
+  const GRADIENTS = [["#ffd08a", "#f6a6a0"], ["#fbc2c9", "#f4a96b"], ["#ffe08a", "#f7b267"], ["#f8c3a8", "#e98fa7"],
+                     ["#fde2b0", "#f29e8e"], ["#f6b8c8", "#f7cf8a"]];
+  const grad = (i) => `linear-gradient(165deg, ${GRADIENTS[i % GRADIENTS.length][0]}, ${GRADIENTS[i % GRADIENTS.length][1]})`;
+
+  async function loadWrapped() {
+    const months = await wrappedData();
+    const box = $("wrapped");
+    if (!months.length) { box.replaceChildren(el("p", {class: "state"}, "Your first Metro Wrapped appears after your first trip.")); return; }
+    box.replaceChildren(el("div", {class: "covers"}, ...months.map((m, i) => {
+      const b = el("button", {class: "cover", type: "button", style: `background:${grad(i)}`},
+        el("div", {}, el("div", {class: "figure"}, m.month_name.split(" ")[0]), el("div", {class: "meta"}, m.month_name.split(" ")[1])),
+        el("div", {}, el("div", {class: "meta"}, `${fmt(m.trips)} trips, ${fmt(Math.round(m.km))} km`), el("div", {class: "go"}, "▶ Play")));
+      b.addEventListener("click", () => openStory(m));
+      return b;
+    })));
+  }
+
+  // story: three stops. Each slide from /api/wrapped (computed in agla/wrapped.py) belongs to one stop.
+  const STOPS = [
+    {name: "Ride", title: "How much you rode", hero: "distance", rows: ["trips", "time", "busiest"]},
+    {name: "Places", title: "Where you went", hero: "line", rows: ["station", "explorer"]},
+    {name: "Rewards", title: "What you earned", hero: "miles", rows: []},
+  ];
+  const story = {month: null, i: 0, card: {}};
+
+  function openStory(m) {
+    story.month = m; story.i = 0;
+    story.by = Object.fromEntries(m.slides.map((sl) => [sl.key, sl]));
+    $("story-month").textContent = `Metro Wrapped, ${m.month_name}`;
+    $("story").style.setProperty("--route", (story.by.line && story.by.line.colour) || "#3b1f1a");
+    $("route").replaceChildren($("run") || el("span", {class: "run", id: "run"}), ...STOPS.map((st, j) => {
+      const b = el("button", {class: "stop", type: "button"}, el("i"), st.name);
+      b.addEventListener("click", () => go(j));
+      return b;
+    }));
+    $("story").hidden = false;
+    document.body.style.overflow = "hidden";
+    if (tg && tg.BackButton) { tg.BackButton.onClick(closeStory); tg.BackButton.show(); }
+    if (!story.card[m.month]) {  // the share card, shown at the last stop
+      story.card[m.month] = api(`/api/wrapped/${m.month}/card.png`).then((blob) => URL.createObjectURL(blob)).catch(() => null);
+    }
+    render();
+  }
+
+  function closeStory() {
+    $("story").hidden = true;
+    document.body.style.overflow = "";
+    if (tg && tg.BackButton) { tg.BackButton.offClick(closeStory); tg.BackButton.hide(); }
+  }
+
+  const factRow = (sl) => el("li", {}, el("div", {class: "figure"}, sl.big, " ", el("small", {}, sl.label)), el("p", {}, sl.line));
+
+  function render() {
+    const m = story.month, stop = STOPS[story.i], by = story.by, last = story.i === STOPS.length - 1;
+    $("story").style.background = grad(story.i);
+    $("story").scrollTop = 0;
+    [...$("route").querySelectorAll(".stop")].forEach((b, j) => {
+      b.className = "stop" + (j < story.i ? " past" : j === story.i ? " here" : "");
+      if (j === story.i) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current");
+    });
+    $("run").style.width = `${(story.i / (STOPS.length - 1)) * 66.67}%`;
+
+    const kids = [el("h2", {}, stop.title)];
+    const hero = by[stop.hero];
+    if (hero) {
+      kids.push(el("div", {class: "hero"},
+        el("div", {class: "figure" + (stop.hero === "line" ? " name" : ""), style: stop.hero === "line" ? `color:${hero.colour}` : ""}, hero.big),
+        el("p", {}, stop.hero === "miles" ? `${hero.label}. ${hero.line}` : hero.line)));
+    }
+    const rows = stop.rows.map((k) => by[k]).filter(Boolean);
+    if (rows.length) kids.push(el("ul", {class: "facts-list"}, ...rows.map(factRow)));
+    if (last) {
+      kids.push(el("p", {class: "narration"}, m.narration || "Every trip adds to your map, your miles and next month's Wrapped."));
+      const img = el("img", {alt: `Your ${m.month_name} card`});
+      story.card[m.month].then((src) => { if (src) img.src = src; else img.remove(); });
+      kids.push(el("div", {class: "keepsake"}, img, el("p", {}, "Your card. Tap Wrapped in the chat to get it as a picture you can send.")));
+    }
+    $("stage").replaceChildren(...kids);
+
+    const bottom = [];
+    if (story.i > 0) {
+      const back = el("button", {class: "back", type: "button", "aria-label": "Previous stop"}, "Back");
+      back.addEventListener("click", () => go(story.i - 1));
+      bottom.push(back);
+    }
+    const next = last
+      ? el("button", {class: "next", type: "button"}, el("small", {}, "End of the line"), el("span", {}, "Close"))
+      : el("button", {class: "next", type: "button"}, el("small", {}, "Agla station"), el("span", {}, STOPS[story.i + 1].title));
+    next.addEventListener("click", () => last ? closeStory() : go(story.i + 1));
+    bottom.push(next);
+    $("story-bottom").replaceChildren(...bottom);
+  }
+
+  function go(i) { if (i !== story.i && i >= 0 && i < STOPS.length) { story.i = i; haptic("light"); render(); } }
+  $("story-close").addEventListener("click", closeStory);
+  document.addEventListener("keydown", (e) => {
+    if ($("story").hidden) return;
+    if (e.key === "Escape") closeStory();
+    else if (e.key === "ArrowRight") go(story.i + 1);
+    else if (e.key === "ArrowLeft") go(story.i - 1);
+  });
 
   async function loadMap() {
     const data = await api("/api/map");
@@ -232,7 +431,7 @@
     const earned = badges.filter((b) => b.earned_at).sort((a, b) => b.earned_at.localeCompare(a.earned_at));
     const locked = badges.filter((b) => !b.earned_at);
     $("earned").replaceChildren(...(earned.length ? earned.map((b, i) => el("li", {},
-      el("span", {class: "token", style: `background:${pastel[i % pastel.length]}`}, "🏅"),
+      el("span", {class: "token", style: `background:${tint[i % tint.length]}`}, "🏅"),
       el("div", {class: "grow"}, el("div", {class: "title"}, b.name), el("div", {class: "small muted"}, b.description)),
       el("div", {class: "right small muted"}, date(b.earned_at)))) : [el("li", {class: "muted"}, "Take your first trip to earn your first badge.")]));
     const core = locked.filter((b) => !b.badge_id.startsWith("line_collector_"));
@@ -254,7 +453,7 @@
       const btn = el("button", {class: "btn"}, short > 0 ? `${fmt(short)} more` : "Redeem");
       if (short > 0) btn.disabled = true;
       btn.addEventListener("click", () => redeem(r, btn));
-      return el("li", {}, el("span", {class: "token", style: `background:${pastel[i % pastel.length]}`}, "🎁"),
+      return el("li", {}, el("span", {class: "token", style: `background:${tint[i % tint.length]}`}, "🎁"),
         el("div", {class: "grow"}, el("div", {class: "title"}, r.name), el("div", {class: "small muted"}, `${fmt(r.cost)} miles`)),
         el("div", {class: "right"}, btn));
     }));
@@ -285,15 +484,16 @@
   async function loadInsights() {
     const d = await api("/api/insights");
     const t = d.totals;
-    const facts = [[`${Math.floor(t.minutes / 60)}h ${t.minutes % 60}m`, "on the metro"], [`${fmt(t.km)} km`, "travelled"],
+    const facts = [[`${Math.floor(t.minutes / 60)}h ${t.minutes % 60}m`, "riding the metro"], [`${fmt(t.km)} km`, "travelled"],
                    [`₹${fmt(t.fare)}`, "spent on fares"], [fmt(t.stations), "stations visited"]];
-    $("facts").replaceChildren(...facts.map(([v, l], i) => el("div", {class: "fact", style: `background:${pastel[i]}`}, el("b", {}, v), el("span", {}, l))));
+    $("facts").replaceChildren(...facts.map(([v, l], i) => el("div", {class: "fact", style: `background:${tint[i]}`},
+      el("span", {class: "figure"}, v), el("span", {}, l))));
     const ink = css("--ink"), muted = css("--muted"), rule = css("--rule");
-    Chart.defaults.font.family = "Figtree, system-ui, sans-serif";
+    Chart.defaults.font.family = "Mukta, system-ui, sans-serif";
     Chart.defaults.color = muted;
     new Chart($("weekly"), {type: "bar",
       data: {labels: d.trips_per_week.map((w) => w.label), datasets: [{data: d.trips_per_week.map((w) => w.trips),
-             backgroundColor: css("--lilac"), borderRadius: 8, maxBarThickness: 28}]},
+             backgroundColor: css("--marigold"), borderRadius: 8, maxBarThickness: 28}]},
       options: {maintainAspectRatio: false, plugins: {legend: {display: false}},
                 scales: {y: {beginAtZero: true, ticks: {precision: 0}, grid: {color: rule}}, x: {grid: {display: false}}}}});
     new Chart($("split"), {type: "bar",
@@ -306,20 +506,19 @@
       [el("li", {class: "muted"}, "No stations yet.")]));
   }
 
-  async function loadWrapped() {
-    const months = await api("/api/wrapped");
-    const box = $("wrapped");
-    if (!months.length) { box.replaceChildren(el("p", {class: "state"}, "Your first Metro Wrapped appears after your first trip.")); return; }
-    box.replaceChildren(...months.map((m) => {
-      const img = el("img", {alt: `Metro Wrapped card for ${m.month_name}`});
-      api(`/api/wrapped/${m.month}/card.png`).then((blob) => { img.src = URL.createObjectURL(blob); });
-      return el("article", {class: "wrapped"}, el("h2", {}, m.month_name), img, el("p", {}, m.text));
-    }));
-  }
-
   if (!initData && !token) {
-    $("summary").textContent = "Open this dashboard from the bot: send /dashboard in the chat.";
+    $("summary").textContent = "Open this dashboard from the bot: tap Dashboard in the chat.";
   } else {
+    loadHeader();
+    wrappedData().then((months) => {
+      const m = months.find((x) => x.month === playMonth) || months[0];
+      if (!m) return;
+      const btn = $("play");
+      btn.textContent = `▶ Your ${m.month_name.split(" ")[0]} Wrapped`;
+      btn.classList.add("ready");
+      btn.addEventListener("click", () => openStory(m));
+      if (playMonth) openStory(m);
+    }).catch(() => {});
     window.addEventListener("load", () => show("map"));
   }
 })();

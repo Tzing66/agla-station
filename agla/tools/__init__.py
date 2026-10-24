@@ -58,8 +58,8 @@ _DOMAIN = {
     "award_arrival": _miles, "get_miles": _miles, "list_rewards": _miles, "list_vouchers": _miles,
     "redeem_reward": _miles,
     "wrapped_stats": _wrapped, "template_text": _wrapped, "save_recap": _wrapped, "get_recap": _wrapped,
-    "fresh_recap": _wrapped, "render_card": _wrapped,
-    "WrappedStats": _wrapped, "Recap": _wrapped,
+    "fresh_recap": _wrapped, "render_card": _wrapped, "wrapped_story": _wrapped,
+    "WrappedStats": _wrapped, "Recap": _wrapped, "Slide": _wrapped,
     **{name: _sharing for name in (
         "estimate_position", "create_share", "get_share_view", "share_message", "confirm_arrival",
         "Position", "ShareView",

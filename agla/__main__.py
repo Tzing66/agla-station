@@ -14,10 +14,11 @@ import logging
 import re
 
 import anthropic
+import httpx
 import uvicorn
 
 from agla import tools
-from agla.bot.app import build_application, configure_bot
+from agla.bot.app import build_application, configure_bot, set_public_url
 from agla.config import now, settings
 from agla.db import connect
 from agla.llm import Agent
@@ -25,6 +26,8 @@ from agla.web.app import create_app
 
 log = logging.getLogger("agla")
 TUNNEL_URL = re.compile(r"https://[a-z0-9-]+\.trycloudflare\.com")
+PROBE_EVERY = 30  # seconds
+PROBE_FAILURES = 3  # consecutive failed probes before the tunnel is replaced
 
 
 async def start_tunnel(port: int) -> tuple[asyncio.subprocess.Process, str]:
@@ -53,14 +56,61 @@ async def start_tunnel(port: int) -> tuple[asyncio.subprocess.Process, str]:
     return proc, url
 
 
+class Tunnel:
+    """A quick tunnel that replaces itself when it dies. Quick tunnels don't survive the laptop sleeping: cloudflared
+    keeps running but the hostname stops resolving, so we probe the public URL rather than trust the process."""
+
+    def __init__(self, port: int) -> None:
+        self.port = port
+        self.proc: asyncio.subprocess.Process | None = None
+        self.url = ""
+
+    async def start(self) -> str:
+        self.proc, self.url = await start_tunnel(self.port)
+        return self.url
+
+    async def healthy(self, http: httpx.AsyncClient) -> bool:
+        if self.proc is None or self.proc.returncode is not None:
+            return False
+        try:
+            return (await http.get(f"{self.url}/healthz")).status_code == 200
+        except httpx.HTTPError:
+            return False
+
+    async def watch(self, on_new_url) -> None:
+        failures = 0
+        async with httpx.AsyncClient(timeout=10) as http:
+            while True:
+                await asyncio.sleep(PROBE_EVERY)
+                failures = 0 if await self.healthy(http) else failures + 1
+                if failures < PROBE_FAILURES:
+                    continue
+                log.warning("tunnel %s is unreachable; starting a new one", self.url)
+                try:
+                    await self.start()  # start_tunnel kills the dead cloudflared first
+                except (RuntimeError, TimeoutError):
+                    log.exception("could not start a new tunnel; retrying in %ss", PROBE_EVERY)
+                    continue
+                await on_new_url(self.url)
+                log.info("new public URL %s", self.url)
+                failures = 0
+
+    async def stop(self) -> None:
+        if self.proc and self.proc.returncode is None:
+            self.proc.terminate()
+            try:
+                await asyncio.wait_for(self.proc.wait(), timeout=5)
+            except TimeoutError:
+                self.proc.kill()
+
+
 async def serve(port: int, tunnel: bool) -> None:
     s = settings()
     conn = connect(s.db_path)
     if purged := tools.purge_expired_quotes(conn, now()):
         log.info("purged %s expired, unpaid quotes", purged)
-    proc, public_url = None, s.public_base_url
-    if tunnel:
-        proc, public_url = await start_tunnel(port)
+    tun = Tunnel(port) if tunnel else None
+    public_url = await tun.start() if tun else s.public_base_url
     if not public_url:
         log.warning("No public URL: share links are disabled. Use --tunnel or set PUBLIC_BASE_URL.")
 
@@ -74,18 +124,17 @@ async def serve(port: int, tunnel: bool) -> None:
         await bot.updater.start_polling(drop_pending_updates=True)
         log.info("Agla Station @%s: web http://127.0.0.1:%s, public %s, model %s",
                  s.telegram_bot_username, port, public_url or "(none)", s.model)
+        watchdog = asyncio.create_task(tun.watch(lambda url: set_public_url(bot, url))) if tun else None
         try:
             await server.serve()  # returns on Ctrl-C / SIGTERM
         finally:
             log.info("shutting down")
+            if watchdog:
+                watchdog.cancel()
             await bot.updater.stop()
             await bot.stop()
-            if proc and proc.returncode is None:
-                proc.terminate()
-                try:
-                    await asyncio.wait_for(proc.wait(), timeout=5)
-                except TimeoutError:
-                    proc.kill()
+            if tun:
+                await tun.stop()
 
 
 def main() -> None:

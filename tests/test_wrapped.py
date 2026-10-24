@@ -108,3 +108,53 @@ def test_facts_include_derived_phrasings(conn, uid):
 def test_card_is_a_png(conn, uid):
     s = tools.wrapped_stats(conn, uid, "2026-10")
     assert tools.render_card(s, tools.template_text(s)).startswith(b"\x89PNG")
+
+
+# --- story ---------------------------------------------------------------------------------------------------------
+
+
+def test_story_figures_all_come_from_the_stats(conn, uid):
+    from datetime import date
+
+    s = tools.wrapped_stats(conn, uid, "2026-10")
+    slides = {sl.key: sl for sl in tools.wrapped_story(s, date(2026, 10, 31))}
+    assert list(slides)[0] == "trips" and slides["trips"].big == str(s.trips)
+    assert slides["distance"].big == f"{round(s.total_km):,} km"
+    assert slides["line"].big == s.favourite_line and slides["line"].colour.startswith("#")
+    assert slides["line"].line == f"{s.favourite_line_trips} of your {s.trips} trips rode it."
+    assert slides["explorer"].big == str(s.unique_stations)
+    assert "busiest" not in slides  # one trip a day: not worth a slide
+    assert all(sl.line.endswith(".") and len(sl.line) <= 90 for sl in slides.values())  # one short sentence each
+
+
+def test_story_compares_distance_with_a_real_line(conn, uid):
+    from agla.wrapped import _line_lengths_km
+
+    lengths = _line_lengths_km()
+    assert 50 < lengths["DMRC_BLUE"] < 62  # Dwarka Sector 21 to Noida Electronic City is about 56 km
+    long = tools.WrappedStats(**{**tools.wrapped_stats(conn, uid, "2026-10").to_dict(), "favourite_line": "Blue Line",
+                                 "total_km": round(lengths["DMRC_BLUE"] * 3, 1)})
+    distance = next(sl for sl in tools.wrapped_story(long, long_ago()) if sl.key == "distance")
+    assert distance.line == "Like riding the Blue Line end to end 3 times."
+
+
+def long_ago():
+    from datetime import date
+
+    return date.max
+
+
+def test_story_per_week_average_counts_only_days_so_far(conn, uid):
+    from datetime import date
+
+    s = tools.wrapped_stats(conn, uid, "2026-10")
+    busy = tools.WrappedStats(**{**s.to_dict(), "trips": 14})
+    mid_month = {sl.key: sl for sl in tools.wrapped_story(busy, date(2026, 10, 7))}
+    assert mid_month["trips"].line == "About 14 a week."  # 14 trips in the first 7 days
+    whole = {sl.key: sl for sl in tools.wrapped_story(busy, date.max)}
+    assert whole["trips"].line == "About 3 a week."  # 14 over 31 days
+
+
+def test_no_trips_no_story(conn, uid):
+    assert tools.wrapped_story(tools.wrapped_stats(conn, uid, "2026-08"), long_ago()) == []
+    assert tools.render_card(tools.wrapped_stats(conn, uid, "2026-08")).startswith(b"\x89PNG")

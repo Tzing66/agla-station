@@ -89,14 +89,18 @@ def create_app(conn: sqlite3.Connection, cfg: Settings | None = None) -> FastAPI
 
     @app.get("/api/wrapped")
     async def wrapped(user: tools.User = Rider) -> list[dict]:
-        """Every month with trips. Saved recap text if the rider ran /wrapped, else the plain template (no LLM)."""
+        """Every month with trips, newest first, with its story slides. `narration` is the saved LLM recap if the rider
+        has asked for Wrapped in the chat (checked by the number guard there), else None: the slides already carry
+        every figure, so the story never falls back to the plain stats sentence."""
         out = []
+        today = now().date()
         for month in tools.trip_months(conn, user.user_id):
             stats = tools.wrapped_stats(conn, user.user_id, month)
             recap = tools.get_recap(conn, user.user_id, month)
             out.append({"month": month, "month_name": stats.month_name,
-                        "text": recap.text if recap else tools.template_text(stats),
-                        "trips": stats.trips, "km": stats.total_km, "miles": stats.miles_earned})
+                        "narration": recap.text if recap else None,
+                        "trips": stats.trips, "km": stats.total_km, "miles": stats.miles_earned,
+                        "slides": [sl.to_dict() for sl in tools.wrapped_story(stats, today)]})
         return out
 
     @app.get("/api/wrapped/{month}/card.png")
@@ -105,7 +109,7 @@ def create_app(conn: sqlite3.Connection, cfg: Settings | None = None) -> FastAPI
             stats = tools.wrapped_stats(conn, user.user_id, month)
         except tools.ToolError as exc:
             raise HTTPException(400, str(exc)) from exc
-        return Response(tools.render_card(stats), media_type="image/png", headers=PRIVATE_HEADERS)
+        return Response(tools.render_card(stats, today=now().date()), media_type="image/png", headers=PRIVATE_HEADERS)
 
     @app.get("/", response_class=HTMLResponse)
     async def home(request: Request) -> HTMLResponse:

@@ -20,11 +20,10 @@ def test_menu_has_every_button_once():
     assert len(set(labels)) == 6
 
 
-def test_dashboard_button_opens_mini_app_when_public():
-    public = {b.text: b for row in bot("https://x.example").menu().keyboard for b in row}
-    assert public[render.BTN_DASHBOARD].web_app.url == "https://x.example/app"
-    local = {b.text: b for row in bot("").menu().keyboard for b in row}
-    assert local[render.BTN_DASHBOARD].web_app is None  # falls back to the /dashboard reply
+def test_keyboard_never_holds_a_url():
+    """Telegram keeps the keyboard on the phone; a tunnel URL baked into it goes dead when the tunnel changes."""
+    for url in ("", "http://example.org", "https://x.example"):
+        assert all(b.web_app is None for row in bot(url).menu().keyboard for b in row)
 
 
 def test_keyboard_stays_and_hints_at_typing_a_trip():
@@ -32,10 +31,30 @@ def test_keyboard_stays_and_hints_at_typing_a_trip():
     assert kb.is_persistent and kb.resize_keyboard and kb.input_field_placeholder == render.INPUT_HINT
 
 
+def test_mini_app_needs_https():
+    assert bot("https://x.example/").mini_app_url() == "https://x.example/app"
+    assert bot("http://example.org").mini_app_url() is None
+    assert bot("").mini_app_url() is None
 
-def test_dashboard_needs_https_for_the_mini_app():
-    plain_http = {b.text: b for row in bot("http://example.org").menu().keyboard for b in row}
-    assert plain_http[render.BTN_DASHBOARD].web_app is None
+
+def test_new_tunnel_url_updates_links_and_menu_button():
+    import asyncio
+    from types import SimpleNamespace as NS
+
+    from agla.bot.app import set_public_url
+
+    sent = []
+
+    async def set_chat_menu_button(menu_button):
+        sent.append(menu_button)
+
+    b = bot("https://old.example")
+    app = NS(bot_data={"agla": b}, bot=NS(set_chat_menu_button=set_chat_menu_button))
+    asyncio.run(set_public_url(app, "https://new.example/"))
+    assert b.share_url("tok") == "https://new.example/s/tok"
+    assert sent[-1].web_app.url == "https://new.example/app"
+    asyncio.run(set_public_url(app, ""))
+    assert sent[-1].type == "default"  # no public URL: plain commands menu
 
 
 def test_captions_are_escaped_and_cut_safely():

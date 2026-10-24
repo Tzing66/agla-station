@@ -13,6 +13,8 @@ from telegram import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     KeyboardButton,
+    MenuButtonDefault,
+    MenuButtonWebApp,
     ReplyKeyboardMarkup,
     Update,
     WebAppInfo,
@@ -57,13 +59,13 @@ class Bot:
         return f"{self.public_url}/s/{token}" if self.public_url else None
 
     def menu(self) -> ReplyKeyboardMarkup:
-        """The persistent button menu. Dashboard opens the Mini App straight from the keyboard when we're public."""
-        def button(label: str) -> KeyboardButton:
-            if label == render.BTN_DASHBOARD and self.public_url.startswith("https://"):  # Mini Apps need https
-                return KeyboardButton(label, web_app=WebAppInfo(url=f"{self.public_url}/app"))
-            return KeyboardButton(label)
-        return ReplyKeyboardMarkup([[button(lbl) for lbl in row] for row in render.MENU_ROWS], resize_keyboard=True,
-                                   is_persistent=True, input_field_placeholder=render.INPUT_HINT)
+        """The persistent button menu. Plain text buttons only: Telegram keeps a keyboard on the phone, so a URL baked
+        into it would go stale when the tunnel address changes. Dashboard replies with a fresh link instead."""
+        return ReplyKeyboardMarkup([[KeyboardButton(lbl) for lbl in row] for row in render.MENU_ROWS],
+                                   resize_keyboard=True, is_persistent=True, input_field_placeholder=render.INPUT_HINT)
+
+    def mini_app_url(self) -> str | None:
+        return f"{self.public_url}/app" if self.public_url.startswith("https://") else None  # Mini Apps need https
 
     async def menu_button(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         """A tap on the reply keyboard: route straight to the feature, no LLM call."""
@@ -151,8 +153,13 @@ class Bot:
                 tools.save_recap(self.conn, user.user_id, stats, text, now())
         else:
             text = recap.text
-        await update.message.reply_photo(tools.render_card(stats),
-                                         caption=render.wrapped_caption(stats, text), parse_mode=ParseMode.HTML)
+        play = None
+        if app_url := self.mini_app_url():
+            play = InlineKeyboardMarkup([[InlineKeyboardButton(
+                "▶️ Play your Wrapped", web_app=WebAppInfo(url=f"{app_url}?play={stats.month}"))]])
+        await update.message.reply_photo(tools.render_card(stats, today=now().date()),
+                                         caption=render.wrapped_caption(stats, text), parse_mode=ParseMode.HTML,
+                                         reply_markup=play)
 
     async def retired(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         command = update.message.text.split()[0].lstrip("/").split("@")[0]
@@ -234,13 +241,13 @@ class Bot:
 
     async def dashboard(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         user = self.user(update)
-        if not self.public_url.startswith("https://"):
+        if (app_url := self.mini_app_url()) is None:
             await update.message.reply_text("The dashboard needs a public https address (start with --tunnel).")
             return
         token = tools.sign_dashboard_token(user.telegram_id, self.settings.dashboard_secret)
         buttons = InlineKeyboardMarkup([
-            [InlineKeyboardButton("🗺️ Open dashboard", web_app=WebAppInfo(url=f"{self.public_url}/app"))],
-            [InlineKeyboardButton("Open in browser", url=f"{self.public_url}/app?t={token}")],
+            [InlineKeyboardButton("🗺️ Open dashboard", web_app=WebAppInfo(url=app_url))],
+            [InlineKeyboardButton("Open in browser", url=f"{app_url}?t={token}")],
         ])
         await update.message.reply_html(
             "Your map, badges, Metro Miles, insights and Wrapped archive. "
@@ -305,6 +312,7 @@ def language_buttons(current: str) -> InlineKeyboardMarkup:
 def build_application(settings: Settings, conn: sqlite3.Connection, agent: Agent, public_url: str = "") -> Application:
     bot = Bot(settings, conn, agent, public_url or settings.public_base_url)
     app = ApplicationBuilder().token(settings.telegram_bot_token).build()
+    app.bot_data["agla"] = bot
     app.add_handler(CommandHandler("start", bot.start))
     app.add_handler(CommandHandler("help", bot.help))
     app.add_handler(CommandHandler("stats", bot.stats))
@@ -330,3 +338,14 @@ def build_application(settings: Settings, conn: sqlite3.Connection, agent: Agent
 async def configure_bot(app: Application) -> None:
     """Startup: the command menu shrinks to /start (everything else lives in the button keyboard)."""
     await app.bot.set_my_commands([BotCommand("start", "Show the menu"), BotCommand("help", "What I can do")])
+    await set_public_url(app, app.bot_data["agla"].public_url)
+
+
+async def set_public_url(app: Application, url: str) -> None:
+    """Point links and Telegram's menu button (beside the text box) at `url`. The menu button is set server-side for
+    every chat, so a new tunnel address reaches riders without them doing anything."""
+    bot: Bot = app.bot_data["agla"]
+    bot.public_url = url.rstrip("/")
+    app_url = bot.mini_app_url()
+    await app.bot.set_chat_menu_button(
+        menu_button=MenuButtonWebApp("Dashboard", WebAppInfo(url=app_url)) if app_url else MenuButtonDefault())

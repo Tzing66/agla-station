@@ -80,3 +80,7 @@
 ## [CHECKPOINT] 2026-10-24 09:42 IST — Phase 10: independent review fixes + agla-dev plugin
 
 - **Session cost:** cost: n/a (session 456b20f1)
+
+## [CHECKPOINT] 2026-10-24 10:52 IST — Mini App fix (tunnel watchdog, menu button) + warm redesign and Wrapped as a metro ride
+
+- **Session cost:** cost: n/a (session 456b20f1)

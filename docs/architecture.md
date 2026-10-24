@@ -17,7 +17,7 @@ The system as built (2026-10-23). Phase 1 agreed the shape in plan mode; every l
 - `agla/db.py` holds schema, migrations and a `tx()` helper; no business rules. Connections are passed explicitly, so tests use `:memory:`.
 - **Time:** every time-dependent function takes `now` (tz-aware, `Asia/Kolkata`); `agla.config.now()` is the only clock. Stored as ISO-8601 with `+05:30`.
 - **Config:** `agla.config.settings()` reads `.env` once into a frozen `Settings`.
-- **One process:** `python -m agla [--tunnel]` runs uvicorn (web) and the Telegram bot (long polling) in one asyncio loop, one SQLite writer; `--tunnel` starts cloudflared and hands its https URL to the bot. agla-mcp is a separate stdio process.
+- **One process:** `python -m agla [--tunnel]` runs uvicorn (web) and the Telegram bot (long polling) in one asyncio loop, one SQLite writer; `--tunnel` starts cloudflared and hands its https URL to the bot. A watchdog probes the public URL every 30 s and replaces the tunnel after three failures (quick tunnels die when the laptop sleeps); the new URL goes to the bot and to Telegram's chat menu button. agla-mcp is a separate stdio process.
 
 ## 2. Network data (`agla/network/`, `data/`)
 
@@ -47,7 +47,7 @@ Results are frozen dataclasses in `types.py` with `to_dict()`; user-facing failu
 | `storage.py` | `open_database()`, `DEMO_TELEGRAM_ID` |
 | re-exported `miles.py` | `get_miles`, `list_rewards`, `redeem_reward`, `list_vouchers`, `award_arrival`; hook `award_trip_miles` |
 | re-exported `badges.py` | `get_badges`; hook `badges_hook` |
-| re-exported `wrapped.py` | `wrapped_stats`, `template_text`, `save_recap`, `get_recap`, `fresh_recap`, `render_card` |
+| re-exported `wrapped.py` | `wrapped_stats`, `wrapped_story` (slides: figure + what it means, all computed), `template_text`, `save_recap`, `get_recap`, `fresh_recap`, `render_card` |
 | re-exported `sharing.py` | `estimate_position` (pure), `create_share`, `get_share_view`, `share_message`, `confirm_arrival` |
 
 Post-trip hooks run in order inside the trip's transaction: `record_visits` → miles → badges. The bot never changes when a hook is added.
@@ -73,9 +73,9 @@ Migrations run in `db.migrate()`: v2 adds `users.language`, v3 adds `trips.arriv
 
 ## 5. Front ends
 
-- **Bot (`agla/bot/`):** free text goes to the LLM agent; route cards, tickets, stats, miles, badges and Wrapped are templates over tool results. A persistent button menu (stats, miles, badges, Wrapped, dashboard, language) replaces slash commands and never calls the LLM. Repeated off-topic chatter gets canned redirects without an API call (`chatter.py`). Tickets carry 📤 Share journey and ✅ I've reached, both ending in Telegram's own share sheet so the rider picks the recipient.
+- **Bot (`agla/bot/`):** free text goes to the LLM agent; route cards, tickets, stats, miles, badges and Wrapped are templates over tool results. A persistent button menu (stats, miles, badges, Wrapped, dashboard, language) replaces slash commands and never calls the LLM; it holds no URLs (Telegram stores it on the phone, so a URL would go stale), and the Mini App opens from Telegram's menu button, which the server updates. Wrapped sends a warm share card plus "▶️ Play your Wrapped", which opens the story in the Mini App. Repeated off-topic chatter gets canned redirects without an API call (`chatter.py`). Tickets carry 📤 Share journey and ✅ I've reached, both ending in Telegram's own share sheet so the rider picks the recipient.
 - **LLM (`agla/llm.py`):** `claude-sonnet-5-5`, low effort, prompt caching on system prompt + tools, server-side refusal fallbacks, language in a per-turn system note, 6-message plain-text history annotated with what the app showed. Tools exposed: `quote_trip`, `search_station`, `get_stats`, `get_visited_stations`, `get_miles`, `get_badges`, `list_rewards`. Never exposed: logging trips, redeeming, arrival (buttons only). Number guard on every reply. Metro Wrapped narration uses the `metro-wrapped-voice` skill as its prompt, guarded the same way.
-- **Web (`agla/web/`):** `/s/{token}` public share page (HTMX refresh every 30 s, noindex/no-referrer/no-store); `/app` dashboard Mini App (map, badges, miles with redeem, insights, Wrapped archive) over `/api/*`, authenticated by Telegram `initData` or a signed magic link.
+- **Web (`agla/web/`):** `/s/{token}` public share page (HTMX refresh every 30 s, noindex/no-referrer/no-store); `/app` dashboard Mini App (map, badges, miles with redeem, insights, Metro Wrapped as a three-stop ride on a route strip: Ride, Places, Rewards) over `/api/*`, in a warm marigold-and-gulabi palette with Baloo 2 / Mukta (also bundled in `data/fonts/`, OFL, for the server-drawn card), authenticated by Telegram `initData` or a signed magic link.
 - **MCP (`agla/mcp_server.py`):** stdio, `mcp` 2.x `MCPServer`, tools prefixed `agla_`; route/fare tools take names or ids; rider tools default to the seeded demo rider.
 
 ## 6. Security and abuse notes
