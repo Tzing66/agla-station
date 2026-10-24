@@ -11,7 +11,7 @@ import pytest
 
 from agla.tools.fares import day_type, get_fare
 from agla.tools.routing import plan_route
-from agla.tools.stations import search_station
+from agla.tools.stations import resolve_station, search_station
 from agla.tools.types import ToolError
 
 MONDAY = date(2026, 10, 26)
@@ -251,3 +251,18 @@ def test_walk_at_the_end_over_the_footbridge_can_be_priced():
 def test_walk_only_trip_is_not_a_metro_trip():
     with pytest.raises(ToolError, match="short walk"):
         plan_route("noida_sector_52", "noida_sector_51")
+
+
+@pytest.mark.parametrize("query", ["india gate", "parliament", "delhi university", "iit delhi"])
+def test_places_that_only_share_a_word_with_a_station_are_not_guessed(query):
+    """Found while writing example prompts: these used to route to Delhi Gate, Palam and Delhi Aerocity."""
+    with pytest.raises(ToolError, match="isn't a station name I know. The closest is"):
+        resolve_station(query)
+
+
+@pytest.mark.parametrize(("query", "name"), [
+    ("conaught place", "Rajiv Chowk"), ("rajeev chowk", "Rajiv Chowk"), ("kashmeri gate", "Kashmere Gate"),
+    ("milennium city centre", "Millennium City Centre Gurugram"), ("red fort", "Lal Quila"), ("hkv", "Hauz Khas"),
+])
+def test_typos_aliases_and_landmarks_still_resolve(query, name):
+    assert resolve_station(query).name == name

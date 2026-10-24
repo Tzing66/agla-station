@@ -118,3 +118,5 @@
 - **Session cost:** cost: n/a (session 456b20f1)
 
 ## [CHECKPOINT] 2026-10-24 13:55 IST — Phase 11: build timeline + build-journal skill; guide, knowledge doc, demo video; cleanup and Saturday fare label
+
+## [CHECKPOINT] 2026-10-24 14:07 IST — Try it: Telegram QR code, example prompts for newcomers, resolver confidence fix, knowledge doc PDF

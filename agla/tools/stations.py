@@ -84,6 +84,9 @@ def search_station(query: str, limit: int = 3) -> list[StationMatch]:
 AMBIGUITY_MARGIN = 5.0  # top two scores closer than this -> ask the user
 PARTIAL_SCORE = 90.0  # every typed word appears in the station name
 MIN_SCORE = 60.0  # below this, treat as no match
+# Between MIN_SCORE and this, the best match only shares a generic word ("india gate" -> Delhi Gate at 70,
+# "parliament" -> Palam at 67), so ask rather than route somewhere else. Real typos and abbreviations score 81+.
+CONFIDENT_SCORE = 80.0
 
 
 def resolve_station(query: str) -> StationMatch:
@@ -100,7 +103,12 @@ def resolve_station(query: str) -> StationMatch:
     if len(matches) > 1 and matches[0].score - matches[1].score < AMBIGUITY_MARGIN:
         options = "; ".join(f"{m.name} [{m.station_id}]" for m in matches)
         raise ToolError(f"{query!r} is ambiguous. Ask the user which one they mean: {options}")
-    return matches[0]
+    top = matches[0]
+    if top.score < CONFIDENT_SCORE:
+        raise ToolError(f"{query!r} isn't a station name I know. The closest is {top.name} [{top.station_id}], "
+                        "which may be a different place: ask the user whether they mean it, or for the nearest "
+                        "metro station.")
+    return top
 
 
 def _score(query: str, choice: str, **_: object) -> float:

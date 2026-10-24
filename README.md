@@ -12,6 +12,37 @@ Text it where you're going, the way you'd say it: *"rajiv chowk to hauz khas"*, 
 - **Metro Miles, badges and rewards**, a **dashboard Mini App** with your map, badges, miles and insights, and a monthly **Metro Wrapped**: a three-stop ride through your month (how much, where, what you earned) and a card to share.
 - Replies in **English, Hinglish or हिंदी**. Menu buttons instead of slash commands.
 
+## Try it
+
+<a href="https://t.me/agla_station_bot"><img src="docs/telegram-qr.png" width="220" alt="QR code that opens @agla_station_bot in Telegram"></a>
+
+Scan with your phone camera, or open **[t.me/agla_station_bot](https://t.me/agla_station_bot)**, then tap **Start**. It's a demo: tickets are mock, payments aren't verified, and the bot runs on a laptop, so it may be offline.
+
+### Things to try (no Delhi knowledge needed)
+
+Text the bot the way you'd text a friend. Landmarks, abbreviations, typos and Hinglish all work, and it asks when it isn't sure.
+
+| Type this | What it shows |
+| --- | --- |
+| `red fort to qutub minar` | A two-line trip across the city with the change station, travel time, the official fare and a UPI payment link. Tap **✅ I've paid** for a demo ticket. |
+| `new delhi railway station to red fort` | A short hop from the main railway station, the way a visitor arrives. |
+| `igi airport to connaught place` | The Airport Express, a premium line with its own fares. |
+| `cyber hub to noida sector 18` | Gurugram to Noida across operators (Rapid Metro and DMRC), with the fare split per operator. |
+| `nizamuddin to pari chowk` | Into Greater Noida on the Aqua Line, including the short walk between Noida Sector 51 and 52. |
+| `rc se hkv, sasta wala` | Hinglish and abbreviations: Rajiv Chowk to Hauz Khas, cheapest route. |
+| `conaught place to hauz khaas` | Typos are fine. |
+| `dwarka to connaught place` | There are several Dwarka stations, so the bot asks which one. |
+| `india gate to red fort` | India Gate isn't a metro station, so the bot asks for the nearest station instead of guessing. |
+| `what about fewest changes?` | A follow-up: it remembers the last few messages. |
+
+After booking a trip, try the buttons:
+
+1. **📤 Share journey** on the ticket: send the link to yourself (or a friend) and open it to see where you "should" be, estimated from the timetable.
+2. **✅ I've reached**: tap it straight away and it asks "Are you sure? Your ETA is …".
+3. The menu: **Miles**, **Badges**, **Stats**, **Language** (English, Hinglish or हिंदी), and **Dashboard** for the map and insights. **Wrapped** fills up once you have a trip or two.
+
+Fares are the regular ones Monday to Saturday and lower on Sundays on most lines.
+
 [![Watch the Agla Station demo on YouTube](docs/screenshots/demo-video.png)](https://youtu.be/NhArOnjwbjg)
 
 **[Watch the demo on YouTube](https://youtu.be/NhArOnjwbjg)**
@@ -24,9 +55,11 @@ Text it where you're going, the way you'd say it: *"rajiv chowk to hauz khas"*, 
 
 | If you want to… | Open |
 | --- | --- |
+| Use the bot | [t.me/agla_station_bot](https://t.me/agla_station_bot), or scan the QR code above |
+| Know what to type (example trips for people new to Delhi) | [Things to try](#things-to-try-no-delhi-knowledge-needed) |
 | See it working | [Demo video on YouTube](https://youtu.be/NhArOnjwbjg) |
 | Run the bot, see what it does | This README |
-| Understand the whole system in one read: product, architecture, system design diagrams, data, AI design, security, operations | [docs/Agla-Station-Knowledge-Document.docx](docs/Agla-Station-Knowledge-Document.docx) (Word) |
+| Understand the whole system in one read: product, architecture, system design diagrams, data, AI design, security, operations | [PDF](docs/Agla-Station-Knowledge-Document.pdf) or [Word](docs/Agla-Station-Knowledge-Document.docx) |
 | Find what a folder or file does, or where to change something | [docs/guide.md](docs/guide.md) |
 | See the design as built: layering, tool layer API, database schema, security notes, changes from the plan | [docs/architecture.md](docs/architecture.md) |
 | Check where the network and fare data came from, and its known approximations | [data/manual/README.md](data/manual/README.md), [data/fares.yaml](data/fares.yaml) |
@@ -73,7 +106,7 @@ To keep it up for testing or a demo, run `scripts/run.sh` in a Terminal window i
 
 **Code decides, the LLM narrates.** Routes, fares, ETAs, miles, badges and recap numbers are computed in Python; Claude only picks tools, understands the message and writes the words. A number guard replaces any reply containing a number that didn't come from a tool. The LLM can quote a trip but can't set an amount, log a trip or redeem a reward: those go through stored quote ids and buttons.
 
-All metro logic lives in one tool layer (`agla/tools/`). The Telegram bot, the web app and an MCP server are thin front ends over it; tests stop front ends importing anything else or running SQL. Details and diagrams: [docs/architecture.md](docs/architecture.md) and the [knowledge document](docs/Agla-Station-Knowledge-Document.docx).
+All metro logic lives in one tool layer (`agla/tools/`). The Telegram bot, the web app and an MCP server are thin front ends over it; tests stop front ends importing anything else or running SQL. Details and diagrams: [docs/architecture.md](docs/architecture.md) and the [knowledge document](docs/Agla-Station-Knowledge-Document.pdf).
 
 **Data.** The planned GTFS feed was unavailable, so the network is a one-time snapshot of DMRC's own journey-planner API, NMRC's planner and fare table, and OpenStreetMap, merged with a few hand-made, documented fixes into `data/network.json`. The app never calls those APIs at runtime. Provenance: [data/manual/README.md](data/manual/README.md).
 
@@ -126,6 +159,7 @@ uv run python -m evals.run_eval --dry-run     # Sonnet vs Haiku station-parsing 
 uv run python -m scripts.e2e_dashboard        # headless browser check of the dashboard (server must be running)
 uv run python -m agla.network.build           # rebuild data/network.json from data/raw + data/manual
 uv run python -m scripts.dashboard_link       # a signed dashboard link for a normal browser
+uv run python -m scripts.bot_qr               # regenerate docs/telegram-qr.png from TELEGRAM_BOT_USERNAME
 python3 ledger/build_timeline.py              # merge the ledger into ledger/timeline.json
 python3 .claude/skills/build-journal/scripts/render_journal.py   # then render docs/build-journal.html
 ```
@@ -163,4 +197,4 @@ Don't install it inside this repo: `.claude/settings.json` already runs the same
 - **"Fastest" can cost more than DMRC's own route** when it joins the Airport Express by the Dhaula Kuan footbridge (e.g. Maharaja Surajmal Stadium → Yashobhoomi: ₹107 fastest vs ₹75 cheapest, 10 minutes slower). Asking for the cheapest route finds it.
 - **The tunnel URL changes on every restart** (and when a sleeping laptop drops the tunnel, which the app detects and replaces within about 90 seconds). The dashboard button follows the new URL automatically, but share links from before stop working. A fixed deployment would fix this.
 - **Wrapped story lines are English only**; the chat narration follows the rider's language.
-- **Station search** handles typos, abbreviations and many landmarks, but a place that isn't a station or a known alias ("India Gate") isn't resolved yet. Sharing a location pin is in [docs/backlog.md](docs/backlog.md).
+- **Station search** handles typos, abbreviations and many landmarks, but a place that isn't a station or a known alias ("India Gate", "Lotus Temple") isn't mapped to its nearest station: the bot asks the rider instead of guessing. Sharing a location pin is in [docs/backlog.md](docs/backlog.md).

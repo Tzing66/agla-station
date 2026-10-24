@@ -13,7 +13,7 @@ Create a checkpoint.
    ## [CHECKPOINT] 2026-10-23 17:05 IST — <status>
    ```
 
-3. Run `git status --short` and check that no `.env` or other secret file would be committed, and that none of the values in `.env` appear in `git diff` (check without printing them). If either would happen, stop and tell me.
+3. Run `git status --short` and check that no `.env` or other secret file would be committed, and that none of the values in `.env` appear in `git diff` (check without printing them). `TELEGRAM_BOT_USERNAME` is the exception: the bot's handle is public on purpose (README, QR code). If either would happen, stop and tell me.
 4. Run `git add -A && git commit -m "checkpoint: <status>"` and end the message with a trailer naming your current model, e.g. `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
 5. If a remote named `origin` exists, run `git push`. If not, say so and don't create one.
 6. Reply with the short commit hash and the status.

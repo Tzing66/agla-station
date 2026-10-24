@@ -11,7 +11,7 @@ Telegram bot for the Delhi NCR metro (DMRC lines, Airport Express, Rapid Metro G
 - **Money stays in code.** The LLM can quote a trip but never set an amount, log a trip or redeem: payments reference a stored quote id; "I've paid", "I've reached" and redeem are buttons.
 - **Cost discipline.** `claude-sonnet-5-5` at low effort, prompt caching on system prompt + tools, chat history capped at 6 plain-text messages, menu buttons and repeated off-topic chatter answered without an API call.
 - **Privacy by default.** Share links expire and show the first name only; the bot never messages anyone but the rider (sending "I've reached" uses Telegram's own share sheet).
-- **Never commit secrets.** All keys in `.env` (gitignored, along with the SQLite db and its WAL files); the ledger hook redacts `.env` values, tokens and emails. The repo is **public**.
+- **Never commit secrets.** All keys in `.env` (gitignored, along with the SQLite db and its WAL files); the ledger hook redacts `.env` values, tokens and emails. The repo is **public**. (The bot's Telegram handle is the one `.env` value that is public on purpose: README and QR code.)
 - **Never invent fares.** Fares come from official sources recorded in `data/fares.yaml` and are checked by `scripts/verify_fares.py` and a human spot-check.
 - Python 3.12 (3.11+ compatible), type hints, `ruff`, `pytest`. Small modules, no framework magic. Run everything from the repo root with `uv run python -m ...` (the project isn't installed as a package).
 - After finishing each piece of work: run tests, then remind the human to run `/checkpoint`.
