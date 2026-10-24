@@ -84,3 +84,15 @@
 ## [CHECKPOINT] 2026-10-24 10:52 IST — Mini App fix (tunnel watchdog, menu button) + warm redesign and Wrapped as a metro ride
 
 - **Session cost:** cost: n/a (session 456b20f1)
+
+## [DECISION] 2026-10-24 11:53 IST — Metro Wrapped as a three-stop metro ride
+
+- **Question:** How should Metro Wrapped look and feel, now that the pastel card and the Spotify-style story both felt "document-y" or "AI vibe coded"?
+- **Options:** (a) Keep the single pastel stats card. (b) A Spotify/Instagram-style story: 10 full-screen slides with progress bars, auto-advance and one big centred number each. (c) A single scrolling poster. (d) A "metro ride": 3 stops (Ride, Places, Rewards) on a route strip in the rider's favourite line colour, with an "Agla station: …" button and left-aligned rows, in the same warm colours.
+- **Claude suggested:** First the tap-through story (b) over the scrolling poster, with a warm redesign of the whole Mini App. After feedback, the three-stop metro ride (d), which uses the bot's own "next station" idea in place of Spotify's stock moves, keeps the colours, and computes every figure and "what it means" line in Python.
+- **Chose:** The three-stop metro ride (d), in the warm marigold-and-gulabi palette across the whole Mini App, with the colours unchanged. Wrapped stays available all the time for the demo; month-end-only access is parked in the backlog.
+- **Why:** The old Wrapped felt "too document-y and not something one would look forward to checking", and the 10-slide story "looks too much like an obvious AI vibe coded attempt at copying Spotify". Fewer, merged screens are easier to get through; the metro-ride idea is specific to Agla Station ("next station"); the warm colours were liked and kept; and short lines explain what each number means without long descriptive text.
+
+## [CHECKPOINT] 2026-10-24 11:53 IST — Log decision: Metro Wrapped as a three-stop metro ride
+
+- **Session cost:** cost: n/a (session 456b20f1)
