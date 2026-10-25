@@ -41,11 +41,14 @@ Telegram bot for the Delhi NCR metro (DMRC lines, Airport Express, Rapid Metro G
 ## Layout
 
 ```
-.claude/          settings.json (hooks + statusline), commands/, agents/, skills/
+.claude/          settings.json (hooks + statusline), commands/, agents/, skills/ (incl. build-journal)
+.claude-plugin/   the agla-dev plugin (same setup, installable elsewhere)
+.github/          CI: ruff, pytest, gitleaks (.gitleaks.toml adds a UPI-address rule)
 .mcp.json         project-scoped MCP servers (Playwright, agla-mcp)
-ledger/           hook.py, events.jsonl (auto), decisions.md (/decision /surprise /checkpoint), chats/
+ledger/           hook.py, events.jsonl (auto), decisions.md (/decision /surprise /checkpoint), chats/,
+                  build_timeline.py -> timeline.json, journal_notes.json
 data/             network.json (built), raw/ (official snapshots), manual/ (hand-made CSVs + provenance),
-                  fares.yaml, fares/*.csv, miles.yaml, rewards.yaml
+                  fares.yaml (slabs + track factors), fares/*.csv, miles.yaml, rewards.yaml, fonts/
 agla/
   network/        build.py (snapshots -> network.json), graph.py, geo.py
   tools/          THE tool layer (stations, routing, fares, quotes, payments, trips, stats, intent, auth, insights)
@@ -54,8 +57,10 @@ agla/
   mcp_server.py   agla-mcp
   web/            FastAPI: share pages, dashboard Mini App + JSON API
 evals/            station_parsing.jsonl, run_eval.py, resolver_baseline.py, results.md
-scripts/          seed_demo.py, verify_fares.py, e2e_dashboard.py, dashboard_link.py
-docs/             architecture.md, backlog.md, screenshots/
+scripts/          run.sh (keep-awake runner), seed_demo.py, verify_fares.py, fit_track_factors.py,
+                  e2e_dashboard.py, dashboard_link.py, bot_qr.py
+docs/             architecture.md, guide.md, Agla-Station-Knowledge-Document.pdf/.docx, build-journal.html,
+                  backlog.md, telegram-qr.png, screenshots/
 tests/
 ```
 
