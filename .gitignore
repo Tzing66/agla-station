@@ -22,6 +22,7 @@ data/raw/*.zip
 # os / editor
 .DS_Store
 .vscode/
+*.code-workspace
 
 # playwright mcp output
 .playwright-mcp/

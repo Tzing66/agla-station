@@ -178,7 +178,7 @@ This is the only API the front ends may use. Results are frozen dataclasses; use
 
 | File | What it does |
 | --- | --- |
-| `run.sh` | Keeps the bot up for testing and demos: keeps the Mac awake (`caffeinate`), restarts the app if it exits, logs to `logs/agla.log`. |
+| `run.sh` | Keeps the bot up for testing and demos: keeps the Mac awake (`caffeinate`), restarts the app if it exits, logs to `logs/agla.log`. `--background` runs it detached from the Terminal, `--status` and `--stop` check on and stop it. |
 | `seed_demo.py` | Seeds a month of realistic trips for a demo rider through the real pipeline, so miles and badges are computed as they would be live. |
 | `verify_fares.py` | Prices 405 official DMRC fares on DMRC's own routes and compares (all match; one documented planner quirk is listed separately). Also run by the tests. |
 | `fit_track_factors.py` | Checks, and can re-fit, the per-line track-distance factors in `fares.yaml` against every official fare. |

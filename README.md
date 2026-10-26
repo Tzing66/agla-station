@@ -91,7 +91,7 @@ uv run python -m agla --tunnel       # bot + web app + a public https tunnel, in
 
 Open your bot in Telegram and send `/start`. Ctrl-C stops the bot, the web server and the tunnel together.
 
-To keep it up for testing or a demo, run `scripts/run.sh` in a Terminal window instead: it keeps the Mac awake while it runs (plugged in, lid open or an external display), restarts the app if it ever exits, and logs to `logs/agla.log`. Ctrl-C stops everything and lets the Mac sleep again.
+To keep it up for testing or a demo, use `scripts/run.sh --background` instead: it runs detached (closing the Terminal doesn't stop it), keeps the Mac awake (plugged in, lid open or an external display), restarts the app if it ever exits, and logs to `logs/agla.log`. `scripts/run.sh --status` shows whether it's up; `scripts/run.sh --stop` stops everything and lets the Mac sleep again. (Plain `scripts/run.sh` runs in the foreground; Ctrl-C stops it.)
 
 | `.env` key | Used for |
 | --- | --- |

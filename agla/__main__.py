@@ -28,6 +28,7 @@ log = logging.getLogger("agla")
 TUNNEL_URL = re.compile(r"https://[a-z0-9-]+\.trycloudflare\.com")
 PROBE_EVERY = 30  # seconds
 PROBE_FAILURES = 3  # consecutive failed probes before the tunnel is replaced
+START_TIMEOUT = 90  # seconds one replacement attempt may take before it counts as failed
 
 
 async def start_tunnel(port: int) -> tuple[asyncio.subprocess.Process, str]:
@@ -78,22 +79,29 @@ class Tunnel:
             return False
 
     async def watch(self, on_new_url) -> None:
+        """Probe forever. Nothing in here may end the loop: a dead watchdog leaves the bot unreachable for good
+        (2026-10-25: the network dropped, a replacement attempt never returned, and the tunnel was never fixed)."""
         failures = 0
+        told = self.url  # the URL the bot and Telegram's menu button currently point at
         async with httpx.AsyncClient(timeout=10) as http:
             while True:
                 await asyncio.sleep(PROBE_EVERY)
-                failures = 0 if await self.healthy(http) else failures + 1
-                if failures < PROBE_FAILURES:
-                    continue
-                log.warning("tunnel %s is unreachable; starting a new one", self.url)
                 try:
-                    await self.start()  # start_tunnel kills the dead cloudflared first
-                except (RuntimeError, TimeoutError):
-                    log.exception("could not start a new tunnel; retrying in %ss", PROBE_EVERY)
-                    continue
-                await on_new_url(self.url)
-                log.info("new public URL %s", self.url)
-                failures = 0
+                    if told != self.url:  # a new tunnel came up while Telegram was unreachable: tell it now
+                        await on_new_url(self.url)
+                        told = self.url
+                        log.info("bot now points at %s", self.url)
+                    failures = 0 if await self.healthy(http) else failures + 1
+                    if failures < PROBE_FAILURES:
+                        continue
+                    log.warning("tunnel %s is unreachable; starting a new one", self.url)
+                    await asyncio.wait_for(self.start(), timeout=START_TIMEOUT)  # kills the dead cloudflared first
+                    log.info("new public URL %s", self.url)
+                    failures = 0
+                    await on_new_url(self.url)
+                    told = self.url
+                except Exception:  # noqa: BLE001 - log and try again next round, whatever went wrong
+                    log.exception("tunnel watchdog: this round failed (offline?); retrying in %ss", PROBE_EVERY)
 
     async def stop(self) -> None:
         if self.proc and self.proc.returncode is None:
