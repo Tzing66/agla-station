@@ -67,3 +67,11 @@ def test_watchdog_survives_an_outage(monkeypatch):
         pass
     assert len(attempts) == 2  # the hung attempt timed out and was retried
     assert told == ["https://new.trycloudflare.com"] * 2  # the failed hand-over was retried too
+
+
+def test_offline_error_is_not_taken_for_the_tunnel_url():
+    """Offline, cloudflared logs errors naming its own API host; that was once taken as the public URL."""
+    offline = 'ERR failed to request quick Tunnel: Post "https://api.trycloudflare.com/tunnel": dial tcp: lookup failed'
+    up = "INF |  https://designing-john-accepting-volunteers.trycloudflare.com  |"
+    assert main.TUNNEL_URL.search(offline) is None
+    assert main.TUNNEL_URL.search(up).group(0) == "https://designing-john-accepting-volunteers.trycloudflare.com"

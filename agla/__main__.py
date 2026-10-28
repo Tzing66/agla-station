@@ -25,7 +25,7 @@ from agla.llm import Agent
 from agla.web.app import create_app
 
 log = logging.getLogger("agla")
-TUNNEL_URL = re.compile(r"https://[a-z0-9-]+\.trycloudflare\.com")
+TUNNEL_URL = re.compile(r"https://(?!api\.)[a-z0-9-]+\.trycloudflare\.com")  # offline errors name Cloudflare's API
 PROBE_EVERY = 30  # seconds
 PROBE_FAILURES = 3  # consecutive failed probes before the tunnel is replaced
 START_TIMEOUT = 90  # seconds one replacement attempt may take before it counts as failed

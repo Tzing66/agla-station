@@ -122,3 +122,5 @@
 ## [CHECKPOINT] 2026-10-24 14:07 IST — Try it: Telegram QR code, example prompts for newcomers, resolver confidence fix, knowledge doc PDF
 
 ## [CHECKPOINT] 2026-10-26 10:27 IST — Uptime fixes after the 25 Oct outage: unkillable tunnel watchdog, detached runner
+
+## [CHECKPOINT] 2026-10-28 10:26 IST — Tunnel watchdog no longer mistakes Cloudflare's API host for the public URL when offline
