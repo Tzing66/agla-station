@@ -214,6 +214,7 @@ class Agent:
                 if block.type != "tool_use":
                     continue
                 output, is_error = self._run_tool(block.name, block.input, user, now, quote_ids)
+                log.info("tool %s%s", block.name, f" failed: {output[:120]}" if is_error else "")  # logs/ only
                 tool_outputs.append(output)
                 results.append(
                     {"type": "tool_result", "tool_use_id": block.id, "content": output, "is_error": is_error}

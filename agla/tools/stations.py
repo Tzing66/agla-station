@@ -13,6 +13,8 @@ from agla.tools.types import Station, StationMatch, ToolError
 # Filler words people wrap station names in ("RC se", "hauz khas metro station tak").
 FILLER = {"se", "to", "tak", "ko", "from", "metro", "station", "stn", "jana", "hai", "the", "go"}
 EXPANSIONS = {"sec": "sector", "sect": "sector", "sctr": "sector", "nd": "new delhi", "ggn": "gurugram"}
+# "Knowledge Park II" is typed "knowledge park 2". Not as the first word, so "I.P. Extension" keeps its I.
+ROMAN = {"i": "1", "ii": "2", "iii": "3", "iv": "4", "v": "5"}
 
 
 def normalise(text: str) -> str:
@@ -20,7 +22,7 @@ def normalise(text: str) -> str:
     text = re.sub(r"(\D)(\d)", r"\1 \2", text)  # "sec18" / "sector-18" -> "sec 18"
     words = re.findall(r"[a-z0-9]+", text)
     words = [EXPANSIONS.get(w, w) for w in words if w not in FILLER]
-    return " ".join(words)
+    return " ".join(ROMAN.get(w, w) if i else w for i, w in enumerate(words))
 
 
 @cache

@@ -124,3 +124,5 @@
 ## [CHECKPOINT] 2026-10-26 10:27 IST — Uptime fixes after the 25 Oct outage: unkillable tunnel watchdog, detached runner
 
 ## [CHECKPOINT] 2026-10-28 10:26 IST — Tunnel watchdog no longer mistakes Cloudflare's API host for the public URL when offline
+
+## [CHECKPOINT] 2026-10-29 12:22 IST — Speed: digits match Roman-numeral station names, typing indicator stays on, tool calls logged

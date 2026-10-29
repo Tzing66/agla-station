@@ -1,6 +1,6 @@
 {
  "meta": {
-  "built_at": "2026-10-23T13:21:39+00:00",
+  "built_at": "2026-10-28T12:51:36+00:00",
   "sources": {
    "dmrc_api": "https://backend.delhimetrorail.com/api/v2/en/ (stations, station_by_line, station_route), fetched 2026-10-23",
    "nmrc_planner": "https://www.nmrcnoida.com/Passenger-Information/Journey-Planner-and-Fares, fetched 2026-10-23",
@@ -814,7 +814,9 @@
    "lines": [
     "DMRC_PINK"
    ],
-   "aliases": [],
+   "aliases": [
+    "mayur vihar phase 2"
+   ],
    "source": "dmrc_api"
   },
   "escorts_mujesar": {

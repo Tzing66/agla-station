@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import asyncio
+import contextlib
 import logging
 import sqlite3
 from html import escape
@@ -20,6 +22,7 @@ from telegram import (
     WebAppInfo,
 )
 from telegram.constants import ChatAction, ParseMode
+from telegram.error import TelegramError
 from telegram.ext import (
     Application,
     ApplicationBuilder,
@@ -46,6 +49,15 @@ SHARE = "share:"
 REACHED = "reached:"
 REACHED_EARLY = "early:"  # "Yes, I've reached" after the are-you-sure question
 NOT_YET = "notyet:"
+TYPING_EVERY = 4  # seconds; Telegram clears "typing…" after about 5
+
+
+async def keep_typing(chat) -> None:
+    """Show "typing…" until cancelled: one reply can take several Claude calls, longer than one indicator lasts."""
+    while True:
+        with contextlib.suppress(TelegramError):
+            await chat.send_action(ChatAction.TYPING)
+        await asyncio.sleep(TYPING_EVERY)
 
 
 
@@ -178,13 +190,15 @@ class Bot:
             msgs = DAILY_CAP if over == "day" else SLOW_DOWN
             await update.message.reply_text(msgs.get(user.language, msgs["en"]), reply_markup=self.menu())
             return
-        await update.message.chat.send_action(ChatAction.TYPING)
+        typing = asyncio.create_task(keep_typing(update.message.chat))
         try:
             reply = await self.agent.respond(user, history, text, now())
         except anthropic.APIError:
             log.exception("LLM call failed")
             await update.message.reply_text("My brain's stuck between stations 😅 Try again in a moment?")
             return
+        finally:
+            typing.cancel()
 
         chatter.record(metro_related, reply.used_tools)
         history += [{"role": "user", "content": text}, {"role": "assistant", "content": reply.history_text}]

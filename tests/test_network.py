@@ -266,3 +266,14 @@ def test_places_that_only_share_a_word_with_a_station_are_not_guessed(query):
 ])
 def test_typos_aliases_and_landmarks_still_resolve(query, name):
     assert resolve_station(query).name == name
+
+
+@pytest.mark.parametrize(("query", "name"), [
+    ("knowledge park 2", "Knowledge Park II"), ("knowledge park ii", "Knowledge Park II"),
+    ("mayur vihar 2", "East Vinod Nagar - Mayur Vihar II"),
+    ("mayur vihar phase 2", "East Vinod Nagar - Mayur Vihar II"),
+    ("mayur vihar 1", "Mayur Vihar I"), ("mayur vihar i", "Mayur Vihar I"), ("ip extension", "I.P. Extension"),
+])
+def test_digits_and_roman_numerals_are_the_same_station(query, name):
+    """2026-10-28: "knowledge park 2" matched nothing, so Claude searched and retried: three calls for one trip."""
+    assert resolve_station(query).name == name

@@ -87,3 +87,25 @@ def test_fare_label_never_says_weekday_on_a_saturday():
     assert "weekday" not in sat and "regular fare, Mon–Sat" in sat and "Sunday fares are lower" in sat
     assert "Sunday &amp; holiday fare" in sun and "Sunday fares are lower" not in sun  # & escaped for Telegram HTML
     assert (sat_fare, sun_fare) == (32, 21)
+
+
+def test_typing_indicator_repeats_until_the_reply_is_ready(monkeypatch):
+    """Telegram clears "typing…" after about 5 s; a reply with several Claude calls takes longer."""
+    import asyncio
+
+    import agla.bot.app as app
+
+    monkeypatch.setattr(app, "TYPING_EVERY", 0.01)
+    sent = []
+
+    class Chat:
+        async def send_action(self, action):
+            sent.append(action)
+
+    async def reply_after_a_while():
+        typing = asyncio.create_task(app.keep_typing(Chat()))
+        await asyncio.sleep(0.05)
+        typing.cancel()
+
+    asyncio.run(reply_after_a_while())
+    assert len(sent) >= 3 and set(sent) == {app.ChatAction.TYPING}
